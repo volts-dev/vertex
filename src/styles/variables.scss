@@ -1,0 +1,146 @@
+///
+/// This file regroups the variables that style odoo components.
+/// They are available in every asset bundle.
+///
+
+// Font sizes
+$v-root-font-size: 12px;
+$v-font-size-base: 13rem * (1px / $v-root-font-size);
+$v-line-height-base: 1.5; // This is BS default
+
+// Colors
+$v-community-color: #7c7bad;
+$v-enterprise-color: #875a7b;
+$v-enterprise-primary-color: #00a09d;
+
+$v-brand-odoo: $v-enterprise-color;
+$v-brand-primary: $v-community-color;
+
+$v-brand-secondary: #f0eeee;
+$v-brand-lightsecondary: #e2e2e0;
+$v-gray-100: #f8f9fa; // This is BS default
+
+$v-main-color-muted: #a8a8a8;
+$v-main-text-color: #4c4c4c;
+
+$v-view-background-color: white;
+$v-shadow-color: #303030;
+
+$v-form-lightsecondary: #ccc;
+
+$v-list-footer-bg-color: #eee;
+$v-list-footer-font-weight: bold;
+
+$v-tooltip-background-color: black;
+$v-tooltip-color: white;
+$v-tooltip-arrow-color: black;
+$v-tooltip-text-color: #777777;
+$v-tooltip-title-text-color: #4c4c4c;
+
+// Layout
+//
+// Extension of BS4. This is not redefining the BS4 variable directly as we only
+// need the extra ones for media queries (not creating new breakpoint classes).
+// Note: default BS4 values are hardcoded here while it should be possible to
+// merge with the default BS variable (but we would have to take care of
+// ordering & cie).
+$v-extra-grid-breakpoints: (
+  xs: 0,
+  vsm: 475px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1534px,
+);
+
+$v-form-group-cols: 12;
+$v-form-spacing-unit: 5px;
+$v-horizontal-padding: 16px;
+$v-innergroup-rpadding: 45px;
+$v-dropdown-hpadding: 20px;
+
+$v-sheet-vpadding: 24px;
+
+$v-notification-error-bg-color: #f16567;
+$v-notification-info-bg-color: #fcfbea;
+
+// Needed for having no spacing between sheet and mail body in mass_mailing:
+// Different required cancel paddings between web and web_enterprise
+$v-sheet-cancel-tpadding: 0px;
+
+$v-avatar-size: 90px;
+
+$v-statusbar-height: 33px;
+
+$v-label-font-size-factor: 0.8;
+$v-navbar-height: 46px;
+
+$v-nb-calendar-colors: 24;
+
+$v-base-settings-mobile-tabs-height: 40px;
+$v-base-settings-mobile-tabs-overflow-gap: 3%;
+
+$v-cp-breadcrumb-height: 30px;
+
+$v-datepicker-week-color: #8f8f8f;
+
+// Kanban
+
+$v-kanban-default-record-width: 300px;
+$v-kanban-small-record-width: 240px;
+
+$v-kanban-header-title-height: 50px;
+
+$v-kanban-image-width: 64px;
+$v-kanban-image-fill-width: 95px;
+$v-kanban-inside-vgutter: 8px;
+$v-kanban-inside-hgutter: 8px;
+$v-kanban-color-border-width: 3px;
+$v-kanban-inner-hmargin: 5px;
+$v-kanban-progressbar-height: 20px;
+
+$v-kanban-mobile-tabs-height: 40px;
+
+// ------- Kanban dashboard variables -------
+
+// Used to manage spacing in complex dropdown menu
+$v-kanban-dashboard-dropdown-complex-gap: 5px;
+
+// For the frontend part
+$v-theme-font-size-base: (14 / 16) * 1rem;
+
+/********** secondary ************/
+$v-webclient-background-color: desaturate($v-gray-100, 100%);
+$v-control-panel-background-color: desaturate(#e9ecef, 100%); // $gray-200 bts4 default
+
+$v-list-footer-color: $v-main-text-color;
+$v-list-group-header-color: lighten($v-brand-lightsecondary, 10%);
+
+// UI custom colors for tags, kanban records' colors, ...)
+// Note: the first value is the old BS3 gray-light value
+$v-colors: lighten(#000, 46.7%), #f06050, #f4a460, #f7cd1f, #6cc1ed, #814968, #eb7e7f, #2c8397, #475577, #d6145f, #30c381, #9365b8;
+
+$v-sheet-cancel-hpadding: $v-horizontal-padding;
+$v-sheet-cancel-bpadding: $v-horizontal-padding;
+
+$v-statusbar-arrow-width: $v-statusbar-height / 3;
+$v-statusbar-disabled-bg: lighten($v-brand-lightsecondary, 7%);
+
+$v-navbar-inverse-link-hover-bg: darken($v-brand-odoo, 10%);
+
+$v-datepicker-week-bg-color: lighten($v-datepicker-week-color, 30%);
+
+// Kanban
+
+$v-kanban-record-margin: $v-horizontal-padding / 2;
+$v-kanban-group-padding: $v-horizontal-padding; // Cannot be higher than this
+
+$v-kanban-inside-hgutter-mobile: $v-horizontal-padding;
+
+// ------- Kanban dashboard variables -------
+
+// Since rows and containers are used inside cards, we're
+// forced to set the padding relative to the grid system.
+$v-kanban-dashboard-hpadding: $v-horizontal-padding;
+$v-kanban-dashboard-vpadding: $v-horizontal-padding / 2;
