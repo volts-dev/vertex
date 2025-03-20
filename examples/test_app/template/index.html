@@ -1,0 +1,16 @@
+<html>
+  <body>
+    <script src="{{.static}}/js/wasm_exec.js"></script>
+    <script>
+      const go = new Go();
+      WebAssembly.instantiateStreaming(fetch("{{.static}}/app.wasm"), go.importObject)
+        .then((result) => {
+          go.run(result.instance).then(() => {
+            // 检查测试结果
+            const passed = globalThis.testStatus === 'PASS';
+            console.log(passed ? "All tests passed!" : "Tests failed.");
+          });
+        });
+    </script>
+  </body>
+</html>
