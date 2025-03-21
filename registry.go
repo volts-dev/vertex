@@ -1,8 +1,6 @@
-//go:build js && wasm
-
 package vertex
 
-import "github.com/volts-dev/volts/vertex/core/js"
+import "github.com/volts-dev/vertex/core/js"
 
 var (
 	registry   map[string]func(js.Value) (interface{}, error)

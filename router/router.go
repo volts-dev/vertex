@@ -5,12 +5,14 @@ package router
 import (
 	"regexp"
 	"sync"
+
+	"github.com/volts-dev/vertex/element"
 )
 
 type (
 	regexpRoute struct {
 		regexp           *regexp.Regexp
-		componentCreator func() IElement
+		componentCreator func() element.IElement
 	}
 
 	Router struct {

@@ -5,7 +5,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/volts-dev/volts/vertex/core/js"
+	"github.com/volts-dev/vertex/core/js"
+	"github.com/volts-dev/vertex/element"
 )
 
 type (
@@ -23,9 +24,9 @@ type (
 
 	Component struct {
 		treeDepth     uint
-		ref           IElement
-		parentElement IElement
-		rootElement   IElement
+		ref           element.IElement
+		parentElement element.IElement
+		rootElement   element.IElement
 	}
 )
 

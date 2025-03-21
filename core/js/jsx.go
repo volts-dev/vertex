@@ -1,6 +1,7 @@
-package wasm
+package js
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -8,10 +9,20 @@ import (
 	"strings"
 )
 
+var errNotImpl = errors.New("js not implemented")
+
+type (
+
+	// Error alias to syscall/js
+	Error struct {
+		// Value is the underlying JavaScript error value.
+		Value
+	}
+)
+
 // WasmExecJsPath find wasm_exec.js in the local Go distribution and return it's path.
 // Return error if not found.
 func WasmExecJsPath() (string, error) {
-
 	b, err := exec.Command("go", "env", "GOROOT").CombinedOutput()
 	if err != nil {
 		return "", err

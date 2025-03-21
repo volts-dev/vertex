@@ -1,3 +1,5 @@
+//go:build js && wasm
+
 package js
 
 import (
@@ -18,18 +20,14 @@ const (
 // Type alias to syscall/js
 type (
 	Type gojs.Type
+
 	// Value alias to syscall/js
 	Value gojs.Value
+
 	// Func alias to syscall/js
 	Func struct {
 		Value
 		f gojs.Func // proxy for this func from syscall/js
-	}
-
-	// Error alias to syscall/js
-	Error struct {
-		// Value is the underlying JavaScript error value.
-		Value
 	}
 )
 
@@ -81,7 +79,7 @@ func Global() Value {
 	return Value(gojs.Global())
 }
 
-func (t Type) _String() string {
+func (t Type) String() string {
 	return gojs.Type(t).String()
 }
 func (t Type) isObject() bool {

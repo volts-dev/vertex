@@ -1,5 +1,3 @@
-//go:build js && wasm
-
 package vertex
 
 import (
@@ -10,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/volts-dev/volts/vertex/core/js"
+	"github.com/volts-dev/vertex/core/js"
 )
 
 // nodeManager orchestrates the lifecycle of UI elements, providing specialized

@@ -4,8 +4,8 @@ import (
 	"context"
 	"runtime"
 
-	"github.com/volts-dev/volts/vertex/core/js"
-	"github.com/volts-dev/volts/vertex/router"
+	"github.com/volts-dev/vertex/core/js"
+	"github.com/volts-dev/vertex/router"
 )
 
 const (

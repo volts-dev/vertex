@@ -1,5 +1,3 @@
-//go:build js && wasm
-
 package vertex
 
 import (
@@ -13,7 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/volts-dev/volts/vertex/router"
+	"github.com/volts-dev/vertex/element"
+	"github.com/volts-dev/vertex/router"
 )
 
 type engine struct {
@@ -21,7 +20,7 @@ type engine struct {
 	routes         *router.Router
 	localStorage   *Storage
 	sessionStorage *Storage
-	browser        browser
+	browser        element.browser
 
 	internalURLs   []string
 	resolveURL     func(string) string
@@ -189,14 +188,14 @@ func (e *engine) internalURL(v *url.URL) bool {
 	return false
 }
 
-func (e *engine) page() Page {
+func (e *engine) page() element.Page {
 	if IsClient {
 		return makeBrowserPage(e.resolveURL)
 	}
 	return e.originPage
 }
 
-func (e *engine) Load(v IElement) error {
+func (e *engine) Load(v element.IElement) error {
 	if e.body == nil {
 		body := Body()
 		body = body.setJSElement(Window().Get("document").Get("body")).(HTMLBody)

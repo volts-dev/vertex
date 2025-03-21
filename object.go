@@ -1,11 +1,9 @@
-//go:build js && wasm
-
 package vertex
 
 import (
 	"errors"
 
-	"github.com/volts-dev/volts/vertex/core/js"
+	"github.com/volts-dev/vertex/core/js"
 )
 
 var (

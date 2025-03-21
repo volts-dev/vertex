@@ -1,12 +1,10 @@
-//go:build js && wasm
-
-package vertex
+package element
 
 import (
 	"errors"
 	"sync"
 
-	"github.com/volts-dev/volts/vertex/core/js"
+	"github.com/volts-dev/vertex/core/js"
 )
 
 var (
