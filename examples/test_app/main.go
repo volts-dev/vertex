@@ -3,9 +3,9 @@
 package main
 
 import (
-	"github.com/volts-dev/volts/vertex"
+	_ "github.com/volts-dev/vertex/component/not_found"
 )
 
 func main() {
-	v := vertex.New()
+	//v := vertex.New()
 }

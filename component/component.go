@@ -1,122 +1,108 @@
 package component
 
 import (
-	"errors"
-	"reflect"
-	"strings"
-
-	"github.com/volts-dev/vertex/core/js"
-	"github.com/volts-dev/vertex/element"
+	"github.com/volts-dev/vertex/js"
+	"github.com/volts-dev/vertex/js/helper"
 )
 
+// WebComponent 定义了我们的组件需要实现的生命周期方法。
+// 类似于 Web Component 的标准生命周期回调。
 type (
-	___IComponent interface {
-		String() string
-		// JSValue returns the javascript value linked to the element.
-		JSValue() js.Value
-
-		// Reports whether the element is mounted.
-		Mounted() bool
-
-		parent() ___IComponent
-		setParent(___IComponent) ___IComponent
-	}
-
-	Component struct {
-		treeDepth     uint
-		ref           element.IElement
-		parentElement element.IElement
-		rootElement   element.IElement
+	Component interface {
+		Constructor()
+		Styles() string
+		// Render 返回组件的 HTML 内容字符串 (包括 <style> 标签)
+		Render() string
+		// ConnectedCallback 在组件被添加到 DOM 时调用
+		ConnectedCallback()
+		// DisconnectedCallback 在组件从 DOM 中移除时调用
+		DisconnectedCallback()
+		// Invoked when one of the element’s observedAttributes changes.
+		AttributeChangedCallback(string, string, string)
+		// Invoked when a component is moved to a new document.
+		AdoptedCallback()
+		// ObservedAttributes 返回需要监听的属性列表
+		ObservedAttributes() []string
 	}
 )
 
-func NewComponent() *Component {
-	return &Component{}
-}
+// ComponentConstructor 是一个函数类型，用于创建 WebComponent 接口的新实例。
+type Constructor func() Component
 
-func (c *Component) String() string {
-	return "Component"
-}
+// RegisterComponent 是框架的核心函数。
+// 它接收一个组件名称（如 "my-counter"）和一个构造函数，
+// 然后在 JavaScript 中注册一个 Custom Element。
+func Register(tagName string, constructor func() Component) {
+	// 1. 创建一个 JavaScript 函数，它将作为 Custom Element 的构造函数
+	jsConstructor := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		// 创建 Go 组件实例
+		vcom := constructor()
+		vcom.Constructor()
 
-// JSValue retrieves the JavaScript value associated with the component's root.
-// If the root element isn't defined, it returns a nil JavaScript value.
-func (c *Component) Value() js.Value {
-	if c.rootElement == nil {
-		return js.ValueOf(nil)
-	}
-	return c.rootElement.Value()
-}
+		// 创建 Shadow DOM
+		shadowRoot := this.Call("attachShadow", map[string]interface{}{"mode": "open"})
 
-// Mounted checks if the component is currently mounted within the UI.
-func (c *Component) Mounted() bool {
-	return c.ref != nil
-}
+		// 将 Go 实例和 Shadow DOM 根节点附加到 JS `this` 上，以便后续访问
+		this.Set("_vertex_component_instance_", vcom)
+		this.Set("shadowRoot", shadowRoot)
 
-// Render produces a visual representation of the component's content. This
-// default implementation ensures the app.Composer interface is satisfied
-// when app.Component is embedded. However, developers are encouraged to redefine
-// this method to customize the component's appearance.
-func (c *Component) Render() IElement {
-	componentName := reflect.TypeOf(c.ref).Name()
+		// 渲染初始UI
+		html := vcom.Render()
+		shadowRoot.Set("innerHTML", html)
+		return this
+	})
 
-	return Div().
-		DataSet("compo-type", componentName).
-		Style("border", "1px solid currentColor").
-		Style("padding", "12px 0").
-		Body(
-			H1().Text("Component "+strings.TrimPrefix(componentName, "*")),
-			P().Body(
-				Text("Change appearance by implementing: "),
-				Code().
-					Style("color", "deepskyblue").
-					Style("margin", "0 6px").
-					Text("func (c "+componentName+") Render() app.UI"),
-			),
-		)
-}
+	// 2. 获取 HTMLElement 的原型
+	htmlElementPrototype := js.Global().Get("HTMLElement").Get("prototype")
 
-// ValueTo captures the value of the DOM element (if it exists) that triggered
-// an event, and assigns it to the provided receiver. The receiver must be a
-// pointer pointing to either a string, integer, unsigned integer, or a float.
-// This method panics if the provided value isn't a pointer.
-func (c *Component) ValueTo(v any) EventHandler {
-	return func(ctx Context, e Event) {
-		value := ctx.JSSrc().Get("value")
-		if err := stringTo(value.String(), v); err != nil {
-			Log(errors.New("storing dom element value failed").Wrap(err))
-			return
+	// 3. 创建我们自定义元素的原型
+	componentPrototype := js.Global().Get("Object").Call("create", htmlElementPrototype)
+
+	// 4. 将生命周期回调绑定到原型上
+	// connectedCallback
+	componentPrototype.Set("connectedCallback", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		if v := this.Get("_vertex_component_instance_"); !v.IsUndefined() {
+			if vcom, ok := v.(Component); ok {
+				vcom.ConnectedCallback()
+			}
+
 		}
-	}
-}
+		return nil
+	}))
 
-func (c *Component) setRef(v IElement) IElement {
-	c.ref = v
-	return v
-}
+	// disconnectedCallback
+	componentPrototype.Set("disconnectedCallback", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		if v := this.Get("_vertex_component_instance_"); !v.IsUndefined() {
+			if vcom, ok := v.(Component); ok {
+				vcom.DisconnectedCallback()
+				// 注意：在这里可以进行资源释放，比如释放回调函数			}
+			}
+		}
+		return nil
+	}))
 
-func (c *Component) depth() uint {
-	return c.treeDepth
-}
+	// attributeChangedCallback
+	componentPrototype.Set("attributeChangedCallback", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		if v := this.Get("_vertex_component_instance_"); !v.IsUndefined() {
+			if vcom, ok := v.(Component); ok {
+				name := helper.ValueToString(args[0])
+				oldValue := helper.ValueToString(args[1])
+				newValue := helper.ValueToString(args[2])
+				vcom.AttributeChangedCallback(name, oldValue, newValue)
+			}
+		}
 
-func (c *Component) setDepth(v uint) Composer {
-	c.treeDepth = v
-	return c.ref
-}
+		return nil
+	}))
 
-func (c *Component) parent() IElement {
-	return c.parentElement
-}
+	// 5. 将原型与构造函数关联
+	jsConstructor.Set("prototype", componentPrototype)
 
-func (c *Component) setParent(p IElement) IElement {
-	c.parentElement = p
-	return c.ref
-}
+	// 6. 获取要监听的属性
+	// 这是一个静态属性，所以我们直接在构造函数上设置它
+	observedAttrs := constructor().ObservedAttributes()
+	jsConstructor.Set("observedAttributes", js.ValueOf(observedAttrs))
 
-func (c *Component) root() IElement {
-	return c.rootElement
-}
-
-func (c *Component) setRoot(v IElement) IElement {
-	c.rootElement = v
-	return c.ref
+	// 7. 使用 customElements.define 进行注册
+	js.Global().Get("customElements").Call("define", tagName, jsConstructor)
 }

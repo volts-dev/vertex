@@ -1,0 +1,31 @@
+package main
+
+import (
+	"fmt"
+
+	"github.com/volts-dev/vertex"
+	"github.com/volts-dev/vertex/html/dedicatedworkerglobalscope"
+	"github.com/volts-dev/vertex/html/messageevent"
+	"github.com/volts-dev/vertex/js"
+	"github.com/volts-dev/vertex/test"
+)
+
+func main() {
+	vertex.Init()
+	fmt.Printf("Get self\n")
+	if instance, err := js.Self(); test.AssertErr(nil, err) {
+
+		if d, ok := instance.(dedicatedworkerglobalscope.DedicatedWorkerGlobalScope); ok {
+			fmt.Printf("Install handler\n")
+			d.PostMessage("installok")
+			d.OnMessage(func(m messageevent.MessageEvent) {
+				d.PostMessage("testok")
+			})
+		}
+
+	}
+
+	ch := make(chan struct{})
+	<-ch
+
+}

@@ -1,0 +1,367 @@
+package app
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"net/url"
+	"reflect"
+	"strings"
+	"sync"
+	"time"
+
+	ctx "github.com/volts-dev/vertex/core/context"
+	"github.com/volts-dev/vertex/core/errors"
+	"github.com/volts-dev/vertex/html"
+	"github.com/volts-dev/vertex/router"
+	"github.com/volts-dev/vertex/temp/app"
+)
+
+type engine struct {
+	ctx            context.Context
+	router         *router.Router
+	localStorage   *app.Storage
+	sessionStorage *app.Storage
+	browser        browser
+
+	internalURLs   []string
+	resolveURL     func(string) string
+	originPage     *Page
+	lastVisitedURL *url.URL
+
+	nodes nodeManager
+	//updates updateManager
+	body html.IHTMLElement
+
+	dispatches chan func()
+	defers     chan func()
+	goroutines sync.WaitGroup
+
+	//asynchronousActionHandlers map[string]ActionHandler
+	//actions                    actionManager
+	//states                     stateManager
+}
+
+func newEngine(ctx context.Context, routes *router.Router, resolveURL func(string) string, originPage *Page) *engine {
+	var localStorage *Storage
+	var sessionStorage *Storage
+	if !IsServer {
+		localStorage = newStorage("localStorage")
+		sessionStorage = newStorage("sessionStorage")
+	}
+
+	if resolveURL == nil {
+		resolveURL = func(v string) string { return v }
+	}
+	originPage.resolveURL = resolveURL
+
+	engine := &engine{
+		ctx:            ctx,
+		router:         routes,
+		resolveURL:     resolveURL,
+		originPage:     originPage,
+		localStorage:   localStorage,
+		lastVisitedURL: &url.URL{},
+		sessionStorage: sessionStorage,
+		nodes:          nodeManager{},
+		dispatches:     make(chan func(), 4096),
+		defers:         make(chan func(), 4096),
+		//asynchronousActionHandlers: actionHandlers,
+	}
+
+	engine.initBrowser()
+	return engine
+}
+
+func (e *engine) baseContext() ctx.Context {
+	return ctx.Context{
+		Context:        e.ctx,
+		resolveURL:     e.resolveURL,
+		appUpdatable:   e.browser.AppUpdatable,
+		page:           e.page,
+		navigate:       e.Navigate,
+		localStorage:   e.localStorage,
+		sessionStorage: e.sessionStorage,
+		dispatch:       e.dispatch,
+		defere:         e.defere,
+		async:          e.async,
+		/*
+			addComponentUpdate:    e.updates.Add,
+			removeComponentUpdate: e.updates.Done,
+			handleAction:          e.actions.Handle,
+			postAction:            e.actions.Post,
+			observeState:          e.states.Observe,
+			getState:              e.states.Get,
+			setState:              e.states.Set,
+			delState:              e.states.Delete,*/
+
+		notifyComponentEvent: e.nodes.NotifyComponentEvent,
+	}
+}
+
+// Navigate directs the engine to the specified URL destination, which might be
+// an internal page within the app, an external link outside the app, or a
+// mailto link. If the 'updateHistory' flag is true, the destination is added to
+// the browser's history.
+func (e *engine) Navigate(destination *url.URL, updateHistory bool) {
+	if destination.Host == "" {
+		destination.Host = e.originPage.URL().Host
+	}
+
+	switch {
+	case e.internalURL(destination),
+		e.mailTo(destination):
+		defaultWindow.Get("location").Set("href", destination.String())
+		return
+
+	case e.externalNavigation(destination):
+		defaultWindow.Call("open", destination.String())
+		return
+
+	case destination.String() == e.lastVisitedURL.String():
+		return
+	}
+
+	defer func() {
+		if updateHistory {
+			defaultWindow.AddHistory(destination)
+		}
+		e.lastVisitedURL = destination
+
+		e.nodes.NotifyComponentEvent(e.baseContext(), e.body, nav{})
+
+		if destination.Fragment != "" {
+			e.defere(func() {
+				defaultWindow.ScrollToID(destination.Fragment)
+			})
+		}
+	}()
+
+	if destination.Path == e.lastVisitedURL.Path &&
+		destination.Fragment != e.lastVisitedURL.Fragment {
+		return
+	}
+
+	ev, _ := Getenv("GOAPP_ROOT_PREFIX")
+	path := strings.TrimPrefix(destination.Path, ev)
+	if !strings.HasPrefix(path, "/") {
+		path = "/" + path
+	}
+	root, ok := e.router.Macth(path)
+	if !ok {
+		root = &notFound{}
+	}
+
+	if err := e.Load(root); err != nil {
+		panic(errors.New("loading component failed").
+			WithTag("component-type", reflect.TypeOf(root)).
+			Wrap(err))
+	}
+}
+
+func (e *engine) initBrowser() {
+	if IsServer {
+		return
+	}
+	e.browser.HandleEvents(e.baseContext(), e.notifyComponentEvent)
+}
+
+func (e *engine) notifyComponentEvent(event any) {
+	e.nodes.NotifyComponentEvent(e.baseContext(), e.body, event)
+}
+
+func (e *engine) externalNavigation(v *url.URL) bool {
+	return v.Host != e.originPage.URL().Host
+}
+
+func (e *engine) mailTo(v *url.URL) bool {
+	return v.Scheme == "mailto"
+}
+
+func (e *engine) internalURL(v *url.URL) bool {
+	if e.internalURLs == nil {
+		ev, _ := Getenv("GOAPP_ROOT_PREFIX")
+
+		json.Unmarshal([]byte(ev), &e.internalURLs)
+	}
+
+	url := v.String()
+	for _, u := range e.internalURLs {
+		if strings.HasPrefix(url, u) {
+			return true
+		}
+	}
+	return false
+}
+
+func (e *engine) page() *Page {
+	if IsClient {
+		return &Page{resolveURL: e.resolveURL}
+
+	}
+	return e.originPage
+}
+
+func (e *engine) Load(v html.IHTMLElement) error {
+	if e.body == nil {
+		body := Body()
+		body = body.setJSElement(defaultWindow.Get("document").Get("body")).(HTMLBody)
+
+		firstChild := Div()
+		firstChild = firstChild.setJSElement(body.JSValue().firstElementChild()).(HTMLDiv)
+		firstChild = firstChild.setParent(body).(HTMLDiv)
+
+		body = body.setBody([]IElement{firstChild}).(HTMLBody)
+		e.body = body
+
+		for action, handler := range e.asynchronousActionHandlers {
+			e.actions.Handle(action, body, true, handler)
+		}
+	}
+
+	body, err := e.nodes.Update(e.baseContext(), e.body, Body().privateBody(v))
+	if err != nil {
+		return errors.New("updating root failed").Wrap(err)
+	}
+	e.body = body.(HTMLBody)
+	return nil
+}
+
+// Start initiates the main event loop of the engine at the specified framerate.
+// The loop efficiently manages dispatches, component updates, and deferred
+// actions.
+func (e *engine) Start(framerate int) {
+	if framerate <= 0 {
+		framerate = 30
+	}
+
+	iddleFrameDuration := time.Hour
+	activeFrameDuration := time.Second / time.Duration(framerate)
+	currentFrameDuration := time.Nanosecond
+	frames := time.NewTicker(currentFrameDuration)
+	defer frames.Stop()
+
+	e.states.CleanupExpiredPersistedStates(e.baseContext())
+
+	for {
+		select {
+		case dispatch := <-e.dispatches:
+			if currentFrameDuration != activeFrameDuration {
+				frames.Reset(activeFrameDuration)
+				currentFrameDuration = activeFrameDuration
+			}
+			dispatch()
+
+		case <-frames.C:
+			e.processFrame()
+			frames.Reset(iddleFrameDuration)
+			currentFrameDuration = iddleFrameDuration
+
+		case <-e.ctx.Done():
+			return
+		}
+	}
+}
+
+func (e *engine) processFrame() {
+	e.updates.UpdateForEach(func(c Composer) {
+		if !c.Mounted() {
+			return
+		}
+
+		if _, err := e.nodes.UpdateComponentRoot(e.baseContext(), c); err != nil {
+			panic(errors.New("updating component failed").Wrap(err))
+		}
+	})
+	e.executeDefers()
+	e.actions.Cleanup()
+	e.states.Cleanup()
+}
+
+func (e *engine) executeDefers() {
+	for {
+		select {
+		case defere := <-e.defers:
+			defere()
+
+		default:
+			return
+		}
+	}
+}
+
+// ConsumeNext waits for any ongoing goroutines to finish, then executes the
+// next dispatch in the queue. After executing the dispatch, it processes a
+// frame.
+func (e *engine) ConsumeNext() {
+	e.goroutines.Wait()
+	dispatch := <-e.dispatches
+	dispatch()
+	e.processFrame()
+}
+
+// ConsumeAll continuously waits for ongoing goroutines to finish, executes all
+// available dispatches in the queue until none are left, and then processes a
+// frame.
+func (e *engine) ConsumeAll() {
+	for {
+		select {
+		case dispatch := <-e.dispatches:
+			dispatch()
+
+		default:
+			e.processFrame()
+			e.goroutines.Wait()
+			if len(e.dispatches) == 0 {
+				return
+			}
+		}
+	}
+}
+
+// Encode serializes the given HTML element, integrating the engine's root
+// component as the initial child within the document's body. The final HTML
+// content, including the standard DOCTYPE declaration, is written  to the
+// provided buffer.
+func (e *engine) Encode(w *bytes.Buffer, document html.IHTMLElement) error {
+	if e.body == nil {
+		return errors.New("no component loaded")
+	}
+	root := e.body.body()[0]
+
+	var body HTML
+	for _, child := range document.(Document).body() {
+		if child, isBody := child.(HTMLBody); isBody {
+			body = child
+			break
+		}
+	}
+	if body == nil {
+		return errors.New("document does not have a body")
+	}
+
+	children := make([]html.IHTMLElement, 0, len(body.body())+1)
+	children = append(children, root)
+	children = append(children, body.body()...)
+	body.setBody(children)
+
+	w.WriteString("<!doctype html>\n")
+	e.nodes.Encode(e.baseContext(), w, document)
+	return nil
+}
+
+func (e *engine) dispatch(v func()) {
+	e.dispatches <- v
+}
+
+func (e *engine) defere(v func()) {
+	e.defers <- v
+}
+
+func (e *engine) async(v func()) {
+	e.goroutines.Add(1)
+	go func() {
+		v()
+		e.goroutines.Done()
+	}()
+}

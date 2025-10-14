@@ -1,10 +1,8 @@
-module github.com/volts-dev/volts/vertex/examples/test_app
+module github.com/volts-dev/vertex/examples/test_app
 
-go 1.23.4
+go 1.20
 
-replace github.com/volts-dev/volts => ../../../../volts
-
-require github.com/volts-dev/volts v0.0.0-20240613070415-6729b2a234fb
+replace github.com/volts-dev/volts => ../../../volts
 
 require (
 	github.com/andybalholm/brotli v1.1.1 // indirect

@@ -1,3 +1,3 @@
-module github.com/volts-dev/volts/vertex
+module github.com/volts-dev/vertex
 
-go 1.23.4
+go 1.20

@@ -1,0 +1,212 @@
+package htmllinkelement
+
+import (
+	"sync"
+
+	"github.com/volts-dev/vertex/html/document"
+	"github.com/volts-dev/vertex/html/domtokenlist"
+	"github.com/volts-dev/vertex/html/element"
+	"github.com/volts-dev/vertex/html/htmlelement"
+	"github.com/volts-dev/vertex/html/initinterface"
+	"github.com/volts-dev/vertex/html/stylesheet"
+	"github.com/volts-dev/vertex/js"
+	"github.com/volts-dev/vertex/js/object"
+)
+
+func init() {
+
+	initinterface.RegisterInterface(GetInterface)
+}
+
+var singleton sync.Once
+
+var htmllinklementinterface js.Value
+
+// HtmlLinkElement struct
+type HtmlLinkElement struct {
+	htmlelement.HtmlElement
+}
+
+type HtmlLinkElementFrom interface {
+	HtmlLinkElement_() HtmlLinkElement
+}
+
+func (h HtmlLinkElement) HtmlLinkElement_() HtmlLinkElement {
+	return h
+}
+
+func GetInterface() js.Value {
+
+	singleton.Do(func() {
+
+		if htmllinklementinterface = js.Global().Get("HTMLLinkElement"); htmllinklementinterface.Error() != nil {
+			htmllinklementinterface = js.Undefined()
+		}
+		js.Register(htmllinklementinterface, func(v js.Value) (interface{}, error) {
+			return NewFromJSObject(v)
+		})
+	})
+
+	return htmllinklementinterface
+}
+
+func New(d document.Document) (HtmlLinkElement, error) {
+	var err error
+
+	var h HtmlLinkElement
+	var e element.Element
+
+	if e, err = d.CreateElement("link"); err == nil {
+		h, err = NewFromElement(e)
+	}
+	return h, err
+}
+
+func NewFromElement(elem element.Element) (HtmlLinkElement, error) {
+	var h HtmlLinkElement
+	var err error
+
+	if hci := GetInterface(); !hci.IsUndefined() {
+		if elem.GetObjectValue().InstanceOf(hci) {
+			h.SetObjectValue(elem.GetObjectValue())
+
+		} else {
+			err = ErrNotAnHtmlLinkElement
+		}
+	} else {
+		err = ErrNotImplemented
+	}
+
+	return h, err
+}
+
+func NewFromJSObject(obj js.Value) (HtmlLinkElement, error) {
+	var h HtmlLinkElement
+	var err error
+	if hci := GetInterface(); !hci.IsUndefined() {
+		if obj.IsUndefined() || obj.IsNull() {
+			err = js.ErrUndefinedValue
+		} else {
+
+			if obj.InstanceOf(hci) {
+
+				h.SetObjectValue(obj)
+
+			} else {
+				err = ErrNotAnHtmlLinkElement
+			}
+		}
+	} else {
+		err = ErrNotImplemented
+	}
+	return h, err
+}
+
+func (h HtmlLinkElement) As() (string, error) {
+	return h.GetAttributeString("as")
+}
+
+func (h HtmlLinkElement) SetAs(value string) error {
+	return h.SetAttributeString("as", value)
+}
+
+func (s HtmlLinkElement) Disabled() (bool, error) {
+	return s.GetAttributeBool("disabled")
+}
+
+func (s HtmlLinkElement) SetDisabled(value bool) error {
+	return s.SetAttributeBool("disabled", value)
+}
+
+func (h HtmlLinkElement) Media() (string, error) {
+	return h.GetAttributeString("media")
+}
+
+func (h HtmlLinkElement) SetMedia(value string) error {
+	return h.SetAttributeString("media", value)
+}
+
+func (h HtmlLinkElement) Href() (string, error) {
+	return h.GetAttributeString("href")
+}
+
+func (h HtmlLinkElement) SetHref(value string) error {
+	return h.SetAttributeString("href", value)
+}
+
+func (h HtmlLinkElement) Hreflang() (string, error) {
+	return h.GetAttributeString("hreflang")
+}
+
+func (h HtmlLinkElement) SetHreflang(value string) error {
+	return h.SetAttributeString("hreflang", value)
+}
+
+func (h HtmlLinkElement) ReferrerPolicy() (string, error) {
+	return h.GetAttributeString("referrerPolicy")
+}
+
+func (h HtmlLinkElement) SetReferrerPolicy(value string) error {
+	return h.SetAttributeString("referrerPolicy", value)
+}
+
+func (h HtmlLinkElement) Rel() (string, error) {
+	return h.GetAttributeString("rel")
+}
+
+func (h HtmlLinkElement) SetRel(value string) error {
+	return h.SetAttributeString("rel", value)
+}
+
+func (h HtmlLinkElement) RelList() (domtokenlist.DOMTokenList, error) {
+	var err error
+	var obj js.Value
+	var dlist domtokenlist.DOMTokenList
+
+	if obj = h.GetValueByKey("relList"); obj.Error() == nil {
+
+		dlist, err = domtokenlist.NewFromJSObject(obj)
+	}
+
+	return dlist, err
+}
+
+func (h HtmlLinkElement) Sheet() (stylesheet.StyleSheet, error) {
+	var err error
+	var obj js.Value
+	var s stylesheet.StyleSheet
+	if obj = h.GetValueByKey("sheet"); obj.Error() == nil {
+
+		if obj.IsUndefined() {
+			err = object.ErrNotAnObject
+
+		} else {
+			s, err = stylesheet.NewFromJSObject(obj)
+		}
+	}
+	return s, err
+}
+
+func (h HtmlLinkElement) Sizes() (domtokenlist.DOMTokenList, error) {
+	var err error
+	var obj js.Value
+	var d domtokenlist.DOMTokenList
+	if obj = h.GetValueByKey("sizes"); obj.Error() == nil {
+
+		if obj.IsUndefined() {
+			err = object.ErrNotAnObject
+
+		} else {
+			d, err = domtokenlist.NewFromJSObject(obj)
+		}
+	}
+	return d, err
+}
+
+func (h HtmlLinkElement) Type() (string, error) {
+	return h.GetAttributeString("type")
+}
+
+func (h HtmlLinkElement) SetType(value string) error {
+	return h.SetAttributeString("type", value)
+}
