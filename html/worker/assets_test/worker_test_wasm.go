@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/volts-dev/vertex"
+	"github.com/volts-dev/vertex/app"
 	"github.com/volts-dev/vertex/html/dedicatedworkerglobalscope"
 	"github.com/volts-dev/vertex/html/messageevent"
 	"github.com/volts-dev/vertex/js"
@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	vertex.Init()
+	app.Init()
 	fmt.Printf("Get self\n")
 	if instance, err := js.Self(); test.AssertErr(nil, err) {
 

@@ -5,6 +5,8 @@ import (
 	"os"
 	"runtime"
 	"strings"
+
+	"github.com/volts-dev/vertex/html/window"
 )
 
 const (
@@ -20,11 +22,11 @@ const (
 // Getenv retrieves the value of the environment variable named by the key. It
 // returns the value, which will be empty if the variable is not present.
 func Getenv(k string) (string, error) {
-	if IsServer || !DefaultWindow().Get("goappGetenv").Truthy() {
+	if IsServer || !window.Default().GetValueByKey("goappGetenv").Truthy() {
 		return os.Getenv(k), nil
 	}
 
-	env := DefaultWindow().Call("goappGetenv", k)
+	env := window.Default().Call("goappGetenv", k)
 	if !env.Truthy() {
 		return "", nil
 	}
