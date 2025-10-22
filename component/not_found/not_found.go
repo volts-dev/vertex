@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/volts-dev/vertex/component"
+	"github.com/volts-dev/vertex/core/console"
 	"github.com/volts-dev/vertex/html/window"
 	"github.com/volts-dev/vertex/js/helper"
 )
@@ -27,16 +28,24 @@ func New() component.Component {
 	return &notFound{}
 }
 
+func (n *notFound) ObservedAttributes() []string {
+	return []string{"ABC", "BCD"}
+}
+
 func (n *notFound) Render() string {
-	return `<div class="goapp-app-info"> </div>`
+	return `<div class="goapp-app-info"> Not Found </div>`
 }
 
 func (n *notFound) ConnectedCallback() {
-	//n.Render()
+	console.Log("notFound connected to the DOM")
 }
 
 func (n *notFound) DisconnectedCallback() {
-	//n.Render()
+	console.Log("notFound disconnected from the DOM")
+}
+
+func (n *notFound) AttributeChangedCallback(name, oldValue, newValue string) {
+	console.Log(`notFound attribute changed: %v from %v to %v`, name, oldValue, newValue)
 }
 
 func (n *notFound) OnMount(context.Context) {

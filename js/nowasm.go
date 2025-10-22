@@ -2,6 +2,11 @@
 
 package js
 
+import (
+	"fmt"
+	"runtime"
+)
+
 // Constants that enumerates the JavaScript types.
 const (
 	TypeUndefined Type = iota
@@ -17,6 +22,7 @@ const (
 // Type represents the JavaScript type of a Value.
 type (
 	value struct {
+		v   any
 		err error
 	}
 
@@ -26,18 +32,33 @@ type (
 	}
 )
 
-func Undefined() Value {
-	return &value{
-		err: errNotImpl,
+var (
+	global    = value{v: 2, err: errNotImpl}
+	null      = value{v: 1, err: errNotImpl}
+	undefined = value{v: 0, err: errNotImpl}
+)
+
+func RecoverHandler(r any) {
+	fmt.Printf("wasm: panic : %v", r)
+	for i := 1; ; i++ {
+		_, file, line, ok := runtime.Caller(i)
+		if !ok {
+			break
+		}
+		fmt.Printf("  %s %d\n", file, line)
 	}
 }
 
+func Undefined() Value {
+	return &undefined
+}
+
 func Null() Value {
-	panic(errNotImpl)
+	return &null
 }
 
 func Global() Value {
-	panic(errNotImpl)
+	return &global
 }
 
 // ValueOf alias to syscall/js

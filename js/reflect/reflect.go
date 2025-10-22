@@ -158,5 +158,3 @@ func ToStringWithErr(obj js.Value) (string, error) {
 
 	return "", js.ErrNotAnObject
 }
-
- 

@@ -5,6 +5,7 @@ package js
 import (
 	"errors"
 	"fmt"
+	"runtime"
 	"syscall/js"
 )
 
@@ -17,6 +18,14 @@ const (
 	TypeSymbol    = Type(js.TypeSymbol)
 	TypeObject    = Type(js.TypeObject)
 	TypeFunction  = Type(js.TypeFunction)
+)
+
+var (
+	console js.Value
+
+	global    = js.Global()
+	null      = js.Null()
+	undefined = js.Undefined()
 )
 
 // Type alias to syscall/js
@@ -35,22 +44,37 @@ type (
 	}
 )
 
+func init() {
+	console = js.Global().Get("console")
+}
+
+func RecoverHandler(r any) {
+	console.Call("log", fmt.Sprintf("wasm: panic : %v", r))
+	for i := 1; ; i++ {
+		_, file, line, ok := runtime.Caller(i)
+		if !ok {
+			break
+		}
+		console.Call("log", fmt.Sprintf("  %s %d\n", file, line))
+	}
+}
+
 // Undefined alias to syscall/js
 func Undefined() Value {
-	return &value{v: js.Undefined()}
+	return &value{v: undefined}
 }
 
 // Null alias to syscall/js
 func Null() Value {
-	return &value{v: js.Null()}
+	return &value{v: null}
 }
 
 func Global() Value {
-	return &value{v: js.Global()}
+	return &value{v: global}
 }
 
 // ValueOf alias to syscall/js
-func ValueOf(x interface{}) Value {
+func ValueOf(x any) Value {
 	if objGo, ok := x.(ObjectFrom); ok {
 		return objGo.Value()
 	}
@@ -59,13 +83,15 @@ func ValueOf(x interface{}) Value {
 }
 
 // FuncOf alias to syscall/js
-func FuncOf(fn func(Value, []Value) interface{}) Func {
-	f := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+func FuncOf(fn func(Value, []Value) any) Func {
+	f := js.FuncOf(func(this js.Value, args []js.Value) any {
 		args2 := make([]Value, len(args))
 		for i := range args {
 			args2[i] = &value{v: args[i]}
 		}
-		return fn(&value{v: this}, args2)
+
+		result := fn(&value{v: this}, args2)
+		return unwrap(result)
 	})
 
 	return function{
@@ -105,11 +131,11 @@ func (v *value) Get(p string) Value {
 	defer func() {
 		if r := recover(); r != nil {
 			v.err = fmt.Errorf("wasm: panic getting property '%s': %v", p, r)
+			RecoverHandler(r)
 		}
 	}()
 
-	res := v.v.Get(p)
-	return &value{v: res}
+	return &value{v: v.v.Get(p)}
 }
 
 func (v *value) Set(p string, x interface{}) Value {
@@ -124,9 +150,11 @@ func (v *value) Set(p string, x interface{}) Value {
 	defer func() {
 		if r := recover(); r != nil {
 			v.err = fmt.Errorf("wasm: panic setting property '%s': %v", p, r)
+			RecoverHandler(r)
 		}
 	}()
 
+	//v.v.Set(p, x)
 	v.v.Set(p, unwrap(x))
 	return v
 }
@@ -135,6 +163,7 @@ func (v *value) Call(m string, args ...interface{}) Value {
 	if v.err != nil {
 		return v
 	}
+
 	if !v.v.Truthy() {
 		v.err = fmt.Errorf("wasm: call method '%s' on %s", m, v.v.Type().String())
 		return v
@@ -149,11 +178,15 @@ func (v *value) Call(m string, args ...interface{}) Value {
 	defer func() {
 		if r := recover(); r != nil {
 			v.err = fmt.Errorf("wasm: panic calling method '%s': %v", m, r)
+			RecoverHandler(r)
 		}
 	}()
 
-	res := v.v.Call(m, processedArgs...)
-	return &value{v: res}
+	val := v.v.Call(m, processedArgs...)
+
+	return &value{
+		v: val,
+	}
 }
 
 func (v *value) Invoke(args ...interface{}) Value {
@@ -166,7 +199,7 @@ func (v *value) Index(i int) Value {
 }
 
 func (v *value) SetIndex(i int, x interface{}) {
-	v.v.SetIndex(i, x)
+	v.v.SetIndex(i, unwrap(x))
 }
 
 func (v *value) Length() int {
@@ -191,6 +224,7 @@ func (v *value) New(args ...interface{}) Value {
 	defer func() {
 		if r := recover(); r != nil {
 			v.err = fmt.Errorf("wasm: panic in new: %v", r)
+			RecoverHandler(r)
 		}
 	}()
 
@@ -294,25 +328,24 @@ func (v *value) Error() error {
 
 // processArgs 展开参数列表中的所有 *SafeValue。
 // 如果任何参数本身包含错误，则返回该错误。
-func (v *value) processArgs(args []interface{}) ([]interface{}, error) {
+func (v *value) processArgs(args []any) ([]any, error) {
 	if v.err != nil {
 		return nil, v.err
 	}
-	processed := make([]interface{}, len(args))
-	for i, arg := range args {
-		if s, ok := arg.(*value); ok {
-			if s.err != nil {
-				return nil, fmt.Errorf("argument %d has an error: %w", i, s.err)
-			}
-			processed[i] = s.v
-		} else {
-			processed[i] = arg
-		}
+
+	if len(args) == 0 {
+		return nil, nil
 	}
+
+	processed := make([]any, len(args))
+	for i, arg := range args {
+		processed[i] = unwrap(arg)
+	}
+
 	return processed, nil
 }
 
-func fixArgsToGojs(args []interface{}) []interface{} {
+func fixArgsToGojs(args []any) []any {
 	for i := 0; i < len(args); i++ {
 		v := args[i]
 		if val, ok := v.(value); ok {
@@ -335,9 +368,37 @@ func (c function) Release() {
 }
 
 // unwrap an argument if it's a *SafeValue
-func unwrap(arg interface{}) interface{} {
-	if v, ok := arg.(*value); ok {
-		return v.v
+func unwrap(val any) any {
+	if val == nil {
+		return nil
 	}
-	return arg
+
+	switch v := val.(type) {
+	case *value:
+		return v.v
+	case function:
+		return v.f
+	/*case map[string]any:
+		m := make(map[string]any, len(v))
+		for key, value := range v {
+			m[key] = value
+		}
+		return js.ValueOf(m)
+
+	case []any:
+	s := make([]any, len(v))
+	for i, value := range v {
+		s[i] = value)
+	}
+	return js.ValueOf(s)
+	*/
+	case []string:
+		s := make([]any, len(v))
+		for i, value := range v {
+			s[i] = value
+		}
+		return js.ValueOf(s)
+	default:
+		return js.ValueOf(val)
+	}
 }

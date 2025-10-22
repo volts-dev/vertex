@@ -187,7 +187,7 @@ func GetFuncName(inter Value) (string, error) {
 }
 
 func Eval(str string) (Value, error) {
-	f := Global().Call("eval", str)
+	f := (&value{v: global}).Call("eval", str)
 	return f, f.Error()
 }
 
@@ -196,9 +196,28 @@ func Self() (interface{}, error) {
 	var err error
 	var self Value
 
-	if self = Global().Get("self"); self.Error() == nil {
+	if self = (&value{v: global}).Get("self"); self.Error() == nil {
 		return Discover(self)
 	}
 
 	return nil, err
+}
+
+// Get is a shorthand for Global().Get().
+func Get(name string) Value {
+	return (&value{v: global}).Get(name)
+}
+
+// Set is a shorthand for Global().Set().
+func Set(name string, v interface{}) {
+	(&value{v: global}).Set(name, v)
+}
+
+// Call is a shorthand for Global().Call().
+func Call(name string, args ...interface{}) Value {
+	return (&value{v: global}).Call(name, args...)
+}
+
+func Reflect() Value {
+	return (&value{v: global}).Get("Reflect")
 }

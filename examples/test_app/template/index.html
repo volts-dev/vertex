@@ -1,7 +1,9 @@
 <html>
   <body>
+    <script src="{{.static}}/js/test_super.js"></script>
     <script src="{{.static}}/js/wasm_exec.js"></script>
     <script>
+      registerTestSuper("test-com");
       const go = new Go();
       WebAssembly.instantiateStreaming(fetch("{{.static}}/app.wasm"), go.importObject)
         .then((result) => {
@@ -13,5 +15,6 @@
         });
     </script>
   </body>
+    <test-com></test-com>
   <not-found></not-found>
 </html>
