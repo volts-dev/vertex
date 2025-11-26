@@ -11,19 +11,15 @@ import (
 )
 
 func init() {
-
 	initinterface.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
-
 var storageinterface js.Value
 
 // GetInterface get the Storage interface
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if storageinterface = js.Global().Get("Storage"); storageinterface.Error() != nil {
 			storageinterface = js.Undefined()
 		}
@@ -45,6 +41,19 @@ type StorageFrom interface {
 
 func (s Storage) Storage_() Storage {
 	return s
+}
+
+func New() (Storage, error) {
+	var s Storage
+	var err error
+
+	si := GetInterface()
+	if si.IsUndefined() {
+		err = ErrNotImplemented
+	}
+
+	s.SetObjectValue(si)
+	return s, err
 }
 
 func NewFromJSObject(obj js.Value) (Storage, error) {

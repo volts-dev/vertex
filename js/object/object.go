@@ -57,9 +57,7 @@ var objectinterface js.Value
 
 // GetInterface get the JS interface
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if objectinterface = js.Global().Get("Object"); objectinterface.Error() != nil {
 			objectinterface = js.Undefined()
 		}

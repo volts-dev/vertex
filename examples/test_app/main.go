@@ -3,10 +3,11 @@
 package main
 
 //"github.com/volts-dev/vertex/component"
-import _ "github.com/volts-dev/vertex/component/not_found"
+import (
+	"github.com/volts-dev/vertex/app"
+	_ "github.com/volts-dev/vertex/component/not_found"
+)
 
 func main() {
-	//v := vertex.New()
-
-	//component.Register("not-found", not_found.New)
+	app.Start()
 }

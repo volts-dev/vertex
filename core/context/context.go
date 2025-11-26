@@ -98,6 +98,13 @@ func (ctx Context) After(d time.Duration, f func(Context)) {
 	})
 }
 
+// 要求更新
+func (ctx Context) RequestUpdate() {
+	//for c := ctx.sourceElement; c != nil; c, _ = c.ParentNode() {
+	//	ctx.addComponentUpdate(c, 1)
+	//}
+}
+
 // PreventUpdate halts updates for the enclosing component.
 func (ctx Context) PreventUpdate() {
 	//for c := ctx.sourceElement; c != nil; c, _ = c.ParentNode() {

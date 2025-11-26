@@ -3,6 +3,7 @@ module github.com/volts-dev/vertex/examples/test_app
 go 1.24.0
 
 replace github.com/volts-dev/volts => ../../../volts
+
 replace github.com/volts-dev/vertex => ../../../vertex
 
 require (
@@ -40,6 +41,8 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/volts-dev/cacher v0.0.0-20240807133529-d9d180f89348 // indirect
 	github.com/volts-dev/dataset v0.0.0-20250822094950-f96019bef097 // indirect
+	github.com/volts-dev/lexer v0.0.0-20251110194144-a67bf55d1b63 // indirect
+	github.com/volts-dev/logger v0.0.0-20210803162057-18754d780c31 // indirect
 	github.com/volts-dev/template v0.0.0-20240613070915-3d2783a5c479 // indirect
 	github.com/volts-dev/utils v0.0.0-20241206111447-ee54d4e2c42c // indirect
 	go.uber.org/atomic v1.11.0 // indirect

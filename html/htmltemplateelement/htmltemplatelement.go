@@ -21,16 +21,16 @@ var singleton sync.Once
 
 var htmltemplateelementinterface js.Value
 
-// HtmlTemplateElement struct
-type HtmlTemplateElement struct {
+// HTMLTemplateElement struct
+type HTMLTemplateElement struct {
 	htmlelement.HtmlElement
 }
 
-type HtmlTemplateElementFrom interface {
-	HtmlTemplateElement_() HtmlTemplateElement
+type HTMLTemplateElementFrom interface {
+	HTMLTemplateElement_() HTMLTemplateElement
 }
 
-func (h HtmlTemplateElement) HtmlTemplateElement_() HtmlTemplateElement {
+func (h HTMLTemplateElement) HTMLTemplateElement_() HTMLTemplateElement {
 	return h
 }
 
@@ -49,10 +49,10 @@ func GetInterface() js.Value {
 	return htmltemplateelementinterface
 }
 
-func New(d document.Document) (HtmlTemplateElement, error) {
+func New(d document.Document) (HTMLTemplateElement, error) {
 	var err error
 
-	var h HtmlTemplateElement
+	var h HTMLTemplateElement
 	var e element.Element
 
 	if e, err = d.CreateElement("template"); err == nil {
@@ -61,8 +61,8 @@ func New(d document.Document) (HtmlTemplateElement, error) {
 	return h, err
 }
 
-func NewFromElement(elem element.Element) (HtmlTemplateElement, error) {
-	var h HtmlTemplateElement
+func NewFromElement(elem element.Element) (HTMLTemplateElement, error) {
+	var h HTMLTemplateElement
 	var err error
 
 	if hci := GetInterface(); !hci.IsUndefined() {
@@ -79,8 +79,8 @@ func NewFromElement(elem element.Element) (HtmlTemplateElement, error) {
 	return h, err
 }
 
-func NewFromJSObject(obj js.Value) (HtmlTemplateElement, error) {
-	var h HtmlTemplateElement
+func NewFromJSObject(obj js.Value) (HTMLTemplateElement, error) {
+	var h HTMLTemplateElement
 	var err error
 	if hci := GetInterface(); !hci.IsUndefined() {
 		if obj.IsUndefined() || obj.IsNull() {
@@ -101,7 +101,7 @@ func NewFromJSObject(obj js.Value) (HtmlTemplateElement, error) {
 	return h, err
 }
 
-func (h HtmlTemplateElement) Content() (documentfragment.DocumentFragment, error) {
+func (h HTMLTemplateElement) Content() (documentfragment.DocumentFragment, error) {
 	var err error
 	var obj js.Value
 	var fragment documentfragment.DocumentFragment

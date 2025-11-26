@@ -23,9 +23,7 @@ var navigatorinterface js.Value
 
 // GetInterface get the JS interface of formdata
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if navigatorinterface = js.Global().Get("Navigator"); navigatorinterface.Error() != nil {
 			navigatorinterface = js.Undefined()
 		}

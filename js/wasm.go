@@ -5,8 +5,10 @@ package js
 import (
 	"errors"
 	"fmt"
+	"reflect"
 	"runtime"
 	"syscall/js"
+	"unsafe"
 )
 
 const (
@@ -79,7 +81,35 @@ func ValueOf(x any) Value {
 		return objGo.Value()
 	}
 
-	return &value{v: js.ValueOf(x)}
+	switch x := x.(type) {
+	case bool, int, int8, int16, int32, int64,
+		uint, uint8, uint16, uint32, uint64, uintptr, unsafe.Pointer,
+		float32, float64, string, []any, map[string]any:
+		return &value{v: js.ValueOf(x)}
+	default:
+		v := reflect.ValueOf(x)
+		switch v.Kind() {
+		case reflect.Ptr, reflect.Interface:
+			if v.IsNil() {
+				return &value{v: null}
+			}
+			return ValueOf(v.Elem())
+
+		case reflect.Struct:
+			t := v.Type()
+			s := global.Get("Object").New()
+			n := v.NumField()
+			for i := 0; i < n; i++ {
+				if f := v.Field(i); f.CanInterface() {
+					k := nameOf(t.Field(i))
+					s.Set(k, ValueOf(f))
+				}
+			}
+			return &value{v: s}
+		default:
+			panic("ValueOf: invalid value")
+		}
+	}
 }
 
 // FuncOf alias to syscall/js
@@ -138,7 +168,7 @@ func (v *value) Get(p string) Value {
 	return &value{v: v.v.Get(p)}
 }
 
-func (v *value) Set(p string, x interface{}) Value {
+func (v *value) Set(p string, x any) Value {
 	if v.err != nil {
 		return v
 	}
@@ -159,7 +189,7 @@ func (v *value) Set(p string, x interface{}) Value {
 	return v
 }
 
-func (v *value) Call(m string, args ...interface{}) Value {
+func (v *value) Call(m string, args ...any) Value {
 	if v.err != nil {
 		return v
 	}
@@ -189,7 +219,7 @@ func (v *value) Call(m string, args ...interface{}) Value {
 	}
 }
 
-func (v *value) Invoke(args ...interface{}) Value {
+func (v *value) Invoke(args ...any) Value {
 	vv := v.v.Invoke(fixArgsToGojs(args)...)
 	return &value{v: vv}
 }
@@ -198,7 +228,7 @@ func (v *value) Index(i int) Value {
 	return &value{v: v.v.Index(i)}
 }
 
-func (v *value) SetIndex(i int, x interface{}) {
+func (v *value) SetIndex(i int, x any) {
 	v.v.SetIndex(i, unwrap(x))
 }
 
@@ -206,7 +236,7 @@ func (v *value) Length() int {
 	return v.v.Length()
 }
 
-func (v *value) New(args ...interface{}) Value {
+func (v *value) New(args ...any) Value {
 	if v.err != nil {
 		return v
 	}
@@ -401,4 +431,16 @@ func unwrap(val any) any {
 	default:
 		return js.ValueOf(val)
 	}
+}
+
+// nameOf returns the JS tag name, otherwise the field name.
+func nameOf(sf reflect.StructField) string {
+	name := sf.Tag.Get("js")
+	if name == "" {
+		name = sf.Tag.Get("json")
+	}
+	if name == "" {
+		return sf.Name
+	}
+	return name
 }

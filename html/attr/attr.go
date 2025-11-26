@@ -69,27 +69,22 @@ func NewFromJSObject(obj js.Value) (Attr, error) {
 }
 
 func (a Attr) Name() (string, error) {
-
 	return a.GetAttributeString("name")
 }
 
 func (a Attr) NamespaceURI() (string, error) {
-
 	return a.GetAttributeString("namespaceURI")
 }
 
 func (a Attr) LocalName() (string, error) {
-
 	return a.GetAttributeString("localName")
 }
 
 func (a Attr) Prefix() (string, error) {
-
 	return a.GetAttributeString("prefix")
 }
 
 func (a Attr) Value() (string, error) {
-
 	return a.GetAttributeString("value")
 }
 

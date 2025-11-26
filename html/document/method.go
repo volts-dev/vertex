@@ -10,10 +10,10 @@ import (
 	"github.com/volts-dev/vertex/html/htmlelement"
 	"github.com/volts-dev/vertex/html/node"
 	"github.com/volts-dev/vertex/html/nodelist"
+	"github.com/volts-dev/vertex/html/treewalker"
 )
 
 func (d Document) AdoptNode(externalNode node.Node) (interface{}, error) {
-
 	var err error
 	var obj js.Value
 	var r interface{}
@@ -31,8 +31,19 @@ func (d Document) Append(i interface{}) error {
 	return err
 }
 
-func (d Document) CreateAttribute(name string) (attr.Attr, error) {
+func (d Document) CreateTreeWalker(node node.Node) (treewalker.TreeWalker, error) {
+	var err error
+	var obj js.Value
+	var tw treewalker.TreeWalker
 
+	if obj = d.Call("createTreeWalker", js.ValueOf(node), js.ValueOf(129)); obj.Error() == nil {
+		tw, err = treewalker.NewFromJSObject(obj)
+	}
+
+	return tw, err
+}
+
+func (d Document) CreateAttribute(name string) (attr.Attr, error) {
 	var err error
 	var obj js.Value
 	var attribute attr.Attr
@@ -222,7 +233,6 @@ func (d Document) GetElementsByClassName(classname string) (htmlcollection.HtmlC
 }
 
 func (d Document) GetElementsByTagName(tagname string) (htmlcollection.HtmlCollection, error) {
-
 	var err error
 	var obj js.Value
 	var collection htmlcollection.HtmlCollection

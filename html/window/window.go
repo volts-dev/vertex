@@ -5,8 +5,6 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/core/console"
-	"github.com/volts-dev/vertex/js"
-
 	"github.com/volts-dev/vertex/html/document"
 	"github.com/volts-dev/vertex/html/eventtarget"
 	"github.com/volts-dev/vertex/html/history"
@@ -15,23 +13,20 @@ import (
 	"github.com/volts-dev/vertex/html/location"
 	"github.com/volts-dev/vertex/html/navigator"
 	"github.com/volts-dev/vertex/html/storage"
+	"github.com/volts-dev/vertex/js"
 )
 
 func init() {
-
 	initinterface.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
-
 var windowinterface js.Value
 var defaultWindow *Window
 
 // GetInterface get the JS interface of formdata
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if windowinterface = js.Global().Get("Window"); windowinterface.Error() != nil {
 			windowinterface = js.Undefined()
 		}
@@ -93,7 +88,6 @@ func NewFromJSObject(obj js.Value) (Window, error) {
 }
 
 func New() (Window, error) {
-
 	var err error
 	var w Window
 	var windowObj js.Value

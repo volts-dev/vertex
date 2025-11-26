@@ -56,15 +56,12 @@ func NewFromJSObject(obj js.Value) (Element, error) {
 		if obj.IsUndefined() || obj.IsNull() {
 			err = js.ErrUndefinedValue
 		} else {
-
 			if obj.InstanceOf(ei) {
 				e.SetObjectValue(obj)
-
 			} else {
 				err = ErrNotAnElement
 			}
 		}
-
 	} else {
 		err = ErrNotImplemented
 	}

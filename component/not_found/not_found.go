@@ -5,6 +5,7 @@ import (
 
 	"github.com/volts-dev/vertex/component"
 	"github.com/volts-dev/vertex/core/console"
+	"github.com/volts-dev/vertex/core/vhtml"
 	"github.com/volts-dev/vertex/html/window"
 	"github.com/volts-dev/vertex/js/helper"
 )
@@ -32,8 +33,8 @@ func (n *notFound) ObservedAttributes() []string {
 	return []string{"ABC", "BCD"}
 }
 
-func (n *notFound) Render() string {
-	return `<div class="goapp-app-info"> Not Found </div>`
+func (n *notFound) Render(ctx context.Context) *vhtml.TemplateResult {
+	return vhtml.HTML(`<div class="goapp-app-info"> Not Found </div>`)
 }
 
 func (n *notFound) ConnectedCallback() {

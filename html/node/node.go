@@ -16,14 +16,11 @@ func init() {
 }
 
 var singleton sync.Once
-
 var nodeinterface js.Value
 
 // GetInterface Get the js node interface
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if nodeinterface = js.Global().Get("Node"); nodeinterface.Error() != nil {
 			nodeinterface = js.Undefined()
 		}
@@ -35,13 +32,15 @@ func GetInterface() js.Value {
 	return nodeinterface
 }
 
-type Node struct {
-	eventtarget.EventTarget
-}
+type (
+	Node struct {
+		eventtarget.EventTarget
+	}
 
-type NodeFrom interface {
-	Node_() Node
-}
+	NodeFrom interface {
+		Node_() Node
+	}
+)
 
 func (n Node) Node_() Node {
 	return n

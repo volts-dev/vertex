@@ -81,14 +81,10 @@ func (n NamedNodeMap) GetNamedItem(name string) (attr.Attr, error) {
 	var err error
 
 	if elemObject = n.Call("getNamedItem", js.ValueOf(name)); elemObject.Error() == nil {
-
 		if elemObject.IsUndefined() {
 			err = ErrNotNameAttr
-
 		} else {
-
 			newAttr, err = attr.NewFromJSObject(elemObject)
-
 		}
 	}
 

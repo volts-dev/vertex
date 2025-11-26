@@ -1,16 +1,47 @@
 package app
 
 import (
+	"net/url"
 	"sync"
 
+	"github.com/volts-dev/vertex/core/context"
+	"github.com/volts-dev/vertex/core/router"
 	"github.com/volts-dev/vertex/html/htmlelement"
 	"github.com/volts-dev/vertex/html/initinterface"
+	"github.com/volts-dev/vertex/html/storage"
+	"github.com/volts-dev/vertex/html/window"
 )
 
 var (
-	//defaultRouter = router.New("")
-	//window = newBrowserWindow()
-	singleton sync.Once
+// defaultRouter = router.New("")
+// window = newBrowserWindow()
+// singleton sync.Once
+)
+
+type (
+	application struct {
+		ctx            *context.Context
+		localStorage   storage.Storage
+		sessionStorage storage.Storage
+		browser        Browser
+		router         *router.Router
+		internalURLs   []string
+		resolveURL     func(string) string
+		//originPage     *requestPage
+		//lastVisitedURL *url.URL
+
+		//nodes   nodeManager
+		//updates updateManager
+		//body    HTMLBody
+
+		dispatches chan func()
+		defers     chan func()
+		goroutines sync.WaitGroup
+
+		//asynchronousActionHandlers map[string]ActionHandler
+		//actions                    actionManager
+		//states                     stateManager
+	}
 )
 
 // Route associates a given path with a function that generates a new Composer
@@ -64,4 +95,30 @@ func Start() {
 		engine.Navigate(window.Default().URL(), false)
 		engine.Start(120)
 	*/
+	app := newApplication()
+	app.Navigate(window.Default().URL(), false)
+	app.Start()
+}
+
+func newApplication() *application {
+	localStorage, err := storage.New()
+	if err != nil {
+		panic(err)
+	}
+	sessionStorage, err := storage.New()
+	if err != nil {
+		panic(err)
+	}
+
+	return &application{
+		localStorage:   localStorage,
+		sessionStorage: sessionStorage,
+	}
+}
+
+func (self *application) Start() {
+
+}
+
+func (self *application) Navigate(destination *url.URL, updateHistory bool) {
 }

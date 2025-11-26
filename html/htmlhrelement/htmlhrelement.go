@@ -34,9 +34,7 @@ func (h HtmlHrElement) HtmlHrElement_() HtmlHrElement {
 }
 
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if htmlhrelementinterface = js.Global().Get("HTMLHRElement"); htmlhrelementinterface.Error() != nil {
 			htmlhrelementinterface = js.Undefined()
 		}

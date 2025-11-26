@@ -62,12 +62,12 @@ func Global() Value {
 }
 
 // ValueOf alias to syscall/js
-func ValueOf(x interface{}) Value {
+func ValueOf(x any) Value {
 	panic(errNotImpl)
 }
 
 // FuncOf alias to syscall/js
-func FuncOf(fn func(Value, []Value) interface{}) Func {
+func FuncOf(fn func(Value, []Value) any) Func {
 	return function{
 		Value: &value{err: errNotImpl},
 	}
@@ -91,16 +91,16 @@ func (v *value) Get(p string) Value {
 	return v
 }
 
-func (v *value) Set(p string, x interface{}) Value {
+func (v *value) Set(p string, x any) Value {
 	v.err = errNotImpl
 	return v
 }
-func (v *value) Call(m string, args ...interface{}) Value {
+func (v *value) Call(m string, args ...any) Value {
 	v.err = errNotImpl
 	return v
 }
 
-func (v *value) Invoke(args ...interface{}) Value {
+func (v *value) Invoke(args ...any) Value {
 	v.err = errNotImpl
 	return v
 }
@@ -110,7 +110,7 @@ func (v *value) Index(i int) Value {
 	return v
 }
 
-func (v *value) SetIndex(i int, x interface{}) {
+func (v *value) SetIndex(i int, x any) {
 	panic(errNotImpl)
 }
 
@@ -118,7 +118,7 @@ func (v *value) Length() int {
 	panic(errNotImpl)
 }
 
-func (v *value) New(args ...interface{}) Value {
+func (v *value) New(args ...any) Value {
 	panic(errNotImpl)
 }
 
