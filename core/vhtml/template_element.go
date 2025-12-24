@@ -1,28 +1,17 @@
 package vhtml
 
 import (
-	"context"
+	"fmt"
 	"strings"
 
+	"github.com/volts-dev/utils"
 	"github.com/volts-dev/vertex/core/console"
 	"github.com/volts-dev/vertex/html/element"
+	"github.com/volts-dev/vertex/html/global"
 	"github.com/volts-dev/vertex/html/htmltemplateelement"
 	"github.com/volts-dev/vertex/html/node"
+	"github.com/volts-dev/vertex/html/treewalker"
 	"github.com/volts-dev/vertex/html/window"
-)
-
-type (
-	TemplateElement struct {
-		el    htmltemplateelement.HTMLTemplateElement
-		parts []TemplatePart
-	}
-
-	// TemplateInstance 执行模板更新对象
-	TemplateInstance struct {
-		template *TemplateElement
-		parent   *ContentPart
-		parts    []IPart
-	}
 )
 
 const (
@@ -34,44 +23,36 @@ const (
 	EVENT_PART
 	ELEMENT_PART
 	COMMENT_PART
+	IF_PART
+	ELSE_PART
+	END_PART
 )
 
-func NewTemplateInstance(tmpl *TemplateElement, parent *ContentPart) *TemplateInstance {
-	return &TemplateInstance{
-		template: tmpl,
-		parent:   parent,
+type (
+	TemplatePart struct {
+		Type    TemplatePartType
+		Index   int
+		Name    string
+		Strings []string
+		Ctor    func(element *node.Node, name string, value any, strs []string, parent Disconnectable) IPart
 	}
-}
 
-// 从 template 克隆一个新的实例
-func (t *TemplateInstance) CloneTemplate() *node.Node {
-	clonedEl, _ := t.template.el.CloneNode(true)
-	return &clonedEl
-}
+	TemplateElement struct {
+		el    *htmltemplateelement.HTMLTemplateElement
+		parts []*TemplatePart
+	}
+)
 
-// 更新克隆的实例
-func (self *TemplateInstance) Update(ctx ...context.Context) error {
-	return nil //self.template.Update(ctx...)
-}
+var walker *treewalker.TreeWalker
+var createMarker *node.Node
 
 func newTemplateElement(result *TemplateResult) (*TemplateElement, error) {
 	tmpl := &TemplateElement{}
-	doc, err := window.Default().Document()
+	html, expreParts := getTemplateHtml(result.html)
+
+	var err error
+	tmpl.el, err = tmpl.createElement(html, nil)
 	if err != nil {
-		return nil, err
-	}
-
-	// 创建模板元素
-	tmpl.el, err = htmltemplateelement.New(doc)
-	if err != nil {
-		return nil, err
-	}
-
-	// 解析模板
-	//result := HTML(html)
-
-	// 设置模板内容
-	if Render(result, tmpl.el.Node) != nil {
 		return nil, err
 	}
 
@@ -79,62 +60,91 @@ func newTemplateElement(result *TemplateResult) (*TemplateElement, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("documentfragment:", documentfragment)
+	//if walker.GetObjectValue().IsNull() && walker.GetObjectValue().IsUndefined() {
+	if walker == nil {
+		doc, err := global.Document()
+		if err != nil {
+			return nil, err
+		}
 
-	treewalker, err := doc.CreateTreeWalker(documentfragment.Node)
+		walker, err = doc.CreateTreeWalker(doc.Node)
+		if err != nil {
+			console.Error(err)
+			return nil, err
+		}
+	}
+
+	//treewalker, err := doc.CreateTreeWalker(documentfragment.Node)
+	err = walker.SetCurrentNode(documentfragment.GetObjectValue())
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Println("walker:", walker)
 	var attrNameIndex = 0
-	var nodeIdex = 0
+	var nodeIdex = 0 //treewalker 上 node 的索引
 	for {
-		node, err := treewalker.NextNode()
+		node, err := walker.NextNode()
 		if err != nil {
+			console.Error("walker.NextNode", err)
 			break
 		}
 
-		nodeType, _ := node.NodeType()
-		if nodeType == 1 {
-			// Element 节点：检查带 marker 的属性
-			element, err := element.NewFromJSObject(node.GetObjectValue())
-			if err != nil {
-				break
-			}
+		fmt.Println("node:", node.GetObjectValue())
+		if node.IsNull() {
+			break
+		}
 
+		console.Info("Visiting node:", node.GetObjectValue())
+		// Element 节点：检查带 marker 的属性
+		element, err := element.NewFromJSObject(node.GetObjectValue())
+		if err != nil {
+			console.Error("element.NewFromJSObject", err)
+			return nil, err
+		}
+
+		nodeType, err := node.NodeType()
+		if err != nil {
+			console.Error("element.NewFromJSObject", err)
+			return nil, err
+		}
+
+		if nodeType == 1 {
 			if attrs, err := element.Attributes(); err == nil && attrs.Length() > 0 {
 				for i := 0; i < attrs.Length(); i++ {
+					fmt.Println(attrs.Length(), i)
 					attr, err := attrs.Item(i)
 					if err != nil {
-						console.Error(err)
+						console.Error("attrs.Item(i)", err)
 					}
 
 					name, err := attr.Name()
 					if err != nil {
-						console.Error(err)
+						console.Error("attrs.Name()", err)
 					}
 
-					if strings.HasPrefix(name, boundAttributePrefix) {
+					if strings.HasSuffix(name, boundAttributePrefix) {
 						value, err := element.GetAttribute(name)
 						if err != nil {
-							console.Error(err)
+							console.Error("GetAttribute()", err)
 						}
 
 						attrNameIndex++
-						realName := result.attributeNames[attrNameIndex]
+						expr := expreParts[attrNameIndex]
 
-						part := TemplatePart{
+						part := &TemplatePart{
 							Index:   nodeIdex,
-							Type:    ATTRIBUTE_PART,
+							Type:    expr.Type,
 							Strings: strings.Split(value, boundAttributePrefix),
 						}
 
 						// part 的构造函数
-						switch realName[0] {
-						case '.':
+						switch expr.Type {
+						case PROPERTY_PART:
 							part.Ctor = NewPropertyPart
-						case '?':
+						case BOOLEAN_ATTRIBUTE_PART:
 							part.Ctor = NewBooleanAttributePart
-						case '@':
+						case EVENT_PART:
 							part.Ctor = NewEventPart
 						default:
 							part.Ctor = NewAttributePart
@@ -142,23 +152,80 @@ func newTemplateElement(result *TemplateResult) (*TemplateElement, error) {
 
 						tmpl.parts = append(tmpl.parts, part)
 						element.RemoveAttribute(name)
+					} else if name == marker {
+						tmpl.parts = append(tmpl.parts, &TemplatePart{
+							Index: nodeIdex,
+							Type:  ELEMENT_PART,
+						})
+						element.RemoveAttribute(marker)
 					}
+				}
+				fmt.Println("localName error:", element.GetObjectValue(), err)
+
+				localName, err := element.LocalName()
+				if err != nil {
+					fmt.Println("localName error:", element, err)
+					console.Error("localName error:", err)
+				}
+
+				if utils.IndexOf(localName, "script", "style", "textarea", "title") != -1 {
+					// TODO:处理原始文本元素（script/style/textarea/title）
 				}
 			}
 
 		} else if nodeType == 8 {
+			// 获取 comment 节点内容
+			v, err := node.GetValueByKey("data").String()
+			if err != nil {
+				console.Error("GetValueByKey", err)
+			}
 
-			node.GetValueByKey("data")
-			// Comment 节点：检查是否为 marker comment
-			tmpl.parts = append(tmpl.parts, TemplatePart{
-				Index:   nodeIdex,
-				Type:    ATTRIBUTE_PART,
-				Strings: strings.Split(value, boundAttributePrefix),
-			})
-
+			if v == marker {
+				// Comment 节点：检查是否为 marker comment
+				tmpl.parts = append(tmpl.parts, &TemplatePart{
+					Index: nodeIdex,
+					Type:  CHILD_PART,
+				})
+			} else {
+				// Comment 节点：检查是否为 marker comment
+				idx := -1
+				for {
+					if idx = strings.Index(v[idx+1:], marker); idx != -1 {
+						// Comment 节点：检查是否为 marker comment
+						tmpl.parts = append(tmpl.parts, &TemplatePart{
+							Index: nodeIdex,
+							Type:  COMMENT_PART,
+						})
+						// 移动索引
+						idx += len(marker) - 1
+						continue
+					}
+					break
+				}
+			}
 		}
 
 		nodeIdex++
 	}
+
 	return tmpl, nil
+}
+
+func (self *TemplateElement) createElement(html string, options *RenderOptions) (*htmltemplateelement.HTMLTemplateElement, error) {
+	doc, err := window.Default().Document()
+	if err != nil {
+		return nil, err
+	}
+
+	// 创建模板元素
+	tmpl, err := htmltemplateelement.New(doc)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = tmpl.SetInnerHTML(html); err != nil {
+		return nil, err
+	}
+
+	return &tmpl, nil
 }

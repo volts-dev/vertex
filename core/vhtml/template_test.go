@@ -2,16 +2,14 @@ package vhtml // 替换为实际包名
 
 import (
 	"testing"
-
-	"github.com/volts-dev/logger"
 )
 
 // TestHTML_NormalCase 测试正常情况下的HTML解析
 func TestHTML_NormalCase(t *testing.T) {
 	// 测试用例：有效的HTML字符串
-	html := `<div onclick="Onclick" {{onclick Onclick}} {{.active isActive}}>
+	html := `<div {{tag}} onclick="Onclick" {{@onclick Onclick}} {{.active isActive}} {{?open isActive}}>
 	{{if isOpen}}
-	{{.aa.value}}<p>Hello Vertex</p>
+	{{.aa.value}}<p>Hello Vertex </p>
 	{{ else }}
 	 <p>Hello World</p>
 	 {{end}}
@@ -21,14 +19,11 @@ func TestHTML_NormalCase(t *testing.T) {
 
 	// 验证返回结果不为nil
 	if result == nil {
-		logger.Errf("Expected TemplateResult, but got nil")
+		//logger.Errf("Expected TemplateResult, but got nil")
 	}
 
-	for _, part := range result.parts {
-		logger.Infof("Parsed part: %#v", part.String())
-	}
-
-	logger.Info(result.ToString())
+	//temp, attrs := getTemplateHtml(html)
+	//logger.Info(temp, attrs)
 	// 可以添加更多针对TemplateResult结构的验证
 }
 

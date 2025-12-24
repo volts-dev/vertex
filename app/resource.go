@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"runtime"
@@ -30,6 +31,7 @@ func Getenv(k string) (string, error) {
 	if !env.Truthy() {
 		return "", nil
 	}
+	fmt.Println(env.String())
 	return env.String()
 }
 

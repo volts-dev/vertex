@@ -5,7 +5,6 @@ package fetch
 import (
 	"sync"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/promise"
 	"github.com/volts-dev/vertex/html/response"
 	"github.com/volts-dev/vertex/js"
@@ -13,7 +12,7 @@ import (
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -97,7 +96,7 @@ func (f Fetch) Then(resolve func(response.Response) *promise.Promise, reject fun
 
 		var err error
 		if bo, ok := obj.(js.ObjectFrom); ok {
-			if resp, err = js.Discover(bo.Value()); err == nil {
+			if resp, err = js.Discover(bo.GetObjectValue()); err == nil {
 
 				if r, ok := resp.(response.ResponseFrom); ok {
 					return resolve(r.Response_())

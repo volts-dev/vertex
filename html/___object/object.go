@@ -5,13 +5,11 @@ import (
 
 	"github.com/volts-dev/vertex/js"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/objectmap"
-	"github.com/volts-dev/vertex/js/array"
 )
 
 func init() {
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -84,15 +82,15 @@ func NewFromJSObject(obj js.Value) (Object, error) {
 	return o, err
 }
 
-func (o Object) Keys() (array.Array, error) {
+func (o Object) Keys() (js.Array, error) {
 
 	var err error
 	var obj js.Value
-	var newArr array.Array
+	var newArr js.Array
 
 	if ai := GetInterface(); !ai.IsUndefined() {
 		if obj = ai.Call("keys", o.Value); obj.Error() == nil {
-			newArr, err = array.NewFromJSObject(obj)
+			newArr, err = js.NewArrayFromJSObject(obj)
 
 		}
 
@@ -101,15 +99,15 @@ func (o Object) Keys() (array.Array, error) {
 	return newArr, err
 }
 
-func (o Object) Values() (array.Array, error) {
+func (o Object) Values() (js.Array, error) {
 
 	var err error
 	var obj js.Value
-	var newArr array.Array
+	var newArr js.Array
 
 	if ai := GetInterface(); !ai.IsUndefined() {
 		if obj = ai.Call("values", o.Value); obj.Error() == nil {
-			newArr, err = array.NewFromJSObject(obj)
+			newArr, err = js.NewArrayFromJSObject(obj)
 
 		}
 

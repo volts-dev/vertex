@@ -8,14 +8,11 @@ import (
 	"github.com/volts-dev/vertex/html/cssstyledeclaration"
 	"github.com/volts-dev/vertex/html/dragevent"
 	"github.com/volts-dev/vertex/html/element"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/helper"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -138,7 +135,7 @@ func (h HtmlElement) Dataset(name string) (interface{}, error) {
 
 		if objv = obj.Get(name); objv.Error() == nil {
 			if !objv.IsUndefined() {
-				ret, err = helper.GoValue(objv)
+				ret, err = js.GoValue(objv)
 			} else {
 				err = ErrDatasetNotFound
 			}
@@ -212,13 +209,13 @@ func (h HtmlElement) OffsetParent() (js.Object, error) {
 	if obj = h.GetValueByKey("offsetParent"); obj.Error() == nil {
 		if !obj.IsUndefined() {
 			if !obj.IsNull() {
-				ret, err = object.ToObject(obj)
+				ret, err = js.ToObject(obj)
 			} else {
 				err = ErrParentNotFound
 			}
 
 		} else {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 		}
 
 	}
@@ -266,7 +263,7 @@ func (h HtmlElement) Style() (cssstyledeclaration.CSSStyleDeclaration, error) {
 		if !obj.IsUndefined() {
 			ret, err = cssstyledeclaration.NewFromJSObject(obj)
 		} else {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 		}
 
 	}

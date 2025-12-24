@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/array"
-	"github.com/volts-dev/vertex/js/object"
 	"github.com/volts-dev/vertex/js/reflect"
 	"github.com/volts-dev/vertex/test"
 )
@@ -150,7 +148,7 @@ func TestCatch(t *testing.T) {
 func TestAll(t *testing.T) {
 
 	var io chan bool = make(chan bool)
-	array.GetInterface()
+	js.GetArrayInterface()
 
 	p1, _ := New(func(resolvefunc, errfunc js.Value) (interface{}, error) {
 
@@ -166,7 +164,7 @@ func TestAll(t *testing.T) {
 
 		allp.Then(func(i interface{}) *Promise {
 
-			if a, ok := i.(array.ArrayFrom); ok {
+			if a, ok := i.(js.ArrayFrom); ok {
 				if str, err := a.Array_().ToString(); test.AssertErr(t, err) {
 					if str == "Hello,World" {
 						io <- true
@@ -223,8 +221,8 @@ func TestAll(t *testing.T) {
 func TestAllSettled(t *testing.T) {
 
 	var io chan bool = make(chan bool)
-	array.GetInterface()
-	object.GetInterface()
+	js.GetArrayInterface()
+	js.GetObjectInterface()
 	p1, _ := New(func(resolvefunc, errfunc js.Value) (interface{}, error) {
 
 		return "Hello", nil
@@ -239,7 +237,7 @@ func TestAllSettled(t *testing.T) {
 
 		allp.Then(func(i interface{}) *Promise {
 
-			if a, ok := i.(array.ArrayFrom); ok {
+			if a, ok := i.(js.ArrayFrom); ok {
 
 				if it, err := a.Array_().Entries(); test.AssertErr(t, err) {
 

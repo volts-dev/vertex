@@ -4,12 +4,13 @@ import (
 	"net/url"
 	"sync"
 
+	"github.com/volts-dev/vertex/core/console"
 	"github.com/volts-dev/vertex/core/context"
 	"github.com/volts-dev/vertex/core/router"
 	"github.com/volts-dev/vertex/html/htmlelement"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/storage"
 	"github.com/volts-dev/vertex/html/window"
+	"github.com/volts-dev/vertex/js"
 )
 
 var (
@@ -61,7 +62,7 @@ func RouteWithRegexp(pattern string, rootElement func() htmlelement.HtmlElement)
 	//defaultRouter.RouteWithRegexp(pattern, rootElement)
 }
 func Init() {
-	initinterface.Init()
+	js.Init()
 }
 
 func Start() {
@@ -70,13 +71,16 @@ func Start() {
 	}
 
 	defer func() {
-		err := recover()
+		if err := recover(); err != nil {
+			js.RecoverHandler(err)
+		}
 		//displayLoadError(err)
-		panic(err)
+
 	}()
 
 	env, err := Getenv("VERTEX_STATIC_RESOURCES_URL")
 	if err != nil && env != "" {
+		console.Error(err)
 		return
 	}
 
@@ -103,10 +107,13 @@ func Start() {
 func newApplication() *application {
 	localStorage, err := storage.New()
 	if err != nil {
+		console.Error(err)
 		panic(err)
 	}
+
 	sessionStorage, err := storage.New()
 	if err != nil {
+		console.Error(err)
 		panic(err)
 	}
 
@@ -117,7 +124,9 @@ func newApplication() *application {
 }
 
 func (self *application) Start() {
-
+	console.Info("start")
+	// 保持 Go 进程不退出
+	select {}
 }
 
 func (self *application) Navigate(destination *url.URL, updateHistory bool) {

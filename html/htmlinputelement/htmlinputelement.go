@@ -11,15 +11,13 @@ import (
 	"github.com/volts-dev/vertex/html/element"
 	"github.com/volts-dev/vertex/html/filelist"
 	"github.com/volts-dev/vertex/html/htmlelement"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/nodelist"
 	"github.com/volts-dev/vertex/html/validitystate"
-	"github.com/volts-dev/vertex/js/date"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -467,13 +465,13 @@ func (h HtmlInputElement) SetStep(value string) error {
 	return h.SetAttributeString("step", value)
 }
 
-func (h HtmlInputElement) ValueAsDate() (date.Date, error) {
+func (h HtmlInputElement) ValueAsDate() (js.Date, error) {
 	var obj js.Value
 	var err error
-	var arr date.Date
+	var arr js.Date
 	if obj = h.GetValueByKey("valueAsDate"); obj.Error() == nil {
 
-		arr, err = date.NewFromJSObject(obj)
+		arr, err = js.NewDateFromJSObject(obj)
 	}
 	return arr, err
 }

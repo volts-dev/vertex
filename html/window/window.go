@@ -9,7 +9,6 @@ import (
 	"github.com/volts-dev/vertex/html/eventtarget"
 	"github.com/volts-dev/vertex/html/history"
 	"github.com/volts-dev/vertex/html/indexeddb"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/location"
 	"github.com/volts-dev/vertex/html/navigator"
 	"github.com/volts-dev/vertex/html/storage"
@@ -17,11 +16,11 @@ import (
 )
 
 func init() {
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
-var windowinterface js.Value
+var windowinterface, selfinterface js.Value
 var defaultWindow *Window
 
 // GetInterface get the JS interface of formdata
@@ -30,9 +29,19 @@ func GetInterface() js.Value {
 		if windowinterface = js.Global().Get("Window"); windowinterface.Error() != nil {
 			windowinterface = js.Undefined()
 		}
+
 		js.Register(windowinterface, func(v js.Value) (interface{}, error) {
 			return NewFromJSObject(v)
 		})
+
+		if selfinterface = js.Global().Get("self"); selfinterface.Error() != nil {
+			windowinterface = js.Undefined()
+		}
+
+		js.Register(selfinterface, func(v js.Value) (interface{}, error) {
+			return NewFromJSObject(v)
+		})
+
 		navigator.GetInterface()
 		history.GetInterface()
 		location.GetInterface()
@@ -57,13 +66,16 @@ func Default() *Window {
 
 	w, err := js.Self()
 	if err != nil {
+		console.Error("can't allocate self")
 		return nil
 	}
-	win, ok := w.(Window)
-	if !ok {
-		console.Error("cant allocate self")
+
+	win, err := NewFromJSObject(w)
+	if err != nil {
+		console.Error("can't allocate self")
 		return nil
 	}
+
 	defaultWindow = &win
 	return defaultWindow
 }
@@ -76,7 +88,6 @@ func NewFromJSObject(obj js.Value) (Window, error) {
 	var w Window
 
 	if wi := GetInterface(); !wi.IsUndefined() {
-
 		if obj.InstanceOf(wi) {
 			w.SetObjectValue(obj)
 			return w, nil

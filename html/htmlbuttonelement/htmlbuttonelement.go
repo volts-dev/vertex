@@ -9,15 +9,13 @@ import (
 	"github.com/volts-dev/vertex/html/element"
 	"github.com/volts-dev/vertex/html/htmlelement"
 	"github.com/volts-dev/vertex/html/htmlformelement"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/nodelist"
 	"github.com/volts-dev/vertex/html/validitystate"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -127,7 +125,7 @@ func (h HtmlButtonElement) Form() (htmlformelement.HtmlFormElement, error) {
 	if obj = h.GetValueByKey("form"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 

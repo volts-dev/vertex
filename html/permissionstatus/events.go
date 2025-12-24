@@ -6,7 +6,7 @@ import (
 	"github.com/volts-dev/vertex/html/event"
 )
 
-func (p PermissionStatus) OnChange(handler func(e event.Event)) (js.Func, error) {
+func (p PermissionStatus) OnChange(handler func(e event.Event) error) (js.Func, error) {
 
 	return p.AddEventListener("change", handler)
 }

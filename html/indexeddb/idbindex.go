@@ -5,24 +5,22 @@ package indexeddb
 import (
 	"sync"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetIDBIndexInterface)
-	initinterface.RegisterInterface(GetIDBFactoryInterface)
-	initinterface.RegisterInterface(GetIDBKeyRangeInterface)
-	initinterface.RegisterInterface(IDBOpenDBRequestGetInterface)
-	initinterface.RegisterInterface(IDBDatabaseGetInterface)
-	initinterface.RegisterInterface(IDBCursorGetInterface)
-	initinterface.RegisterInterface(IDBDatabaseGetInterface)
-	initinterface.RegisterInterface(IDBCursorWithValueGetInterface)
-	initinterface.RegisterInterface(IDBObjectStoreGetInterface)
-	initinterface.RegisterInterface(IDBRequestGetInterface)
-	initinterface.RegisterInterface(IDBTransactionGetInterface)
+	js.RegisterInterface(GetIDBIndexInterface)
+	js.RegisterInterface(GetIDBFactoryInterface)
+	js.RegisterInterface(GetIDBKeyRangeInterface)
+	js.RegisterInterface(IDBOpenDBRequestGetInterface)
+	js.RegisterInterface(IDBDatabaseGetInterface)
+	js.RegisterInterface(IDBCursorGetInterface)
+	js.RegisterInterface(IDBDatabaseGetInterface)
+	js.RegisterInterface(IDBCursorWithValueGetInterface)
+	js.RegisterInterface(IDBObjectStoreGetInterface)
+	js.RegisterInterface(IDBRequestGetInterface)
+	js.RegisterInterface(IDBTransactionGetInterface)
 
 }
 
@@ -99,7 +97,7 @@ func (i IDBIndex) ObjectStore() (IDBObjectStore, error) {
 	if obj = i.GetValueByKey("objectStore"); obj.Error() == nil {
 
 		if obj.IsUndefined() || obj.IsNull() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 

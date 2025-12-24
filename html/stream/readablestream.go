@@ -7,17 +7,15 @@ import (
 
 	"github.com/volts-dev/vertex/js"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/promise"
-	"github.com/volts-dev/vertex/js/array"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetRInterface)
-	initinterface.RegisterInterface(GetWInterface)
-	initinterface.RegisterInterface(GetReadableStreamDefaultReaderInterface)
-	initinterface.RegisterInterface(GetWritableStreamDefaultWriterInterface)
+	js.RegisterInterface(GetRInterface)
+	js.RegisterInterface(GetWInterface)
+	js.RegisterInterface(GetReadableStreamDefaultReaderInterface)
+	js.RegisterInterface(GetWritableStreamDefaultWriterInterface)
 
 }
 
@@ -125,11 +123,11 @@ func (r ReadableStream) Tee() ([]ReadableStream, error) {
 	var err error
 	var obj js.Value
 	var ret []ReadableStream
-	var a array.Array
+	var a js.Array
 
 	if obj = r.Call("tee"); obj.Error() == nil {
 
-		if a, err = array.NewFromJSObject(obj); err == nil {
+		if a, err = js.NewArrayFromJSObject(obj); err == nil {
 
 			a.ForEach(func(i interface{}) {
 

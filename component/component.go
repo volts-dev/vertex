@@ -3,10 +3,10 @@ package component
 import (
 	"context"
 
+	"github.com/volts-dev/vertex/core/console"
 	"github.com/volts-dev/vertex/core/vhtml"
 	"github.com/volts-dev/vertex/html/node"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/helper"
 )
 
 // WebComponent 定义了我们的组件需要实现的生命周期方法。
@@ -80,13 +80,16 @@ func Register(tagName string, constructor func() Component) {
 
 		rootNode, err := node.NewFromJSObject(shadowRoot)
 		if err != nil {
+			console.Log(err)
 			panic(err.Error())
 		}
 
 		// 渲染初始UI
 		htmlResult := vcom.Render(ctx)
-		vhtml.Render(htmlResult, rootNode)
-		vcom.FirstUpdate()
+		if _, err = vhtml.Render(htmlResult, rootNode, &vhtml.RenderOptions{Component: vcom}); err != nil {
+			console.Error(err.Error())
+		}
+		//vcom.FirstUpdate()
 		//shadowRoot.Set("innerHTML", html)
 		return instance
 	})
@@ -131,9 +134,9 @@ func Register(tagName string, constructor func() Component) {
 	attributeChangedCallback := js.FuncOf(func(this js.Value, args []js.Value) any {
 		if v := this.Get("_vertex_component_instance_"); !v.IsUndefined() {
 			if vcom, ok := v.(Component); ok {
-				name := helper.ValueToString(args[0])
-				oldValue := helper.ValueToString(args[1])
-				newValue := helper.ValueToString(args[2])
+				name := js.ValueToString(args[0])
+				oldValue := js.ValueToString(args[1])
+				newValue := js.ValueToString(args[2])
 				vcom.AttributeChangedCallback(name, oldValue, newValue)
 			}
 		}

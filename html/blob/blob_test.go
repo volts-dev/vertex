@@ -6,10 +6,9 @@ import (
 	"github.com/volts-dev/vertex/js"
 	"github.com/volts-dev/vertex/test"
 
-	"github.com/volts-dev/vertex/js/array"
-	"github.com/volts-dev/vertex/js/arraybuffer"
+	"github.com/volts-dev/vertex/html/arraybuffer"
+	"github.com/volts-dev/vertex/html/typedarray"
 	"github.com/volts-dev/vertex/js/reflect"
-	"github.com/volts-dev/vertex/js/typedarray"
 )
 
 func TestMain(m *testing.M) {
@@ -70,7 +69,7 @@ func TestNewWith2ArrayBuffer(t *testing.T) {
 		if viewuint8, err := typedarray.NewInt8Array(a); test.AssertErr(t, err) {
 			viewuint8.Fill(7)
 
-			astring := array.From_("Hello World")
+			astring := js.ArrayFrom_("Hello World")
 			if struint8, err := typedarray.NewUint8ArrayFrom(astring); test.AssertErr(t, err) {
 
 				if appendblob, err := New(viewuint8, struint8); test.AssertErr(t, err) {
@@ -109,7 +108,7 @@ func TestClosed(t *testing.T) {
 }
 
 func TestSlice(t *testing.T) {
-	astring := array.From_("Hello World")
+	astring := js.ArrayFrom_("Hello World")
 
 	if struint8, err := typedarray.NewUint8ArrayFrom(astring); test.AssertErr(t, err) {
 
@@ -133,7 +132,7 @@ func TestSlice(t *testing.T) {
 }
 
 func TestStream(t *testing.T) {
-	astring := array.From_("Hello World")
+	astring := js.ArrayFrom_("Hello World")
 
 	if struint8, err := typedarray.NewUint8ArrayFrom(astring); test.AssertErr(t, err) {
 
@@ -153,7 +152,7 @@ func TestStream(t *testing.T) {
 }
 
 func TestArrayBuffer(t *testing.T) {
-	astring := array.From_("Hello World")
+	astring := js.ArrayFrom_("Hello World")
 
 	if struint8, err := typedarray.NewUint8ArrayFrom(astring); test.AssertErr(t, err) {
 
@@ -172,7 +171,7 @@ func TestArrayBuffer(t *testing.T) {
 
 }
 func TestText(t *testing.T) {
-	astring := array.From_("Hello World")
+	astring := js.ArrayFrom_("Hello World")
 
 	if struint8, err := typedarray.NewUint8ArrayFrom(astring); test.AssertErr(t, err) {
 

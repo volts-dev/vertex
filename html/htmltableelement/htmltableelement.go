@@ -12,12 +12,11 @@ import (
 	"github.com/volts-dev/vertex/html/htmltablecaptionelement"
 	"github.com/volts-dev/vertex/html/htmltablerowelement"
 	"github.com/volts-dev/vertex/html/htmltablesectionelement"
-	"github.com/volts-dev/vertex/html/initinterface"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once

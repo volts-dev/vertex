@@ -7,13 +7,11 @@ import (
 
 	"github.com/volts-dev/vertex/js"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/node"
 )
 
 func init() {
-
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -69,13 +67,11 @@ func NewFromJSObject(obj js.Value) (NodeList, error) {
 	return n, err
 }
 
-func (n NodeList) Item(index int) (node.Node, error) {
-
+func (n NodeList) Item(index int) (*node.Node, error) {
 	var err error
-	var nd node.Node
+	var nd *node.Node
 
 	obj := n.GetObjectValue().Index(index)
-
 	if !obj.IsUndefined() {
 		nd, err = node.NewFromJSObject(obj)
 	}

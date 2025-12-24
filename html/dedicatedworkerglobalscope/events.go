@@ -8,19 +8,17 @@ import (
 )
 
 func (d DedicatedWorkerGlobalScope) OnMessage(handler func(m messageevent.MessageEvent)) (js.Func, error) {
-
-	return d.AddEventListener("message", func(e event.Event) {
-
+	return d.AddEventListener("message", func(e event.Event) error {
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
 			if m, ok := globalObj.(messageevent.MessageEventFrom); ok {
 				handler(m.MessageEvent_())
 			}
 		}
+		return nil
 	})
 }
 
-func (d DedicatedWorkerGlobalScope) OnMessageError(handler func(e event.Event)) (js.Func, error) {
-
+func (d DedicatedWorkerGlobalScope) OnMessageError(handler func(e event.Event) error) (js.Func, error) {
 	return d.AddEventListener("onmessageerror", handler)
 }

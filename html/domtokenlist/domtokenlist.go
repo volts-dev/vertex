@@ -5,16 +5,12 @@ package domtokenlist
 import (
 	"sync"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/helper"
-	"github.com/volts-dev/vertex/js/iterator"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -74,7 +70,7 @@ func NewFromJSObject(obj js.Value) (DOMTokenList, error) {
 func (d DOMTokenList) Item(index int) (interface{}, error) {
 	var obj js.Value
 	obj = d.GetObjectValue().Index(index)
-	return helper.GoValue(obj)
+	return js.GoValue(obj)
 
 }
 
@@ -86,7 +82,7 @@ func (d DOMTokenList) methodGetValue(method string, value string) (bool, error) 
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
@@ -139,7 +135,7 @@ func (d DOMTokenList) Toggle(token string, force ...bool) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
@@ -151,13 +147,13 @@ func (d DOMTokenList) Supports(token string) (bool, error) {
 	return d.methodGetValue("supports", token)
 }
 
-func (d DOMTokenList) Entries() (iterator.Iterator, error) {
+func (d DOMTokenList) Entries() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = d.Call("entries"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -167,7 +163,7 @@ func (d DOMTokenList) ForEach(f func(string)) error {
 	var err error
 
 	jsfunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		f(helper.ValueToString(args[0]))
+		f(js.ValueToString(args[0]))
 		return nil
 	})
 
@@ -176,25 +172,25 @@ func (d DOMTokenList) ForEach(f func(string)) error {
 	return err
 }
 
-func (d DOMTokenList) Keys() (iterator.Iterator, error) {
+func (d DOMTokenList) Keys() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = d.Call("keys"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
 }
 
-func (d DOMTokenList) Values() (iterator.Iterator, error) {
+func (d DOMTokenList) Values() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = d.Call("values"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err

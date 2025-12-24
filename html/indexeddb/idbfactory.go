@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 
 	"github.com/volts-dev/vertex/html/promise"
 )
@@ -92,7 +91,7 @@ func (f IDBFactory) Cmp(a, b interface{}) (int, error) {
 		if obj.Type() == js.TypeNumber {
 			return obj.Int()
 		} else {
-			err = object.ErrObjectNotNumber
+			err = js.ErrObjectNotNumber
 		}
 	}
 	return result, err

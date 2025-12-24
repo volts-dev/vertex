@@ -7,14 +7,13 @@ import (
 	"github.com/volts-dev/vertex/html/attr"
 	"github.com/volts-dev/vertex/html/domtokenlist"
 	"github.com/volts-dev/vertex/html/htmlcollection"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/namednodemap"
 	"github.com/volts-dev/vertex/html/node"
 	"github.com/volts-dev/vertex/js"
 )
 
 func init() {
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -23,11 +22,11 @@ var elementinterface js.Value
 
 // GetJSInterface get the JS interface
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
 		if elementinterface = js.Global().Get("Element"); elementinterface.Error() != nil {
 			elementinterface = js.Undefined()
 		}
+
 		js.Register(elementinterface, func(v js.Value) (interface{}, error) {
 			return NewFromJSObject(v)
 		})
@@ -74,7 +73,7 @@ func ItemFromHTMLCollection(collection htmlcollection.HtmlCollection, index int)
 	var err error
 	var item interface{}
 	if item, err = collection.Item(index); err == nil {
-		elem, err = NewFromJSObject(item.(js.ObjectFrom).Value())
+		elem, err = NewFromJSObject(item.(js.ObjectFrom).GetObjectValue())
 	}
 	return elem, err
 
@@ -102,7 +101,6 @@ func (e Element) getAttributeElement(attribute string) (Element, error) {
 }
 
 func (e Element) Attributes() (namednodemap.NamedNodeMap, error) {
-
 	var err error
 	var obj js.Value
 	var namednmap namednodemap.NamedNodeMap
@@ -144,67 +142,54 @@ func (e Element) ClassList() (domtokenlist.DOMTokenList, error) {
 }
 
 func (e Element) ClassName() (string, error) {
-
 	return e.GetAttributeString("className")
 }
 
 func (e Element) SetClassName(value string) error {
-
 	return e.SetAttributeString("className", value)
 }
 
 func (e Element) ClientHeight() (int, error) {
-
 	return e.GetAttributeInt("clientHeight")
 }
 
 func (e Element) ClientLeft() (int, error) {
-
 	return e.GetAttributeInt("clientLeft")
 }
 
 func (e Element) ClientTop() (int, error) {
-
 	return e.GetAttributeInt("clientTop")
 }
 
 func (e Element) ClientWidth() (int, error) {
-
 	return e.GetAttributeInt("clientWidth")
 }
 
 func (e Element) ComputedRole() (string, error) {
-
 	return e.GetAttributeString("computedRole")
 }
 
 func (e Element) ID() (string, error) {
-
 	return e.GetAttributeString("id")
 }
 
 func (e Element) SetID(value string) error {
-
 	return e.SetAttributeString("id", value)
 }
 
 func (e Element) InnerHTML() (string, error) {
-
 	return e.GetAttributeString("innerHTML")
 }
 
 func (e Element) SetInnerHTML(value string) error {
-
 	return e.SetAttributeString("innerHTML", value)
 }
 
 func (e Element) LocalName() (string, error) {
-
 	return e.GetAttributeString("localname")
 }
 
 func (e Element) NamespaceURI() (string, error) {
-
 	return e.GetAttributeString("namespaceURI")
 }
 
@@ -213,17 +198,14 @@ func (e Element) NextElementSibling() (Element, error) {
 }
 
 func (e Element) OuterHTML() (string, error) {
-
 	return e.GetAttributeString("outerHTML")
 }
 
 func (e Element) SetOuterHTML(value string) error {
-
 	return e.SetAttributeString("outerHTML", value)
 }
 
 func (e Element) Prefix() (string, error) {
-
 	return e.GetAttributeString("prefix")
 }
 
@@ -232,51 +214,38 @@ func (e Element) PreviousElementSibling() (Element, error) {
 }
 
 func (e Element) ScrollHeight() (int, error) {
-
 	return e.GetAttributeInt("scrollHeight")
 }
 
 func (e Element) SetScrollHeight(value int) error {
-
 	return e.SetAttributeInt("scrollHeight", value)
-
 }
 
 func (e Element) ScrollLeft() (int, error) {
-
 	return e.GetAttributeInt("scrollLeft")
 }
 
 func (e Element) SetScrollLeft(value int) error {
-
 	return e.SetAttributeInt("scrollLeft", value)
-
 }
 
 func (e Element) ScrollTop() (int, error) {
-
 	return e.GetAttributeInt("scrollTop")
 }
 
 func (e Element) SetScrollTop(value int) error {
-
 	return e.SetAttributeInt("scrollTop", value)
-
 }
 
 func (e Element) ScrollWidth() (int, error) {
-
 	return e.GetAttributeInt("scrollWidth")
 }
 
 func (e Element) SetScrollWidth(value int) error {
-
 	return e.SetAttributeInt("scrollWidth", value)
-
 }
 
 func (e Element) TagName() (string, error) {
-
 	return e.GetAttributeString("tagName")
 }
 

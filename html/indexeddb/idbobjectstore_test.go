@@ -40,7 +40,7 @@ func TestIDBObjectStoreMethods(t *testing.T) {
 
 		if openrequest, err := IDBOpenDBRequestNewFromJSObject(obj); test.AssertErr(t, err) {
 
-			openrequest.OnUpgradeNeeded(func(e event.Event) {
+			openrequest.OnUpgradeNeeded(func(e event.Event) error {
 
 				if result, err := openrequest.Result(); err == nil {
 
@@ -60,6 +60,7 @@ func TestIDBObjectStoreMethods(t *testing.T) {
 
 					}
 				}
+				return nil
 
 			})
 

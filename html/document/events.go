@@ -7,24 +7,24 @@ import (
 	"github.com/volts-dev/vertex/html/event"
 )
 
-func (d Document) OnCopy(handler func(e event.Event)) (js.Func, error) {
+func (d Document) OnCopy(handler func(e event.Event) error) (js.Func, error) {
 
 	return d.AddEventListener("copy", handler)
 }
 
-func (d Document) OnCut(handler func(e event.Event)) (js.Func, error) {
+func (d Document) OnCut(handler func(e event.Event) error) (js.Func, error) {
 
 	return d.AddEventListener("cut", handler)
 }
 
-func (d Document) OnPaste(handler func(e event.Event)) (js.Func, error) {
+func (d Document) OnPaste(handler func(e event.Event) error) (js.Func, error) {
 
 	return d.AddEventListener("paste", handler)
 }
 
 func (d Document) OnDrag(handler func(e dragevent.DragEvent)) (js.Func, error) {
 
-	return d.AddEventListener("drag", func(e event.Event) {
+	return d.AddEventListener("drag", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -32,12 +32,13 @@ func (d Document) OnDrag(handler func(e dragevent.DragEvent)) (js.Func, error) {
 				handler(m.DragEvent_())
 			}
 		}
+		return nil
 	})
 }
 
 func (d Document) OnDragStart(handler func(e dragevent.DragEvent)) (js.Func, error) {
 
-	return d.AddEventListener("dragstart", func(e event.Event) {
+	return d.AddEventListener("dragstart", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -45,12 +46,13 @@ func (d Document) OnDragStart(handler func(e dragevent.DragEvent)) (js.Func, err
 				handler(m.DragEvent_())
 			}
 		}
+		return nil
 	})
 }
 
 func (d Document) OnDragEnd(handler func(e dragevent.DragEvent)) (js.Func, error) {
 
-	return d.AddEventListener("dragend", func(e event.Event) {
+	return d.AddEventListener("dragend", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -58,12 +60,13 @@ func (d Document) OnDragEnd(handler func(e dragevent.DragEvent)) (js.Func, error
 				handler(m.DragEvent_())
 			}
 		}
+		return nil
 	})
 }
 
 func (d Document) OnDragOver(handler func(e dragevent.DragEvent)) (js.Func, error) {
 
-	return d.AddEventListener("dragover", func(e event.Event) {
+	return d.AddEventListener("dragover", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -71,12 +74,13 @@ func (d Document) OnDragOver(handler func(e dragevent.DragEvent)) (js.Func, erro
 				handler(m.DragEvent_())
 			}
 		}
+		return nil
 	})
 }
 
 func (d Document) OnDragEnter(handler func(e dragevent.DragEvent)) (js.Func, error) {
 
-	return d.AddEventListener("dragenter", func(e event.Event) {
+	return d.AddEventListener("dragenter", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -84,12 +88,13 @@ func (d Document) OnDragEnter(handler func(e dragevent.DragEvent)) (js.Func, err
 				handler(m.DragEvent_())
 			}
 		}
+		return nil
 	})
 }
 
 func (d Document) OnDragLeave(handler func(e dragevent.DragEvent)) (js.Func, error) {
 
-	return d.AddEventListener("dragleave", func(e event.Event) {
+	return d.AddEventListener("dragleave", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -97,12 +102,13 @@ func (d Document) OnDragLeave(handler func(e dragevent.DragEvent)) (js.Func, err
 				handler(m.DragEvent_())
 			}
 		}
+		return nil
 	})
 }
 
 func (d Document) OnDrop(handler func(e dragevent.DragEvent)) (js.Func, error) {
 
-	return d.AddEventListener("drop", func(e event.Event) {
+	return d.AddEventListener("drop", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -110,30 +116,31 @@ func (d Document) OnDrop(handler func(e dragevent.DragEvent)) (js.Func, error) {
 				handler(m.DragEvent_())
 			}
 		}
+		return nil
 	})
 }
 
-func (d Document) OnTouchCancel(handler func(e event.Event)) (js.Func, error) {
+func (d Document) OnTouchCancel(handler func(e event.Event) error) (js.Func, error) {
 
 	return d.AddEventListener("touchcancel", handler)
 }
 
-func (d Document) OnTouchEnd(handler func(e event.Event)) (js.Func, error) {
+func (d Document) OnTouchEnd(handler func(e event.Event) error) (js.Func, error) {
 
 	return d.AddEventListener("touchend", handler)
 }
 
-func (d Document) OnTouchMove(handler func(e event.Event)) (js.Func, error) {
+func (d Document) OnTouchMove(handler func(e event.Event) error) (js.Func, error) {
 
 	return d.AddEventListener("touchmove", handler)
 }
 
-func (d Document) OnTouchStart(handler func(e event.Event)) (js.Func, error) {
+func (d Document) OnTouchStart(handler func(e event.Event) error) (js.Func, error) {
 
 	return d.AddEventListener("touchstart", handler)
 }
 
-func (d Document) OnScroll(handler func(e event.Event)) (js.Func, error) {
+func (d Document) OnScroll(handler func(e event.Event) error) (js.Func, error) {
 
 	return d.AddEventListener("scroll", handler)
 }

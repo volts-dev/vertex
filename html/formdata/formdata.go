@@ -6,17 +6,13 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/helper"
-	"github.com/volts-dev/vertex/js/object"
 
 	"github.com/volts-dev/vertex/html/htmlformelement"
-	"github.com/volts-dev/vertex/html/initinterface"
-	"github.com/volts-dev/vertex/js/iterator"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -105,13 +101,13 @@ func (f FormData) Delete(key string) error {
 	return err
 }
 
-func (f FormData) Entries() (iterator.Iterator, error) {
+func (f FormData) Entries() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = f.Call("entries"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -127,7 +123,7 @@ func (f FormData) Get(key string) (interface{}, error) {
 		if obj.IsNull() {
 			err = ErrNotAFormValueNotFound
 		} else {
-			result, err = helper.GoValue(obj)
+			result, err = js.GoValue(obj)
 		}
 
 	}
@@ -143,20 +139,20 @@ func (f FormData) Has(key string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
 	return result, err
 }
 
-func (f FormData) Keys() (iterator.Iterator, error) {
+func (f FormData) Keys() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = f.Call("keys"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -168,13 +164,13 @@ func (f FormData) Set(key string, value interface{}) error {
 	return err
 }
 
-func (f FormData) Values() (iterator.Iterator, error) {
+func (f FormData) Values() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = f.Call("values"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err

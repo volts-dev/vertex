@@ -5,14 +5,13 @@ import (
 
 	"github.com/volts-dev/vertex/js"
 
-	"github.com/volts-dev/vertex/html/initinterface"
+	"github.com/volts-dev/vertex/html/arraybuffer"
 	"github.com/volts-dev/vertex/html/promise"
-	"github.com/volts-dev/vertex/js/arraybuffer"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -90,7 +89,7 @@ func (w WebAssembly) InstantiateStreaming(source interface{}, imports js.Value) 
 	var p promise.Promise
 
 	if s, ok := source.(js.ObjectFrom); ok {
-		if obj = w.Call("instantiateStreaming", s.Value(), imports); obj.Error() == nil {
+		if obj = w.Call("instantiateStreaming", s.GetObjectValue(), imports); obj.Error() == nil {
 			p, err = promise.NewFromJSObject(obj)
 
 		}

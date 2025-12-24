@@ -4,15 +4,13 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/urlsearchparams"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -192,7 +190,7 @@ func (u URL) SearchParams() (urlsearchparams.URLSearchParams, error) {
 	if obj = u.GetValueByKey("searchParams"); obj.Error() == nil {
 
 		if obj.IsUndefined() || obj.IsNull() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 
@@ -210,11 +208,11 @@ func CreateObjectURL(ob interface{}) (string, error) {
 	if ui := GetInterface(); !ui.IsUndefined() {
 		if objGo, ok := ob.(js.ObjectFrom); ok {
 
-			if obj = ui.Call("createObjectURL", objGo.Value()); obj.Error() == nil {
+			if obj = ui.Call("createObjectURL", objGo.GetObjectValue()); obj.Error() == nil {
 				if obj.Type() == js.TypeString {
 					return obj.String()
 				} else {
-					err = object.ErrObjectNotString
+					err = js.ErrObjectNotString
 				}
 
 			}
@@ -249,7 +247,7 @@ func (u URL) ToJSON() (string, error) {
 		if obj.Type() == js.TypeString {
 			return obj.String()
 		} else {
-			err = object.ErrObjectNotString
+			err = js.ErrObjectNotString
 		}
 
 	}

@@ -6,14 +6,12 @@ import (
 	"github.com/volts-dev/vertex/js"
 
 	"github.com/volts-dev/vertex/html/eventtarget"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/messageevent"
-	"github.com/volts-dev/vertex/js/array"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -90,7 +88,7 @@ func New(url string, opts ...map[string]interface{}) (Worker, error) {
 	return w, err
 }
 
-func (w Worker) PostMessage(message string, transfer ...array.Array) error {
+func (w Worker) PostMessage(message string, transfer ...js.Array) error {
 
 	var arrayJS []interface{}
 

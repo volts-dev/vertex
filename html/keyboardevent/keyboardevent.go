@@ -7,12 +7,11 @@ import (
 	"github.com/volts-dev/vertex/js"
 
 	"github.com/volts-dev/vertex/html/event"
-	"github.com/volts-dev/vertex/html/initinterface"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once

@@ -19,59 +19,126 @@ func AssertErr(err error) bool {
 }
 
 func Assert(args ...interface{}) {
-	value.Call("assert", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("assert", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Clear(args ...interface{}) {
-	value.Call("clear", args...)
+	if v := value.Call("clear", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Count(args ...interface{}) {
-	value.Call("count", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("count", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
 func CountReset(args ...interface{}) {
-	value.Call("countReset", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("countReset", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Debug(args ...interface{}) {
-	value.Call("debug", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("debug", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Dir(args ...interface{}) {
-	value.Call("dir", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("dir", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Dirxml(args ...interface{}) {
-	value.Call("dirxml", args...)
+	if v := value.Call("dirxml", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Error(args ...interface{}) {
-	value.Call("error", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("error", args...); v.Error() != nil {
+		value.Call("error", v.Error().Error())
+	}
 }
+
 func Group(args ...interface{}) {
-	value.Call("group", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("group", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
 func GroupCollapsed(args ...interface{}) {
-	value.Call("groupCollapsed", args...)
+	if v := value.Call("groupCollapsed", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
 func GroupEnd(args ...interface{}) {
-	value.Call("groupEnd", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("groupEnd", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Info(args ...interface{}) {
-	value.Call("info", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("info", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
 func Log(args ...interface{}) {
-	value.Call("log", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("log", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Table(args ...interface{}) {
-	value.Call("table", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("table", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Time(args ...interface{}) {
-	value.Call("time", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("time", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func TimeEnd(args ...interface{}) {
-	value.Call("timeEnd", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("timeEnd", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func TimeLog(args ...interface{}) {
-	value.Call("timeLog", args...)
+	if v := value.Call("timeLog", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Trace(args ...interface{}) {
-	value.Call("trace", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("trace", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }
+
 func Warn(args ...interface{}) {
-	value.Call("warn", args...)
+	args = js.ToValues(args...)
+	if v := value.Call("warn", args...); v.Error() != nil {
+		Error(v.Error())
+	}
 }

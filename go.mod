@@ -1,37 +1,12 @@
 module github.com/volts-dev/vertex
 
-go 1.20
+go 1.24.0
+
+replace github.com/volts-dev/ccacher => ../cacher
 
 replace github.com/volts-dev/lexer => ../lexer
 
 require (
-	github.com/norunners/vert v0.0.0-20221203075838-106a353d42dd
-	github.com/volts-dev/cacher v0.0.0-20240807133529-d9d180f89348
 	github.com/volts-dev/lexer v0.0.0-20251110194144-a67bf55d1b63
-	github.com/volts-dev/logger v0.0.0-20210803162057-18754d780c31
-)
-
-require (
-	github.com/emirpasic/gods v1.18.1 // indirect
-	github.com/fsnotify/fsnotify v1.6.0 // indirect
-	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/jinzhu/copier v0.3.5 // indirect
-	github.com/magiconair/properties v1.8.6 // indirect
-	github.com/mitchellh/mapstructure v1.5.0 // indirect
-	github.com/pelletier/go-toml v1.9.5 // indirect
-	github.com/pelletier/go-toml/v2 v2.0.5 // indirect
-	github.com/spf13/afero v1.9.2 // indirect
-	github.com/spf13/cast v1.5.0 // indirect
-	github.com/spf13/jwalterweatherman v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.13.0 // indirect
-	github.com/subosito/gotenv v1.4.1 // indirect
-	github.com/volts-dev/dataset v0.0.0-20230411043643-3c6970f6bee9 // indirect
-	github.com/volts-dev/utils v0.0.0-20230405153128-530f75d1dcfd // indirect
-	github.com/volts-dev/volts v0.0.0-20221017034514-38aed01e6070 // indirect
-	golang.org/x/sys v0.0.0-20221013171732-95e765b1cc43 // indirect
-	golang.org/x/text v0.3.8 // indirect
-	gopkg.in/ini.v1 v1.67.0 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
+	github.com/volts-dev/utils v0.0.0-20241206111447-ee54d4e2c42c
 )

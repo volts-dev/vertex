@@ -5,15 +5,13 @@ package xmlhttprequest
 import (
 	"sync"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/progressevent"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -35,12 +33,11 @@ func (x XMLHTTPRequest) XMLHTTPRequest_() XMLHTTPRequest {
 
 // GetInterface Get the JS XMLHTTPRequest Interface If nil browser doesn't implement it
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if xhrinterface = js.Global().Get("XMLHttpRequest"); xhrinterface.Error() != nil {
 			xhrinterface = js.Undefined()
 		}
+
 		js.Register(xhrinterface, func(v js.Value) (interface{}, error) {
 			return NewFromJSObject(v)
 		})
@@ -186,7 +183,7 @@ func (x XMLHTTPRequest) GetResponseHeader(header string) (string, error) {
 		if responseHeader.Type() == js.TypeString {
 			return responseHeader.String()
 		} else {
-			return "", object.ErrObjectNotString
+			return "", js.ErrObjectNotString
 		}
 
 	}
@@ -233,7 +230,7 @@ func (x XMLHTTPRequest) Status() (int, error) {
 		if readystate.Type() == js.TypeNumber {
 			return readystate.Int()
 		} else {
-			return 0, object.ErrObjectNotNumber
+			return 0, js.ErrObjectNotNumber
 		}
 
 	}
@@ -248,7 +245,7 @@ func (x XMLHTTPRequest) StatusText() (string, error) {
 		if responseUrl.Type() == js.TypeString {
 			return responseUrl.String()
 		} else {
-			return "", object.ErrObjectNotString
+			return "", js.ErrObjectNotString
 		}
 
 	}

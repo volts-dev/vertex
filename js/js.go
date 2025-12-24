@@ -11,6 +11,7 @@ import (
 
 type (
 	Value interface {
+		Equal(other Value) bool
 		Type() Type
 		Get(p string) Value
 		Set(p string, x interface{}) Value
@@ -29,6 +30,7 @@ type (
 		InstanceOf(t Value) bool
 		IsUndefined() bool
 		IsNull() bool
+		IsNaN() bool
 		Error() error
 	}
 
@@ -37,50 +39,9 @@ type (
 		Release()
 	}
 
-	Object interface {
-		//BaseObject_() IObject
-		Empty() bool
-		GetValueByKey(string) Value
-		GetValueByIndex(int) Value
-		SetValueByKey(string, interface{})
-		Call(string, ...interface{}) Value
-		Discover() (interface{}, error)
-		ConstructName() (string, error)
-		SetObjectValue(Value) Object
-		String() (string, error)
-		ToString() (string, error)
-		GetObjectValue() Value
-		Length() int
-		Bind(Object) (interface{}, error)
-		Implement(string) (bool, error)
-		Class() (string, error)
-		SetFunc(string, func(Value, []Value) any)
-		SetAttribute(string, interface{}) error
-		Export(string)
-		GetAttributeString(string) (string, error)
-		GetAttributeGlobal(string) (interface{}, error)
-		SetAttributeString(string, string) error
-		GetAttributeBool(string) (bool, error)
-		SetAttributeBool(string, bool) error
-		GetAttributeInt(string) (int, error)
-		GetAttributeInt64(string) (int64, error)
-		SetAttributeInt(string, int) error
-		GetAttributeDouble(string) (float64, error)
-		SetAttributeDouble(string, float64) error
-		CallInt64(string) (int64, error)
-		CallInt(string) (int, error)
-		CallBool(string) (bool, error)
-		Debug(msg string) error
-		//GoValue_(object Value) interface{}
-		Class_() string
-		ToString_() string
-		ConstructName_() string
-		GetAttributeString_(attribute string) string
-	}
-
 	// ObjectFrom Interface to check if Object is a BaseObject
 	ObjectFrom interface {
-		Value() Value
+		GetObjectValue() Value
 		BaseObject_() Object
 	}
 
@@ -191,16 +152,13 @@ func Eval(str string) (Value, error) {
 	return f, f.Error()
 }
 
-func Self() (interface{}, error) {
-
-	var err error
+func Self() (Value, error) {
 	var self Value
-
 	if self = (&value{v: global}).Get("self"); self.Error() == nil {
-		return Discover(self)
+		return self, nil
 	}
 
-	return nil, err
+	return nil, self.Error()
 }
 
 // Get is a shorthand for Global().Get().

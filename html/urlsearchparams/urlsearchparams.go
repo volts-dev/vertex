@@ -3,15 +3,12 @@ package urlsearchparams
 import (
 	"sync"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/iterator"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -102,13 +99,13 @@ func (u URLSearchParams) Delete(name string) error {
 	return err
 }
 
-func (u URLSearchParams) Entries() (iterator.Iterator, error) {
+func (u URLSearchParams) Entries() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = u.Call("entries"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -141,20 +138,20 @@ func (u URLSearchParams) Has(name string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
 	return result, err
 }
 
-func (u URLSearchParams) Keys() (iterator.Iterator, error) {
+func (u URLSearchParams) Keys() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = u.Call("keys"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -172,13 +169,13 @@ func (u URLSearchParams) Sort() error {
 	return err
 }
 
-func (u URLSearchParams) Values() (iterator.Iterator, error) {
+func (u URLSearchParams) Values() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = u.Call("values"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err

@@ -31,7 +31,7 @@ func TestIDBCursorMethods(t *testing.T) {
 
 		if openrequest, err := IDBOpenDBRequestNewFromJSObject(obj); test.AssertErr(t, err) {
 
-			openrequest.OnUpgradeNeeded(func(e event.Event) {
+			openrequest.OnUpgradeNeeded(func(e event.Event) error {
 
 				if result, err := openrequest.Result(); test.AssertErr(t, err) {
 
@@ -43,7 +43,7 @@ func TestIDBCursorMethods(t *testing.T) {
 
 							if request, err := store.OpenCursor(); test.AssertErr(t, err) {
 
-								request.OnSuccess(func(e event.Event) {
+								request.OnSuccess(func(e event.Event) error {
 
 									if result, err := request.Result(); test.AssertErr(t, err) {
 
@@ -58,6 +58,7 @@ func TestIDBCursorMethods(t *testing.T) {
 										}
 									}
 
+									return nil
 								})
 
 							}
@@ -66,6 +67,7 @@ func TestIDBCursorMethods(t *testing.T) {
 
 					}
 				}
+				return nil
 
 			})
 
@@ -95,7 +97,7 @@ func TestIDBContinue(t *testing.T) {
 
 		if openrequest, err := IDBOpenDBRequestNewFromJSObject(obj); test.AssertErr(t, err) {
 
-			openrequest.OnUpgradeNeeded(func(e event.Event) {
+			openrequest.OnUpgradeNeeded(func(e event.Event) error {
 
 				if result, err := openrequest.Result(); test.AssertErr(t, err) {
 
@@ -109,10 +111,11 @@ func TestIDBContinue(t *testing.T) {
 
 					}
 				}
+				return nil
 
 			})
 
-			openrequest.OnSuccess(func(e event.Event) {
+			openrequest.OnSuccess(func(e event.Event) error {
 				if result, err := openrequest.Result(); test.AssertErr(t, err) {
 
 					if db, ok := result.(IDBDatabaseFrom); test.AssertExpect(t, true, ok) {
@@ -123,7 +126,7 @@ func TestIDBContinue(t *testing.T) {
 
 								if request, err := store.OpenCursor(); test.AssertErr(t, err) {
 
-									request.OnSuccess(func(e event.Event) {
+									request.OnSuccess(func(e event.Event) error {
 
 										if result, err := request.Result(); err != js.ErrUndefinedValue {
 
@@ -135,6 +138,7 @@ func TestIDBContinue(t *testing.T) {
 
 											}
 										}
+										return nil
 
 									})
 
@@ -145,6 +149,7 @@ func TestIDBContinue(t *testing.T) {
 
 					}
 				}
+				return nil
 
 			})
 

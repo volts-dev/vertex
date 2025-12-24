@@ -4,16 +4,11 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/helper"
-	"github.com/volts-dev/vertex/js/object"
-
-	"github.com/volts-dev/vertex/html/initinterface"
-	"github.com/volts-dev/vertex/js/iterator"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -112,20 +107,20 @@ func (o ObjectMap) Delete(key interface{}) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
 	return result, err
 }
 
-func (o ObjectMap) Entries() (iterator.Iterator, error) {
+func (o ObjectMap) Entries() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = o.Call("entries"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -136,7 +131,7 @@ func (o ObjectMap) ForEach(f func(value, index interface{})) error {
 
 	jsfunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
-		f(helper.GoValue_(args[0]), helper.GoValue_(args[1]))
+		f(js.GoValue_(args[0]), js.GoValue_(args[1]))
 		return nil
 	})
 
@@ -150,7 +145,7 @@ func (o ObjectMap) Get(key interface{}) (interface{}, error) {
 	var obj js.Value
 	var result interface{}
 	if obj = o.Call("get", js.ValueOf(key)); obj.Error() == nil {
-		result, err = helper.GoValue(obj)
+		result, err = js.GoValue(obj)
 	}
 	return result, err
 }
@@ -163,20 +158,20 @@ func (o ObjectMap) Has(key interface{}) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
 	return result, err
 }
 
-func (o ObjectMap) Keys() (iterator.Iterator, error) {
+func (o ObjectMap) Keys() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = o.Call("keys"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -188,13 +183,13 @@ func (o ObjectMap) Set(key interface{}, value interface{}) error {
 	return err
 }
 
-func (o ObjectMap) Values() (iterator.Iterator, error) {
+func (o ObjectMap) Values() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = o.Call("values"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err

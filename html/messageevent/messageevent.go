@@ -5,17 +5,15 @@ package messageevent
 import (
 	"sync"
 
+	"github.com/volts-dev/vertex/html/arraybuffer"
 	"github.com/volts-dev/vertex/html/blob"
 	"github.com/volts-dev/vertex/html/event"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/arraybuffer"
-	"github.com/volts-dev/vertex/js/helper"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -104,7 +102,7 @@ func (m MessageEvent) Data() (interface{}, error) {
 	var globalObj interface{}
 	var err error
 	if jsObject = m.GetValueByKey("data"); jsObject.Error() == nil {
-		globalObj, err = helper.GoValue(jsObject)
+		globalObj, err = js.GoValue(jsObject)
 	}
 
 	return globalObj, err

@@ -9,13 +9,12 @@ import (
 	"github.com/volts-dev/vertex/html/element"
 	"github.com/volts-dev/vertex/html/htmlcollection"
 	"github.com/volts-dev/vertex/html/htmlelement"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/validitystate"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once

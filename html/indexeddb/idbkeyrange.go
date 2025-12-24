@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 var singletonIDBKeyRange sync.Once
@@ -103,7 +102,7 @@ func (i IDBKeyRange) Includes(value interface{}) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 

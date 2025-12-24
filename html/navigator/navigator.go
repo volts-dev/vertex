@@ -6,19 +6,16 @@ import (
 	"github.com/volts-dev/vertex/js"
 
 	"github.com/volts-dev/vertex/html/clipboard"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/permissions"
 	"github.com/volts-dev/vertex/html/serviceworkercontainer"
 	"github.com/volts-dev/vertex/html/usb"
 )
 
 func init() {
-
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
-
 var navigatorinterface js.Value
 
 // GetInterface get the JS interface of formdata

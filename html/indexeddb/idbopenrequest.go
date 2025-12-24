@@ -64,12 +64,12 @@ func IDBOpenDBRequestNewFromJSObject(obj js.Value) (IDBOpenDBRequest, error) {
 	return i, err
 }
 
-func (i IDBOpenDBRequest) OnBlocked(handler func(e event.Event)) (js.Func, error) {
+func (i IDBOpenDBRequest) OnBlocked(handler func(e event.Event) error) (js.Func, error) {
 
 	return i.AddEventListener("blocked", handler)
 }
 
-func (i IDBOpenDBRequest) OnUpgradeNeeded(handler func(e event.Event)) (js.Func, error) {
+func (i IDBOpenDBRequest) OnUpgradeNeeded(handler func(e event.Event) error) (js.Func, error) {
 
 	return i.AddEventListener("upgradeneeded", handler)
 }

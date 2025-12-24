@@ -6,14 +6,12 @@ import (
 	"github.com/volts-dev/vertex/js"
 
 	"github.com/volts-dev/vertex/html/blob"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/promise"
-	"github.com/volts-dev/vertex/js/array"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -32,7 +30,7 @@ func GetInterface() js.Value {
 			return NewFromJSObject(v)
 		})
 
-		array.GetInterface()
+		js.GetArrayInterface()
 		blob.GetInterface()
 		promise.GetInterface()
 	})
@@ -95,18 +93,18 @@ func New(data map[string]blob.Blob) (ClipboardItem, error) {
 	return c, err
 }
 
-func (c ClipboardItem) Types() (array.Array, error) {
+func (c ClipboardItem) Types() (js.Array, error) {
 
 	var err error
 	var obj interface{}
-	var newArr array.Array
+	var newArr js.Array
 	var ok bool
 
 	if obj, err = c.GetAttributeGlobal("types"); err == nil {
 
-		if newArr, ok = obj.(array.Array); !ok {
+		if newArr, ok = obj.(js.Array); !ok {
 
-			err = array.ErrNotAnArray
+			err = js.ErrNotAnArray
 		}
 
 	}

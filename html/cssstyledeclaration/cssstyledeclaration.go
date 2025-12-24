@@ -4,14 +4,12 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/html/cssrule"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -74,7 +72,7 @@ func (c CSSStyleDeclaration) ParentRule() (cssrule.CSSRule, error) {
 	if obj = c.GetValueByKey("parentRule"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 			cr, err = cssrule.NewFromJSObject(obj)

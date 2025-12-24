@@ -3,15 +3,14 @@ package objectmap
 import (
 	"testing"
 
-	"github.com/volts-dev/vertex/test"
-
-	"github.com/volts-dev/vertex/js/array"
+	"github.com/volts-dev/vertex/js"
 	"github.com/volts-dev/vertex/js/reflect"
+	"github.com/volts-dev/vertex/test"
 )
 
 func TestNew(t *testing.T) {
 
-	a := array.New_(array.New_("a", "b"), array.New_("c"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
@@ -24,7 +23,7 @@ func TestNew(t *testing.T) {
 }
 
 func TestClear(t *testing.T) {
-	a := array.New_(array.New_("a", "b"), array.New_("c", "d"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c", "d"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 		if err := m.Clear(); test.AssertErr(t, err) {
@@ -40,7 +39,7 @@ func TestClear(t *testing.T) {
 }
 
 func TestHas(t *testing.T) {
-	a := array.New_(array.New_("a", "b"), array.New_("c", "d"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c", "d"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 		if ok, err := m.Has("a"); test.AssertErr(t, err) {
@@ -61,7 +60,7 @@ func TestHas(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	a := array.New_(array.New_("a", "b"), array.New_("c", "d"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c", "d"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
@@ -82,7 +81,7 @@ func TestDelete(t *testing.T) {
 }
 
 func TestEntries(t *testing.T) {
-	a := array.New_(array.New_("a", "b"), array.New_("c", "d"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c", "d"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
@@ -92,7 +91,7 @@ func TestEntries(t *testing.T) {
 
 			for index, value, err := it.Next(); err == nil; index, value, err = it.Next() {
 				aobj1, _ := a.GetValue(i)
-				if a1, ok := aobj1.(array.ArrayFrom); ok {
+				if a1, ok := aobj1.(js.ArrayFrom); ok {
 					indexobj1, _ := a1.Array_().GetValue(0)
 					valueobj1, _ := a1.Array_().GetValue(1)
 					if index.(string) != indexobj1.(string) {
@@ -115,7 +114,7 @@ func TestEntries(t *testing.T) {
 
 func TestForEach(t *testing.T) {
 
-	a := array.New_(array.New_("a", "b"), array.New_("c", "d"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c", "d"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
@@ -123,7 +122,7 @@ func TestForEach(t *testing.T) {
 		if err := m.ForEach(func(value, index interface{}) {
 
 			aobj1, _ := a.GetValue(i)
-			if a1, ok := aobj1.(array.ArrayFrom); ok {
+			if a1, ok := aobj1.(js.ArrayFrom); ok {
 				indexobj1, _ := a1.Array_().GetValue(0)
 				valueobj1, _ := a1.Array_().GetValue(1)
 
@@ -147,7 +146,7 @@ func TestForEach(t *testing.T) {
 
 			for index, value, err := it.Next(); err == nil; index, value, err = it.Next() {
 				aobj1, _ := a.GetValue(i)
-				if a1, ok := aobj1.(array.ArrayFrom); ok {
+				if a1, ok := aobj1.(js.ArrayFrom); ok {
 					indexobj1, _ := a1.Array_().GetValue(0)
 					valueobj1, _ := a1.Array_().GetValue(1)
 					if index.(string) != indexobj1.(string) {
@@ -169,7 +168,7 @@ func TestForEach(t *testing.T) {
 }
 
 func TestKeys(t *testing.T) {
-	a := array.New_(array.New_("a", "b"), array.New_("c", "d"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c", "d"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
@@ -179,7 +178,7 @@ func TestKeys(t *testing.T) {
 
 			for _, value, err := it.Next(); err == nil; _, value, err = it.Next() {
 				aobj1, _ := a.GetValue(i)
-				if a1, ok := aobj1.(array.ArrayFrom); ok {
+				if a1, ok := aobj1.(js.ArrayFrom); ok {
 					indexobj1, _ := a1.Array_().GetValue(0)
 
 					if value.(string) != indexobj1.(string) {
@@ -196,7 +195,7 @@ func TestKeys(t *testing.T) {
 }
 
 func TestValues(t *testing.T) {
-	a := array.New_(array.New_("a", "b"), array.New_("c", "d"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c", "d"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
@@ -206,7 +205,7 @@ func TestValues(t *testing.T) {
 
 			for _, value, err := it.Next(); err == nil; _, value, err = it.Next() {
 				aobj1, _ := a.GetValue(i)
-				if a1, ok := aobj1.(array.ArrayFrom); ok {
+				if a1, ok := aobj1.(js.ArrayFrom); ok {
 					valueobj1, _ := a1.Array_().GetValue(1)
 
 					if value.(string) != valueobj1.(string) {
@@ -225,7 +224,7 @@ func TestValues(t *testing.T) {
 
 func TestGet(t *testing.T) {
 
-	a := array.New_(array.New_("a", "b"), array.New_("c"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
@@ -241,7 +240,7 @@ func TestGet(t *testing.T) {
 }
 func TestSet(t *testing.T) {
 
-	a := array.New_(array.New_("a", "b"), array.New_("c"))
+	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
 

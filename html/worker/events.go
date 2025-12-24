@@ -9,7 +9,7 @@ import (
 
 func (w Worker) OnMessage(handler func(m messageevent.MessageEvent)) (js.Func, error) {
 
-	return w.AddEventListener("message", func(e event.Event) {
+	return w.AddEventListener("message", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -17,10 +17,11 @@ func (w Worker) OnMessage(handler func(m messageevent.MessageEvent)) (js.Func, e
 				handler(m.MessageEvent_())
 			}
 		}
+		return nil
 	})
 }
 
-func (w Worker) OnMessageError(handler func(e event.Event)) (js.Func, error) {
+func (w Worker) OnMessageError(handler func(e event.Event) error) (js.Func, error) {
 
 	return w.AddEventListener("onmessageerror", handler)
 }

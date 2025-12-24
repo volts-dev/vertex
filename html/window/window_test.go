@@ -4,14 +4,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/volts-dev/vertex/html/initinterface"
+	"github.com/volts-dev/vertex/js"
 	"github.com/volts-dev/vertex/js/reflect"
 	"github.com/volts-dev/vertex/test"
 )
 
 func TestMain(m *testing.M) {
 	reflect.SetSyscall()
-	initinterface.Init()
+	js.Init()
 	m.Run()
 }
 

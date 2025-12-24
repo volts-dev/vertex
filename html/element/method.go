@@ -9,8 +9,6 @@ import (
 	"github.com/volts-dev/vertex/html/node"
 	"github.com/volts-dev/vertex/html/nodelist"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/array"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func (e Element) attachShadow() {
@@ -21,7 +19,7 @@ func (e Element) Animate(keyframes, options interface{}) error {
 	var argCall []interface{}
 
 	var err error
-	if keyframesObject, ok := keyframes.(array.ArrayFrom); ok {
+	if keyframesObject, ok := keyframes.(js.ArrayFrom); ok {
 		argCall = append(argCall, keyframesObject.Array_().GetObjectValue())
 
 	}
@@ -116,17 +114,17 @@ func (e Element) GetAttribute(attributename string) (string, error) {
 	return newstr, err
 }
 
-func (e Element) GetAttributeNames() (array.Array, error) {
+func (e Element) GetAttributeNames() (js.Array, error) {
 
 	var err error
 	var obj js.Value
-	var arr array.Array
+	var arr js.Array
 
 	if obj = e.Call("getAttributeNames"); obj.Error() == nil {
 		if obj.IsNull() {
 			err = ErrAttributeEmpty
 		} else {
-			arr, err = array.NewFromJSObject(obj)
+			arr, err = js.NewArrayFromJSObject(obj)
 		}
 
 	}
@@ -141,7 +139,7 @@ func (e Element) GetAttributeNS(namespace, name string) (js.Object, error) {
 		if obj.IsNull() {
 			err = ErrAttributeEmpty
 		} else {
-			newobj, err = object.ToObject(obj)
+			newobj, err = js.ToObject(obj)
 		}
 
 	}
@@ -238,7 +236,7 @@ func (e Element) HasAttribute(attributename string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
@@ -255,7 +253,7 @@ func (e Element) HasPointerCapture(pointerid int) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 	return result, err
@@ -304,7 +302,7 @@ func (e Element) Matches(selector string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 	return result, err
@@ -469,7 +467,7 @@ func (e Element) ToggleAttribute(name string, opts ...interface{}) (bool, error)
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 	return result, err

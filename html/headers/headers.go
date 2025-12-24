@@ -4,17 +4,13 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
-
-	"github.com/volts-dev/vertex/html/initinterface"
-	"github.com/volts-dev/vertex/js/iterator"
 )
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Headers
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -103,13 +99,13 @@ func (h Headers) Delete(name string) error {
 	return err
 }
 
-func (h Headers) Entries() (iterator.Iterator, error) {
+func (h Headers) Entries() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = h.Call("entries"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -142,20 +138,20 @@ func (h Headers) Has(name string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
 	return result, err
 }
 
-func (h Headers) Keys() (iterator.Iterator, error) {
+func (h Headers) Keys() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = h.Call("keys"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err
@@ -167,13 +163,13 @@ func (h Headers) Set(name, value string) error {
 	return err
 }
 
-func (h Headers) Values() (iterator.Iterator, error) {
+func (h Headers) Values() (js.Iterator, error) {
 	var err error
 	var obj js.Value
-	var iter iterator.Iterator
+	var iter js.Iterator
 
 	if obj = h.Call("values"); obj.Error() == nil {
-		iter, err = iterator.NewFromJSObject(obj)
+		iter, err = js.NewIteratorFromJSObject(obj)
 	}
 
 	return iter, err

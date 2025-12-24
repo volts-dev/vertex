@@ -56,7 +56,7 @@ func (ctx Context) NavigateTo(u *url.URL) {
 // flagging the enclosing component for an update.
 func (ctx Context) Dispatch(v func(Context)) {
 	ctx.dispatch(func() {
-		if c, _ := ctx.sourceElement.ParentNode(); c.Object == nil {
+		if c, _ := ctx.sourceElement.ParentNode(); c.Object.GetObjectValue().IsNull() || c.Object.GetObjectValue().IsUndefined() {
 			return
 		}
 
@@ -74,7 +74,7 @@ func (ctx Context) Dispatch(v func(Context)) {
 // current update cycle completes.
 func (ctx Context) Defer(v func(Context)) {
 	ctx.defere(func() {
-		if c, _ := ctx.sourceElement.ParentNode(); c.Object == nil {
+		if c, _ := ctx.sourceElement.ParentNode(); c.Object.GetObjectValue().IsNull() || c.Object.GetObjectValue().IsUndefined() {
 			return
 		}
 

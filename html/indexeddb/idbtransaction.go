@@ -119,17 +119,17 @@ func (i IDBTransaction) Error() (string, error) {
 	return i.GetAttributeString("error")
 }
 
-func (i IDBTransaction) OnAbort(handler func(e event.Event)) (js.Func, error) {
+func (i IDBTransaction) OnAbort(handler func(e event.Event) error) (js.Func, error) {
 
 	return i.AddEventListener("abort", handler)
 }
 
-func (i IDBOpenDBRequest) OnComplete(handler func(e event.Event)) (js.Func, error) {
+func (i IDBOpenDBRequest) OnComplete(handler func(e event.Event) error) (js.Func, error) {
 
 	return i.AddEventListener("complete", handler)
 }
 
-func (i IDBOpenDBRequest) OnError(handler func(e event.Event)) (js.Func, error) {
+func (i IDBOpenDBRequest) OnError(handler func(e event.Event) error) (js.Func, error) {
 
 	return i.AddEventListener("error", handler)
 }

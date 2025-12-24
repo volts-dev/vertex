@@ -7,12 +7,11 @@ import (
 	"github.com/volts-dev/vertex/js"
 
 	"github.com/volts-dev/vertex/html/event"
-	"github.com/volts-dev/vertex/html/initinterface"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -85,18 +84,17 @@ func NewFromJSObject(obj js.Value) (EventTarget, error) {
 	return e, err
 }
 
-func (e EventTarget) AddEventListener(name string, handler func(e event.Event)) (js.Func, error) {
-
+func (e EventTarget) AddEventListener(name string, handler func(e event.Event) error) (js.Func, error) {
 	var err error
 	var cb js.Func
 	if handler != nil {
 		cb = js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-
 			if e, err := event.NewFromJSObject(args[0]); err == nil {
 				handler(e)
 			}
 			return nil
 		})
+		defer cb.Release()
 
 		err = e.Call("addEventListener", js.ValueOf(name), cb).Error()
 	}
@@ -104,10 +102,20 @@ func (e EventTarget) AddEventListener(name string, handler func(e event.Event)) 
 	return cb, err
 }
 
-func (e EventTarget) RemoveEventListener(f js.Func, typeevent string) error {
+func (e EventTarget) RemoveEventListener(name string, handler func(e event.Event) error) error {
 	var err error
-	err = e.Call("removeEventListener", typeevent, f).Error()
-	f.Release()
+	var cb js.Func
+	if handler != nil {
+		cb = js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			if e, err := event.NewFromJSObject(args[0]); err == nil {
+				handler(e)
+			}
+			return nil
+		})
+		defer cb.Release()
+		err = e.Call("removeEventListener", js.ValueOf(name), cb).Error()
+	}
+
 	return err
 }
 

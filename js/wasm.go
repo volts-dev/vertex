@@ -78,7 +78,7 @@ func Global() Value {
 // ValueOf alias to syscall/js
 func ValueOf(x any) Value {
 	if objGo, ok := x.(ObjectFrom); ok {
-		return objGo.Value()
+		return objGo.GetObjectValue()
 	}
 
 	switch x := x.(type) {
@@ -142,12 +142,16 @@ func CopyBytesToJS(dst Value, src []byte) (int, error) {
 	return js.CopyBytesToJS(v.v, src), nil
 }
 
+func (v *value) Equal(other Value) bool {
+	return v.v.Equal(other.(*value).v)
+}
+
 // Type alias to syscall/js
 func (v *value) Type() Type {
 	return Type(v.v.Type())
 }
 
-func (v *value) Get(p string) Value {
+func (v *value) Get(p string) (result Value) {
 	if v.err != nil {
 		return v
 	}
@@ -160,7 +164,7 @@ func (v *value) Get(p string) Value {
 	// 捕获 panic
 	defer func() {
 		if r := recover(); r != nil {
-			v.err = fmt.Errorf("wasm: panic getting property '%s': %v", p, r)
+			result = &value{v: v.v, err: fmt.Errorf("wasm: panic getting property '%s': %v", p, r)}
 			RecoverHandler(r)
 		}
 	}()
@@ -168,10 +172,11 @@ func (v *value) Get(p string) Value {
 	return &value{v: v.v.Get(p)}
 }
 
-func (v *value) Set(p string, x any) Value {
+func (v *value) Set(p string, x any) (result Value) {
 	if v.err != nil {
 		return v
 	}
+
 	if !v.v.Truthy() {
 		v.err = fmt.Errorf("wasm: set property '%s' on %s", p, v.v.Type().String())
 		return v
@@ -179,7 +184,7 @@ func (v *value) Set(p string, x any) Value {
 
 	defer func() {
 		if r := recover(); r != nil {
-			v.err = fmt.Errorf("wasm: panic setting property '%s': %v", p, r)
+			result = &value{v: v.v, err: fmt.Errorf("wasm: panic setting property '%s': %v", p, r)}
 			RecoverHandler(r)
 		}
 	}()
@@ -189,7 +194,7 @@ func (v *value) Set(p string, x any) Value {
 	return v
 }
 
-func (v *value) Call(m string, args ...any) Value {
+func (v *value) Call(m string, args ...any) (result Value) {
 	if v.err != nil {
 		return v
 	}
@@ -199,23 +204,21 @@ func (v *value) Call(m string, args ...any) Value {
 		return v
 	}
 
+	defer func() {
+		if r := recover(); r != nil {
+			result = &value{v: v.v, err: fmt.Errorf("wasm: panic calling method '%s': %v", m, r)}
+			RecoverHandler(r)
+		}
+	}()
+
 	processedArgs, err := v.processArgs(args)
 	if err != nil {
 		v.err = err
 		return v
 	}
 
-	defer func() {
-		if r := recover(); r != nil {
-			v.err = fmt.Errorf("wasm: panic calling method '%s': %v", m, r)
-			RecoverHandler(r)
-		}
-	}()
-
-	val := v.v.Call(m, processedArgs...)
-
 	return &value{
-		v: val,
+		v: v.v.Call(m, processedArgs...),
 	}
 }
 
@@ -236,27 +239,28 @@ func (v *value) Length() int {
 	return v.v.Length()
 }
 
-func (v *value) New(args ...any) Value {
+func (v *value) New(args ...any) (result Value) {
 	if v.err != nil {
 		return v
 	}
+
 	if v.v.Type() != js.TypeFunction {
 		v.err = fmt.Errorf("wasm: new called on non-function type: %s", v.v.Type().String())
 		return v
 	}
+
+	defer func() {
+		if r := recover(); r != nil {
+			result = &value{v: v.v, err: fmt.Errorf("wasm: panic in new: %v", r)}
+			RecoverHandler(r)
+		}
+	}()
 
 	processedArgs, err := v.processArgs(args)
 	if err != nil {
 		v.err = err
 		return v
 	}
-
-	defer func() {
-		if r := recover(); r != nil {
-			v.err = fmt.Errorf("wasm: panic in new: %v", r)
-			RecoverHandler(r)
-		}
-	}()
 
 	res := v.v.New(processedArgs...)
 	return &value{v: res}
@@ -266,9 +270,11 @@ func (v *value) Float() (float64, error) {
 	if v.err != nil {
 		return 0, v.err
 	}
+
 	if v.v.Type() != js.TypeNumber {
 		return 0, fmt.Errorf("wasm: value is not a number (got %s)", v.v.Type())
 	}
+
 	return v.v.Float(), nil
 }
 
@@ -288,9 +294,11 @@ func (v *value) Bool() (bool, error) {
 	if v.err != nil {
 		return false, v.err
 	}
+
 	if v.v.Type() != js.TypeBoolean {
 		return false, fmt.Errorf("wasm: value is not a boolean (got %s)", v.v.Type())
 	}
+
 	return v.v.Bool(), nil
 }
 
@@ -298,9 +306,11 @@ func (v *value) String() (string, error) {
 	if v.err != nil {
 		return "", v.err
 	}
+
 	if v.v.Type() != js.TypeString {
 		return "", fmt.Errorf("wasm: value is not a string (got %s)", v.v.Type())
 	}
+
 	return v.v.String(), nil
 }
 
@@ -350,6 +360,10 @@ func (v *value) IsUndefined() bool {
 
 func (v *value) IsNull() bool {
 	return v.v.IsNull()
+}
+
+func (v *value) IsNaN() bool {
+	return v.v.IsNaN()
 }
 
 func (v *value) Error() error {
@@ -408,6 +422,8 @@ func unwrap(val any) any {
 		return v.v
 	case function:
 		return v.f
+	case error:
+		return js.ValueOf(v.Error())
 	/*case map[string]any:
 		m := make(map[string]any, len(v))
 		for key, value := range v {

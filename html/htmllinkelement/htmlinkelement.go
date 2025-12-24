@@ -7,15 +7,13 @@ import (
 	"github.com/volts-dev/vertex/html/domtokenlist"
 	"github.com/volts-dev/vertex/html/element"
 	"github.com/volts-dev/vertex/html/htmlelement"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/stylesheet"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -178,7 +176,7 @@ func (h HtmlLinkElement) Sheet() (stylesheet.StyleSheet, error) {
 	if obj = h.GetValueByKey("sheet"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 			s, err = stylesheet.NewFromJSObject(obj)
@@ -194,7 +192,7 @@ func (h HtmlLinkElement) Sizes() (domtokenlist.DOMTokenList, error) {
 	if obj = h.GetValueByKey("sizes"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 			d, err = domtokenlist.NewFromJSObject(obj)

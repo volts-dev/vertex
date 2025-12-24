@@ -6,7 +6,7 @@ import (
 	"github.com/volts-dev/vertex/js"
 
 	"github.com/volts-dev/vertex/html/promise"
-	"github.com/volts-dev/vertex/js/typedarray"
+	"github.com/volts-dev/vertex/html/typedarray"
 )
 
 var singletonWritableStreamDefault sync.Once

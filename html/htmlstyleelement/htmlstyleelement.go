@@ -8,14 +8,12 @@ import (
 	"github.com/volts-dev/vertex/html/document"
 	"github.com/volts-dev/vertex/html/element"
 	"github.com/volts-dev/vertex/html/htmlelement"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/stylesheet"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -133,7 +131,7 @@ func (h HtmlStyleElement) Sheet() (stylesheet.StyleSheet, error) {
 	if obj = h.GetValueByKey("sheet"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 			s, err = stylesheet.NewFromJSObject(obj)

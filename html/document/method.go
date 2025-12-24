@@ -1,8 +1,6 @@
 package document
 
 import (
-	"github.com/volts-dev/vertex/js"
-
 	"github.com/volts-dev/vertex/html/attr"
 	"github.com/volts-dev/vertex/html/element"
 	"github.com/volts-dev/vertex/html/event"
@@ -11,6 +9,7 @@ import (
 	"github.com/volts-dev/vertex/html/node"
 	"github.com/volts-dev/vertex/html/nodelist"
 	"github.com/volts-dev/vertex/html/treewalker"
+	"github.com/volts-dev/vertex/js"
 )
 
 func (d Document) AdoptNode(externalNode node.Node) (interface{}, error) {
@@ -31,16 +30,16 @@ func (d Document) Append(i interface{}) error {
 	return err
 }
 
-func (d Document) CreateTreeWalker(node node.Node) (treewalker.TreeWalker, error) {
+func (d Document) CreateTreeWalker(node node.Node) (*treewalker.TreeWalker, error) {
 	var err error
 	var obj js.Value
 	var tw treewalker.TreeWalker
 
-	if obj = d.Call("createTreeWalker", js.ValueOf(node), js.ValueOf(129)); obj.Error() == nil {
+	if obj = d.Call("createTreeWalker", node.GetObjectValue(), js.ValueOf(129)); obj.Error() == nil {
 		tw, err = treewalker.NewFromJSObject(obj)
 	}
 
-	return tw, err
+	return &tw, err
 }
 
 func (d Document) CreateAttribute(name string) (attr.Attr, error) {
@@ -56,26 +55,24 @@ func (d Document) CreateAttribute(name string) (attr.Attr, error) {
 	return attribute, err
 }
 
-func (d Document) CreateComment(comment string) (node.Node, error) {
+func (d Document) CreateComment(comment string) (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var nod node.Node
+	var nod *node.Node
 
 	if obj = d.Call("createComment", js.ValueOf(comment)); obj.Error() == nil {
-
 		nod, err = node.NewFromJSObject(obj)
 	}
 
 	return nod, err
 }
 
-func (d Document) CreateDocumentFragment() (node.Node, error) {
+func (d Document) CreateDocumentFragment() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var nod node.Node
+	var nod *node.Node
 
 	if obj = d.Call("createDocumentFragment"); obj.Error() == nil {
-
 		nod, err = node.NewFromJSObject(obj)
 	}
 
@@ -95,13 +92,11 @@ func (d Document) CreateHTMLElement(tagname string) (htmlelement.HtmlElement, er
 }
 
 func (d Document) CreateElement(tagname string) (element.Element, error) {
-
 	var err error
 	var obj js.Value
 	var elem element.Element
 
 	if obj = d.Call("createElement", js.ValueOf(tagname)); obj.Error() == nil {
-
 		elem, err = element.NewFromJSObject(obj)
 	}
 
@@ -109,13 +104,11 @@ func (d Document) CreateElement(tagname string) (element.Element, error) {
 }
 
 func (d Document) CreateElementNS(namespaceURI string, qualifiedName string) (element.Element, error) {
-
 	var err error
 	var obj js.Value
 	var elem element.Element
 
 	if obj = d.Call("createElementNS", js.ValueOf(namespaceURI), js.ValueOf(qualifiedName)); obj.Error() == nil {
-
 		elem, err = element.NewFromJSObject(obj)
 	}
 
@@ -123,7 +116,6 @@ func (d Document) CreateElementNS(namespaceURI string, qualifiedName string) (el
 }
 
 func (d Document) CreateEvent(eventtype string) (event.Event, error) {
-
 	var err error
 	var obj js.Value
 	var ev event.Event
@@ -152,14 +144,12 @@ func (d Document) createTreeWalker() {
 	//TO IMPLEMENT
 }
 
-func (d Document) CreateTextNode(text string) (node.Node, error) {
-
+func (d Document) CreateTextNode(text string) (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var nod node.Node
+	var nod *node.Node
 
 	if obj = d.Call("createTextNode", js.ValueOf(text)); obj.Error() == nil {
-
 		nod, err = node.NewFromJSObject(obj)
 	}
 
@@ -167,7 +157,6 @@ func (d Document) CreateTextNode(text string) (node.Node, error) {
 }
 
 func (d Document) ElementFromPoint(x, y int) (element.Element, error) {
-
 	var err error
 	var obj js.Value
 	var elem element.Element
@@ -181,20 +170,17 @@ func (d Document) ElementFromPoint(x, y int) (element.Element, error) {
 }
 
 func (d Document) ElementsFromPoint(x, y int) ([]element.Element, error) {
-
 	var err error
 	var obj js.Value
 	var elems []element.Element
 
 	if obj = d.Call("elementsFromPoint", js.ValueOf(x), js.ValueOf(y)); obj.Error() == nil {
-
 		for i := 0; i < obj.Length(); {
 			if el, err := element.NewFromJSObject(obj.Index(i)); err == nil {
 				elems = append(elems, el)
 			}
 
 		}
-
 	}
 
 	return elems, err
@@ -214,7 +200,6 @@ func (d Document) getAnimations() {
 }
 
 func (d Document) GetElementsByClassName(classname string) (htmlcollection.HtmlCollection, error) {
-
 	var err error
 	var obj js.Value
 	var collection htmlcollection.HtmlCollection
@@ -256,7 +241,6 @@ func (d Document) GetElementsByTagNameNS(namespace, tagname string) (htmlcollect
 	var collection htmlcollection.HtmlCollection
 
 	if obj = d.Call("getElementsByTagNameNS", js.ValueOf(namespace), js.ValueOf(tagname)); obj.Error() == nil {
-
 		if !obj.IsUndefined() && !obj.IsNull() {
 			collection, err = htmlcollection.NewFromJSObject(obj)
 		} else {
@@ -268,14 +252,16 @@ func (d Document) GetElementsByTagNameNS(namespace, tagname string) (htmlcollect
 	return collection, err
 }
 
-func (d Document) ImportNode(externalNode node.Node, deep bool) (interface{}, error) {
+func (d Document) ImportNode(externalNode node.Node, deep bool) (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var r interface{}
+	var r *node.Node
 
 	if obj = d.Call("importNode", externalNode.GetObjectValue(), js.ValueOf(deep)); obj.Error() == nil {
-		r, err = js.Discover(obj)
+		r, err = node.NewFromJSObject(obj)
 	}
+	err = obj.Error()
+
 	return r, err
 }
 

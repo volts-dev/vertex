@@ -5,9 +5,8 @@ import (
 
 	"github.com/volts-dev/vertex/html/jserror"
 	"github.com/volts-dev/vertex/html/promise"
+	"github.com/volts-dev/vertex/html/typedarray"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/helper"
-	"github.com/volts-dev/vertex/js/typedarray"
 )
 
 var singletonReadableStreamDefault sync.Once
@@ -66,9 +65,9 @@ func (r ReadableStreamDefaultReader) newRead(data []byte, dataHandle func([]byte
 			newpromise, _ := p.Then(func(i interface{}) *promise.Promise {
 				var obj js.Value
 				if b, ok := i.(js.ObjectFrom); ok {
-					obj = b.Value()
+					obj = b.GetObjectValue()
 					var done bool = false
-					if helper.ValueToBool(obj.Get("done")) == true {
+					if js.ValueToBool(obj.Get("done")) == true {
 						done = true
 					}
 

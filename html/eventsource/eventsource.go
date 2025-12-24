@@ -172,19 +172,19 @@ func (sse EventSource) SetOnMessage(handler func(e messageevent.MessageEvent)) {
 }
 
 // OnOpen Set onOpen Handler
-func (e EventSource) OnOpen(handler func(e event.Event)) (js.Func, error) {
+func (e EventSource) OnOpen(handler func(e event.Event) error) (js.Func, error) {
 
 	return e.AddEventListener("open", handler)
 }
 
 // OnClose Set onClose Handler
-func (e EventSource) OnClose(handler func(e event.Event)) (js.Func, error) {
+func (e EventSource) OnClose(handler func(e event.Event) error) (js.Func, error) {
 
 	return e.AddEventListener("close", handler)
 }
 
 // OnError Set onError Handler
-func (e EventSource) OnError(handler func(e event.Event)) (js.Func, error) {
+func (e EventSource) OnError(handler func(e event.Event) error) (js.Func, error) {
 
 	return e.AddEventListener("error", handler)
 }

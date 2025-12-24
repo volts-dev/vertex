@@ -5,11 +5,10 @@ import (
 	"time"
 
 	"github.com/volts-dev/vertex/html/abortcontroller"
+	"github.com/volts-dev/vertex/html/json"
 	"github.com/volts-dev/vertex/html/promise"
 	"github.com/volts-dev/vertex/html/response"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/json"
-	"github.com/volts-dev/vertex/js/object"
 	"github.com/volts-dev/vertex/js/reflect"
 	"github.com/volts-dev/vertex/test"
 )
@@ -180,7 +179,7 @@ func TestNew(t *testing.T) {
 
 	})
 
-	object.GetInterface()
+	js.GetObjectInterface()
 
 	t.Run("Post with custom headers and json response and form data ", func(t *testing.T) {
 		io := make(chan bool)
@@ -212,7 +211,7 @@ func TestNew(t *testing.T) {
 			jsonpromise.Then(func(i interface{}) *promise.Promise {
 
 				if obj, ok := i.(js.ObjectFrom); ok {
-					j, _ := json.NewFromJSObject(obj.Value())
+					j, _ := json.NewFromJSObject(obj.GetObjectValue())
 					goValue := j.Map()
 
 					headers := goValue.(map[string]interface{})["headers"]

@@ -5,15 +5,13 @@ import (
 
 	"github.com/volts-dev/vertex/js"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/messageevent"
 	"github.com/volts-dev/vertex/html/workerglobalscope"
-	"github.com/volts-dev/vertex/js/array"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -65,7 +63,7 @@ func NewFromJSObject(obj js.Value) (DedicatedWorkerGlobalScope, error) {
 	return d, ErrNotImplemented
 }
 
-func (d DedicatedWorkerGlobalScope) PostMessage(message string, transfer ...array.Array) error {
+func (d DedicatedWorkerGlobalScope) PostMessage(message string, transfer ...js.Array) error {
 
 	var arrayJS []interface{}
 

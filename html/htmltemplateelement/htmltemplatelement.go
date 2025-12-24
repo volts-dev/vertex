@@ -9,12 +9,11 @@ import (
 	"github.com/volts-dev/vertex/html/documentfragment"
 	"github.com/volts-dev/vertex/html/element"
 	"github.com/volts-dev/vertex/html/htmlelement"
-	"github.com/volts-dev/vertex/html/initinterface"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -51,13 +50,13 @@ func GetInterface() js.Value {
 
 func New(d document.Document) (HTMLTemplateElement, error) {
 	var err error
-
 	var h HTMLTemplateElement
 	var e element.Element
 
 	if e, err = d.CreateElement("template"); err == nil {
 		h, err = NewFromElement(e)
 	}
+
 	return h, err
 }
 
@@ -68,7 +67,6 @@ func NewFromElement(elem element.Element) (HTMLTemplateElement, error) {
 	if hci := GetInterface(); !hci.IsUndefined() {
 		if elem.GetObjectValue().InstanceOf(hci) {
 			h.SetObjectValue(elem.GetObjectValue())
-
 		} else {
 			err = ErrNotAnHTMLTemplateElement
 		}

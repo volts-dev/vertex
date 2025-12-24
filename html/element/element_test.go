@@ -196,7 +196,7 @@ func TestAppend(t *testing.T) {
 
 				if div, err := NewFromJSObject(objdiv); test.AssertErr(t, err) {
 
-					test.AssertErr(t, span.AppendChild(div.Node))
+					test.AssertErr(t, span.AppendChild(&div.Node))
 
 					if er, err := span.FirstChild(); test.AssertErr(t, err) {
 						test.AssertExpect(t, "HTMLDivElement", er.ConstructName_())

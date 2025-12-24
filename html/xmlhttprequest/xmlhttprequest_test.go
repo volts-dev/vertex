@@ -8,8 +8,8 @@ import (
 	"github.com/volts-dev/vertex/test"
 
 	"github.com/volts-dev/vertex/html/formdata"
+	"github.com/volts-dev/vertex/html/json"
 	"github.com/volts-dev/vertex/html/progressevent"
-	"github.com/volts-dev/vertex/js/json"
 	"github.com/volts-dev/vertex/js/reflect"
 )
 

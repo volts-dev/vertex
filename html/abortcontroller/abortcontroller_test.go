@@ -44,8 +44,9 @@ func TestAbort(t *testing.T) {
 
 		if as, err := a.Signal(); test.AssertErr(t, err) {
 
-			as.OnAbort(func(e event.Event) {
+			as.OnAbort(func(e event.Event) error {
 				isAborted = true
+				return nil
 			})
 			a.Abort()
 

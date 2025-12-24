@@ -7,13 +7,11 @@ import (
 
 	"github.com/volts-dev/vertex/html/datatranferitemlist"
 	"github.com/volts-dev/vertex/html/filelist"
-	"github.com/volts-dev/vertex/html/initinterface"
-	"github.com/volts-dev/vertex/js/array"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -124,15 +122,15 @@ func (dt DataTransfer) SetItems(list datatranferitemlist.DataTransferItemList) e
 
 	return dt.SetAttribute("items", list)
 }
-func (dt DataTransfer) Types() (array.Array, error) {
+func (dt DataTransfer) Types() (js.Array, error) {
 
 	var err error
 	var obj js.Value
-	var types array.Array
+	var types js.Array
 
 	if obj = dt.GetValueByKey("types"); obj.Error() == nil {
 
-		types, err = array.NewFromJSObject(obj)
+		types, err = js.NewArrayFromJSObject(obj)
 	}
 	return types, err
 }

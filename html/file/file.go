@@ -7,13 +7,11 @@ import (
 	"github.com/volts-dev/vertex/js"
 
 	"github.com/volts-dev/vertex/html/blob"
-	"github.com/volts-dev/vertex/html/initinterface"
-	"github.com/volts-dev/vertex/js/date"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -108,12 +106,12 @@ func (f File) LastModified() (int64, error) {
 	return f.GetAttributeInt64("lastModified")
 }
 
-func (f File) LastModifiedDate() (date.Date, error) {
+func (f File) LastModifiedDate() (js.Date, error) {
 	var obj js.Value
-	var d date.Date
+	var d js.Date
 	var err error
 	if obj = f.GetValueByKey("lastModifiedDate"); obj.Error() == nil {
-		d, err = date.NewFromJSObject(obj)
+		d, err = js.NewDateFromJSObject(obj)
 	}
 	return d, err
 }

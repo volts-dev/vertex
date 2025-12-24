@@ -5,11 +5,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/volts-dev/vertex/html/element"
 	"github.com/volts-dev/vertex/js"
 	"github.com/volts-dev/vertex/js/reflect"
 	"github.com/volts-dev/vertex/test"
-
-	"github.com/volts-dev/vertex/html/element"
 )
 
 func TestMain(m *testing.M) {
@@ -18,7 +17,6 @@ func TestMain(m *testing.M) {
 }
 
 func TestDomain(t *testing.T) {
-
 	if d, err := New(); test.AssertErr(t, err) {
 
 		if str, err := d.Domain(); test.AssertErr(t, err) {
@@ -38,7 +36,6 @@ func TestDomain(t *testing.T) {
 }
 
 func TestTitle(t *testing.T) {
-
 	if d, err := New(); test.AssertErr(t, err) {
 		if str, err := d.Title(); test.AssertErr(t, err) {
 			test.AssertExpect(t, "Go wasm", str)
@@ -732,16 +729,12 @@ func TestImportNode(t *testing.T) {
 
 			if clone, err := d.ImportNode(div.Node, true); test.AssertErr(t, err) {
 				div.SetID("te")
-				if clondelem, err := element.NewFromJSObject(clone.(js.ObjectFrom).Value()); test.AssertErr(t, err) {
+				if clondelem, err := element.NewFromJSObject(clone.GetObjectValue()); test.AssertErr(t, err) {
 
 					test.AssertExpect(t, "testid", clondelem.ID_())
 
 				}
-
 			}
-
 		}
-
 	}
-
 }

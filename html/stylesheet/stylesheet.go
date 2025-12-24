@@ -3,15 +3,13 @@ package stylesheet
 import (
 	"sync"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/node"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -79,14 +77,14 @@ func (s StyleSheet) Href() (string, error) {
 	return s.GetAttributeString("href")
 }
 
-func (s StyleSheet) OwnerNode() (node.Node, error) {
+func (s StyleSheet) OwnerNode() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 	if obj = s.GetValueByKey("ownerNode"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 			n, err = node.NewFromJSObject(obj)
@@ -102,7 +100,7 @@ func (s StyleSheet) ParentStyleSheet() (StyleSheet, error) {
 	if obj = s.GetValueByKey("parentStyleSheet"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 			ps, err = NewFromJSObject(obj)

@@ -1,11 +1,11 @@
 package blob
 
 import (
+	"github.com/volts-dev/vertex/html/arraybuffer"
 	"github.com/volts-dev/vertex/html/jserror"
 	"github.com/volts-dev/vertex/html/promise"
+	"github.com/volts-dev/vertex/html/typedarray"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/arraybuffer"
-	"github.com/volts-dev/vertex/js/typedarray"
 )
 
 type BlobStream struct {

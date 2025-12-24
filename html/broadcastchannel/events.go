@@ -9,7 +9,7 @@ import (
 
 func (c BroadcastChannel) OnMessage(handler func(m messageevent.MessageEvent)) (js.Func, error) {
 
-	return c.AddEventListener("message", func(e event.Event) {
+	return c.AddEventListener("message", func(e event.Event) error {
 
 		if globalObj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -17,10 +17,11 @@ func (c BroadcastChannel) OnMessage(handler func(m messageevent.MessageEvent)) (
 				handler(m.MessageEvent_())
 			}
 		}
+		return nil
 	})
 }
 
-func (c BroadcastChannel) OnMessageError(handler func(e event.Event)) (js.Func, error) {
+func (c BroadcastChannel) OnMessageError(handler func(e event.Event) error) (js.Func, error) {
 
 	return c.AddEventListener("messageerror", handler)
 }

@@ -6,12 +6,10 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 
 	"github.com/volts-dev/vertex/html/domstringlist"
 	"github.com/volts-dev/vertex/html/event"
 	"github.com/volts-dev/vertex/html/eventtarget"
-	"github.com/volts-dev/vertex/js/array"
 )
 
 // IDBDatabase struct
@@ -105,7 +103,7 @@ func (i IDBDatabase) Transaction(store interface{}, mode ...string) (IDBTransact
 	var t IDBTransaction
 
 	//array of string ['my-store-name']
-	if arr, ok := store.(array.Array); ok {
+	if arr, ok := store.(js.Array); ok {
 		arrayJS = append(arrayJS, arr.GetObjectValue())
 		//store name
 	} else if storename, ok := store.(string); ok {
@@ -136,7 +134,7 @@ func (i IDBDatabase) getAttributeInt(attribute string) (int64, error) {
 			v, _ := obj.Float()
 			ret = int64(v)
 		} else {
-			err = object.ErrObjectNotNumber
+			err = js.ErrObjectNotNumber
 		}
 	}
 	return ret, err
@@ -162,17 +160,17 @@ func (i IDBDatabase) ObjectStoreNames() (domstringlist.DOMStringList, error) {
 	return d, err
 }
 
-func (i IDBDatabase) OnAbort(handler func(e event.Event)) (js.Func, error) {
+func (i IDBDatabase) OnAbort(handler func(e event.Event) error) (js.Func, error) {
 
 	return i.AddEventListener("onabort", handler)
 }
 
-func (i IDBDatabase) OnError(handler func(e event.Event)) (js.Func, error) {
+func (i IDBDatabase) OnError(handler func(e event.Event) error) (js.Func, error) {
 
 	return i.AddEventListener("onerror", handler)
 }
 
-func (i IDBDatabase) OnVersionChange(handler func(e event.Event)) (js.Func, error) {
+func (i IDBDatabase) OnVersionChange(handler func(e event.Event) error) (js.Func, error) {
 
 	return i.AddEventListener("onversionchange", handler)
 }

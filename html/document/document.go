@@ -7,17 +7,14 @@ import (
 
 	"github.com/volts-dev/vertex/html/documentfragment"
 	"github.com/volts-dev/vertex/html/dragevent"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/node"
 )
 
 func init() {
-
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
-
 var docinterface js.Value
 
 type Document struct {

@@ -1,12 +1,22 @@
 package js
 
+type ()
+
 var (
-	registry   map[string]func(Value) (interface{}, error)
-	interfaces []func() Value
+	registry map[string]func(Value) (interface{}, error)
 )
+var initInterface []func() Value
 
 func RegisterInterface(f func() Value) {
-	interfaces = append(interfaces, f)
+	initInterface = append(initInterface, f)
+}
+
+func Init() {
+	for _, f := range initInterface {
+		f()
+	}
+
+	initInterface = make([]func() Value, 0)
 }
 
 // Register Register a construct func for type Object given
@@ -25,9 +35,9 @@ func Register(inter Value, contruct func(Value) (interface{}, error)) error {
 }
 
 // Discover Discover the Object Given and return a Hogosuru Class if the construct is registered
-func Discover(obj Value) (interface{}, error) {
+func Discover(obj Value) (any, error) {
 	var err error
-	var bobj interface{}
+	var bobj any
 	var objname Value
 	var objconstructor Value
 
@@ -35,7 +45,7 @@ func Discover(obj Value) (interface{}, error) {
 		if objname = objconstructor.Get("name"); objconstructor.IsUndefined() {
 			name, _ := objname.String()
 			if f, ok := registry[name]; ok {
-				var obji interface{}
+				var obji any
 				var ok bool
 
 				if obji, err = f(obj); err == nil {
@@ -45,9 +55,7 @@ func Discover(obj Value) (interface{}, error) {
 				}
 
 			} else {
-
-				bobj = obj
-
+				bobj, _ = ToObject(obj)
 			}
 
 		} else {

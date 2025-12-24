@@ -5,14 +5,12 @@ import (
 
 	"github.com/volts-dev/vertex/js"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/promise"
-	"github.com/volts-dev/vertex/js/array"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -31,7 +29,7 @@ func GetInterface() js.Value {
 			return NewFromJSObject(v)
 		})
 
-		array.GetInterface()
+		js.GetArrayInterface()
 		promise.GetInterface()
 	})
 
@@ -64,16 +62,16 @@ func NewFromJSObject(obj js.Value) (PushManager, error) {
 	return p, ErrNotImplemented
 }
 
-func (p PushManager) SupportedContentEncodings() (array.Array, error) {
+func (p PushManager) SupportedContentEncodings() (js.Array, error) {
 
 	var err error
 	var obj interface{}
-	var a array.Array
+	var a js.Array
 	var ok bool
 
 	if obj, err = p.GetAttributeGlobal("supportedContentEncodings"); err == nil {
-		if a, ok = obj.(array.Array); !ok {
-			err = array.ErrNotAnArray
+		if a, ok = obj.(js.Array); !ok {
+			err = js.ErrNotAnArray
 		}
 	}
 

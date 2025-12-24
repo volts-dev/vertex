@@ -12,14 +12,16 @@ var ErrNotImplemented = errors.New("Browser not implemented TreeWalker")
 var singleton sync.Once
 var treeWalkerInterface js.Value
 
-type TreeWalker struct {
-	js.Object
-	filter js.Value
-}
+type (
+	TreeWalker struct {
+		js.Object
+		filter js.Value
+	}
 
-type TreeWalkerFrom interface {
-	TreeWalker_() TreeWalker
-}
+	TreeWalkerFrom interface {
+		TreeWalker_() TreeWalker
+	}
+)
 
 func (t TreeWalker) TreeWalker_() TreeWalker {
 	return t
@@ -27,7 +29,7 @@ func (t TreeWalker) TreeWalker_() TreeWalker {
 
 func GetInterface() js.Value {
 	singleton.Do(func() {
-		if treeWalkerInterface := js.Global().Get("TreeWalker"); treeWalkerInterface.Error() != nil {
+		if treeWalkerInterface = js.Global().Get("TreeWalker"); treeWalkerInterface.Error() != nil {
 			treeWalkerInterface = js.Undefined()
 			return
 		}
@@ -76,19 +78,20 @@ func (t TreeWalker) SetCurrentNode(node js.Value) error {
 	t.SetValueByKey("currentNode", node)
 	return nil
 }
-func (t TreeWalker) GetCurrentNode() (node.Node, error) {
+
+func (t TreeWalker) GetCurrentNode() (*node.Node, error) {
 	v := t.GetValueByKey("currentNode")
 	if v.Error() != nil {
-		return node.Node{}, v.Error()
+		return nil, v.Error()
 	}
 
 	return node.NewFromJSObject(v)
 }
 
-func (t TreeWalker) NextNode() (node.Node, error) {
+func (t TreeWalker) NextNode() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 
 	if obj = t.Call("nextNode"); obj.Error() == nil {
 		n, err = node.NewFromJSObject(obj)
@@ -97,10 +100,10 @@ func (t TreeWalker) NextNode() (node.Node, error) {
 	return n, err
 }
 
-func (t TreeWalker) FirstChild() (node.Node, error) {
+func (t TreeWalker) FirstChild() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 
 	if obj = t.Call("firstChild"); obj.Error() == nil {
 		n, err = node.NewFromJSObject(obj)
@@ -109,10 +112,10 @@ func (t TreeWalker) FirstChild() (node.Node, error) {
 	return n, err
 }
 
-func (t TreeWalker) LastChild() (node.Node, error) {
+func (t TreeWalker) LastChild() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 
 	if obj = t.Call("lastChild"); obj.Error() == nil {
 		n, err = node.NewFromJSObject(obj)
@@ -121,10 +124,10 @@ func (t TreeWalker) LastChild() (node.Node, error) {
 	return n, err
 }
 
-func (t TreeWalker) NextSibling() (node.Node, error) {
+func (t TreeWalker) NextSibling() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 
 	if obj = t.Call("nextSibling"); obj.Error() == nil {
 		n, err = node.NewFromJSObject(obj)
@@ -133,10 +136,10 @@ func (t TreeWalker) NextSibling() (node.Node, error) {
 	return n, err
 }
 
-func (t TreeWalker) ParentNode() (node.Node, error) {
+func (t TreeWalker) ParentNode() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 
 	if obj = t.Call("parentNode"); obj.Error() == nil {
 		n, err = node.NewFromJSObject(obj)
@@ -144,10 +147,10 @@ func (t TreeWalker) ParentNode() (node.Node, error) {
 	return n, err
 }
 
-func (t TreeWalker) PreviousSibling() (node.Node, error) {
+func (t TreeWalker) PreviousSibling() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 
 	if obj = t.Call("previousSibling"); obj.Error() == nil {
 		n, err = node.NewFromJSObject(obj)
@@ -155,10 +158,10 @@ func (t TreeWalker) PreviousSibling() (node.Node, error) {
 	return n, err
 }
 
-func (t TreeWalker) PreviousNode() (node.Node, error) {
+func (t TreeWalker) PreviousNode() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 
 	if obj = t.Call("previousNode"); obj.Error() == nil {
 		n, err = node.NewFromJSObject(obj)
@@ -166,10 +169,10 @@ func (t TreeWalker) PreviousNode() (node.Node, error) {
 	return n, err
 }
 
-func (t TreeWalker) Root() (node.Node, error) {
+func (t TreeWalker) Root() (*node.Node, error) {
 	var err error
 	var obj js.Value
-	var n node.Node
+	var n *node.Node
 	if obj = t.GetValueByKey("root"); obj.Error() == nil {
 		n, err = node.NewFromJSObject(obj)
 	}

@@ -7,7 +7,6 @@ import (
 	"github.com/volts-dev/vertex/test"
 
 	"github.com/volts-dev/vertex/html/file"
-	"github.com/volts-dev/vertex/js/array"
 	"github.com/volts-dev/vertex/js/reflect"
 )
 
@@ -45,7 +44,7 @@ func TestAdd(t *testing.T) {
 
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if f, err := file.New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+			if f, err := file.New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 				test.AssertErr(t, d.Add(f))
 				if l, err := d.Length(); test.AssertErr(t, err) {
@@ -69,7 +68,7 @@ func TestClear(t *testing.T) {
 
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if f, err := file.New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+			if f, err := file.New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 				test.AssertErr(t, d.Add(f))
 				test.AssertErr(t, d.Clear())
@@ -95,7 +94,7 @@ func TestRemove(t *testing.T) {
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 			d.Clear()
 
-			if f, err := file.New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+			if f, err := file.New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 				test.AssertErr(t, d.Add(f))
 
@@ -122,7 +121,7 @@ func TestDataTransferItem(t *testing.T) {
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 			d.Clear()
 
-			if f, err := file.New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+			if f, err := file.New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 				test.AssertErr(t, d.Add(f))
 
 				if item, err := d.DataTransferItem(0); test.AssertErr(t, err) {

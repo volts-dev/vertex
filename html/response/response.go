@@ -7,18 +7,16 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 
+	"github.com/volts-dev/vertex/html/arraybuffer"
 	"github.com/volts-dev/vertex/html/headers"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/promise"
 	"github.com/volts-dev/vertex/html/stream"
-	"github.com/volts-dev/vertex/js/arraybuffer"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var (
@@ -68,7 +66,7 @@ func New(opts ...interface{}) (Response, error) {
 
 	for _, opt := range opts {
 		if v, ok := opt.(js.ObjectFrom); ok {
-			array = append(array, v.Value())
+			array = append(array, v.GetObjectValue())
 		}
 
 	}
@@ -138,7 +136,7 @@ func (r Response) Ok() (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 

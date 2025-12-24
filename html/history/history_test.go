@@ -8,7 +8,6 @@ import (
 	"github.com/volts-dev/vertex/test"
 
 	"github.com/volts-dev/vertex/html/objectmap"
-	"github.com/volts-dev/vertex/js/array"
 	"github.com/volts-dev/vertex/js/reflect"
 )
 
@@ -39,7 +38,7 @@ func TestState(t *testing.T) {
 			_, err := h.State()
 
 			test.AssertExpect(t, true, errors.Is(err, js.ErrUndefinedValue))
-			o, _ := objectmap.New(array.New_(array.New_("title", "teststate")))
+			o, _ := objectmap.New(js.NewArray_(js.NewArray_("title", "teststate")))
 			h.PushState(o, "hello")
 			state, err := h.State()
 			test.AssertExpect(t, "[object Map]", state.(objectmap.ObjectMap).ObjectMap_().ToString_())
@@ -61,7 +60,7 @@ func TestLength(t *testing.T) {
 			if l, err := h.Length(); test.AssertErr(t, err) {
 
 				test.AssertExpect(t, true, l >= 1)
-				o, _ := objectmap.New(array.New_(array.New_("title", "testLength1")))
+				o, _ := objectmap.New(js.NewArray_(js.NewArray_("title", "testLength1")))
 				h.PushState(o, "hello")
 				if l2, err := h.Length(); test.AssertErr(t, err) {
 

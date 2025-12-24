@@ -5,7 +5,6 @@ import (
 
 	"github.com/volts-dev/vertex/core/errors"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 type (
@@ -217,7 +216,7 @@ func (n node) CompareDocumentPosition(node Node) (int, error) {
 		if obj.Type() == js.TypeNumber {
 			return obj.Int()
 		} else {
-			err = object.ErrObjectNotNumber
+			err = js.ErrObjectNotNumber
 		}
 	}
 	return result, err
@@ -232,7 +231,7 @@ func (n node) Contains(node Node) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
@@ -269,7 +268,7 @@ func (n node) IsDefaultNamespace(namespace string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
@@ -285,7 +284,7 @@ func (n node) IsEqualNode(n1 Node) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
@@ -302,7 +301,7 @@ func (n node) IsSameNode(n1 Node) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 

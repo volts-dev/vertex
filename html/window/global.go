@@ -2,8 +2,6 @@ package window
 
 import (
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/helper"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func Alert(message string) error {
@@ -19,7 +17,7 @@ func Confirm(message string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = object.ErrObjectNotBool
+			err = js.ErrObjectNotBool
 		}
 	}
 
@@ -33,7 +31,7 @@ func Prompt(message, input string) (*string, error) {
 	if obj := Default().Call("prompt", js.ValueOf(message), js.ValueOf(input)); obj.Error() == nil {
 
 		if obj.Type() == js.TypeString {
-			v := helper.ValueToString(obj)
+			v := js.ValueToString(obj)
 			ret = &v
 		}
 	}
@@ -50,7 +48,7 @@ func Atob(encoded string) (string, error) {
 		if obj.Type() == js.TypeString {
 			return obj.String()
 		} else {
-			err = object.ErrObjectNotString
+			err = js.ErrObjectNotString
 		}
 	}
 	return result, err
@@ -66,7 +64,7 @@ func Btoa(message string) (string, error) {
 		if obj.Type() == js.TypeString {
 			return obj.String()
 		} else {
-			err = object.ErrObjectNotString
+			err = js.ErrObjectNotString
 		}
 	}
 	return result, err

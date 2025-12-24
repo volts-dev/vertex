@@ -81,6 +81,10 @@ func CopyBytesToJS(dst Value, src []byte) (int, error) {
 	panic(errNotImpl)
 }
 
+func (v *value) Equal(other Value) bool {
+	panic(errNotImpl)
+}
+
 // Type alias to syscall/js
 func (v *value) Type() Type {
 	panic(errNotImpl)
@@ -157,11 +161,19 @@ func (v *value) IsNull() bool {
 	panic(errNotImpl)
 }
 
+func (v *value) IsNaN() bool {
+	panic(errNotImpl)
+}
+
 func (v *value) Error() error {
 	return errNotImpl
 }
 
 // Release alias to syscall/js
 func (c function) Release() {
+	panic(errNotImpl)
+}
+
+func unwrap(val any) any {
 	panic(errNotImpl)
 }

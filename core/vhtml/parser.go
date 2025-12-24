@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/volts-dev/lexer"
-	"github.com/volts-dev/logger"
 )
 
 const (
@@ -58,7 +57,7 @@ func newParser(content string) *Parser {
 
 	lex, err := lexer.NewLexer(strings.NewReader(content))
 	if err != nil {
-		logger.Err(err.Error())
+		//logger.Err(err.Error())
 	}
 
 	parser := &Parser{
@@ -75,7 +74,7 @@ func newParser(content string) *Parser {
 
 		// print token
 		if printToken {
-			logger.Info(lexer.PrintToken(item))
+			//logger.Info(lexer.PrintToken(item))
 		}
 
 		parser.Tokens = append(parser.Tokens, &item)

@@ -6,7 +6,6 @@ import (
 	"github.com/volts-dev/vertex/js"
 	"github.com/volts-dev/vertex/test"
 
-	"github.com/volts-dev/vertex/js/array"
 	"github.com/volts-dev/vertex/js/reflect"
 )
 
@@ -21,7 +20,7 @@ file = new File(['(⌐□_□)'], 'chucknorris.png', { type: 'image/png' })
 
 func TestNew(t *testing.T) {
 
-	if f, err := New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 		test.AssertExpect(t, "[object File]", f.ToString_())
 
@@ -45,7 +44,7 @@ func TestNewFromJSObject(t *testing.T) {
 
 func TestName(t *testing.T) {
 
-	if f, err := New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 		if name, err := f.Name(); test.AssertErr(t, err) {
 
@@ -58,7 +57,7 @@ func TestName(t *testing.T) {
 
 func TestType(t *testing.T) {
 
-	if f, err := New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 		if typefile, err := f.Type(); test.AssertErr(t, err) {
 
@@ -67,7 +66,7 @@ func TestType(t *testing.T) {
 
 	}
 
-	if f, err := New(array.From_("(⌐□_□)"), "chucknorris.png"); test.AssertErr(t, err) {
+	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png"); test.AssertErr(t, err) {
 
 		if typefile, err := f.Type(); test.AssertErr(t, err) {
 
@@ -80,7 +79,7 @@ func TestType(t *testing.T) {
 
 func TestLastModifiedDate(t *testing.T) {
 
-	if f, err := New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 		if lastmodified, err := f.LastModifiedDate(); test.AssertErr(t, err) {
 
@@ -93,7 +92,7 @@ func TestLastModifiedDate(t *testing.T) {
 
 func TestLastModified(t *testing.T) {
 
-	if f, err := New(array.From_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
+	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 		if lastmodified, err := f.LastModified(); test.AssertErr(t, err) {
 

@@ -5,14 +5,12 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/html/event"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/helper"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -94,7 +92,7 @@ func (c CustomEvent) Detail() (interface{}, error) {
 	var i interface{}
 
 	if obj = c.GetValueByKey("detail"); obj.Error() == nil {
-		i, err = helper.GoValue(obj)
+		i, err = js.GoValue(obj)
 	}
 	return i, err
 }

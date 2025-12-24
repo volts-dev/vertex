@@ -7,17 +7,16 @@ import (
 
 	"github.com/volts-dev/vertex/js"
 
+	"github.com/volts-dev/vertex/html/arraybuffer"
 	"github.com/volts-dev/vertex/html/blob"
 	"github.com/volts-dev/vertex/html/event"
 	"github.com/volts-dev/vertex/html/eventtarget"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/messageevent"
-	"github.com/volts-dev/vertex/js/arraybuffer"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -98,7 +97,7 @@ func New(url string) (WebSocket, error) {
 	return ws, err
 }
 
-func (w WebSocket) setHandler(jshandlername string, handler func(e event.Event)) {
+func (w WebSocket) setHandler(jshandlername string, handler func(e event.Event) error) {
 
 	jsfunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
@@ -113,30 +112,30 @@ func (w WebSocket) setHandler(jshandlername string, handler func(e event.Event))
 }
 
 // SetOnOpen Set onOpen Handler
-func (w WebSocket) SetOnOpen(handler func(e event.Event)) {
+func (w WebSocket) SetOnOpen(handler func(e event.Event) error) {
 
-	w.setHandler("onopen", func(e event.Event) {
-		handler(e)
+	w.setHandler("onopen", func(e event.Event) error {
+		return handler(e)
 	})
 }
 
 // SetOnClose Set onClose Handler
-func (w WebSocket) SetOnClose(handler func(e event.Event)) {
-	w.setHandler("onclose", func(e event.Event) {
-		handler(e)
+func (w WebSocket) SetOnClose(handler func(e event.Event) error) {
+	w.setHandler("onclose", func(e event.Event) error {
+		return handler(e)
 	})
 }
 
 // SetOnClose Set onClose Handler
-func (w WebSocket) SetOnError(handler func(e event.Event)) {
-	w.setHandler("onerror", func(e event.Event) {
-		handler(e)
+func (w WebSocket) SetOnError(handler func(e event.Event) error) {
+	w.setHandler("onerror", func(e event.Event) error {
+		return handler(e)
 	})
 }
 
 // SetOnClose Set onClose Handler
 func (w WebSocket) SetOnMessage(handler func(e messageevent.MessageEvent)) {
-	w.setHandler("onmessage", func(e event.Event) {
+	w.setHandler("onmessage", func(e event.Event) error {
 
 		if obj, err := js.Discover(e.GetObjectValue()); err == nil {
 
@@ -144,23 +143,24 @@ func (w WebSocket) SetOnMessage(handler func(e messageevent.MessageEvent)) {
 				handler(m.MessageEvent_())
 			}
 		}
+		return nil
 	})
 }
 
 // OnOpen Set onOpen Handler
-func (w WebSocket) OnOpen(handler func(e event.Event)) (js.Func, error) {
+func (w WebSocket) OnOpen(handler func(e event.Event) error) (js.Func, error) {
 
 	return w.AddEventListener("open", handler)
 }
 
 // OnClose Set onClose Handler
-func (w WebSocket) OnClose(handler func(e event.Event)) (js.Func, error) {
+func (w WebSocket) OnClose(handler func(e event.Event) error) (js.Func, error) {
 
 	return w.AddEventListener("close", handler)
 }
 
 // OnError Set onError Handler
-func (w WebSocket) OnError(handler func(e event.Event)) (js.Func, error) {
+func (w WebSocket) OnError(handler func(e event.Event) error) (js.Func, error) {
 
 	return w.AddEventListener("error", handler)
 }
@@ -195,13 +195,14 @@ func (w WebSocket) SetBinaryType(binaryType string) error {
 // OnError Set onError Handler
 func (w WebSocket) OnMessage(handler func(m messageevent.MessageEvent)) (js.Func, error) {
 
-	return w.AddEventListener("message", func(e event.Event) {
+	return w.AddEventListener("message", func(e event.Event) error {
 
 		if obj, err := js.Discover(e.GetObjectValue()); err == nil {
 			if m, ok := obj.(messageevent.MessageEventFrom); ok {
 				handler(m.MessageEvent_())
 			}
 		}
+		return nil
 	})
 }
 

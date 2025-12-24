@@ -5,18 +5,14 @@ import (
 	"sync"
 
 	"github.com/volts-dev/vertex/html/domexception"
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/jserror"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/array"
-	"github.com/volts-dev/vertex/js/helper"
-	"github.com/volts-dev/vertex/js/object"
 	"github.com/volts-dev/vertex/js/reflect"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -129,7 +125,7 @@ func (p Promise) Then(resolve func(interface{}) *Promise, reject func(error)) (P
 	resolveFunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
 		if len(args) > 0 {
-			obj, err = helper.GoValue(args[0])
+			obj, err = js.GoValue(args[0])
 			if resolve != nil {
 				if retp := resolve(obj); retp != nil {
 					return retp.GetObjectValue()
@@ -151,9 +147,9 @@ func (p Promise) Then(resolve func(interface{}) *Promise, reject func(error)) (P
 		} else {
 
 			var strerr string
-			b, _ := object.ToObject(args[0])
+			b, _ := js.ToObject(args[0])
 			if target := b.GetValueByKey("target"); target.Error() == nil {
-				t, _ := object.ToObject(target)
+				t, _ := js.ToObject(target)
 				if targeterror := t.GetValueByKey("error"); targeterror.Error() == nil {
 					if exception, errRejected = domexception.NewFromJSObject(targeterror); errRejected == nil {
 						message, _ := exception.Message()
@@ -191,14 +187,14 @@ func iterablePromises(method string, values ...interface{}) (Promise, error) {
 	var err error
 	var pr Promise
 	var promiseobj js.Value
-	var arr array.Array
+	var arr js.Array
 
 	var arrayJS []interface{}
 	if pi := GetInterface(); !pi.IsUndefined() {
 		for _, value := range values {
 			arrayJS = append(arrayJS, js.ValueOf(value))
 		}
-		if arr, err = array.New(arrayJS...); err == nil {
+		if arr, err = js.NewArray(arrayJS...); err == nil {
 
 			if promiseobj = pi.Call(method, arr.GetObjectValue()); promiseobj.Error() == nil {
 				pr, err = NewFromJSObject(promiseobj)
@@ -237,7 +233,7 @@ func (p Promise) Catch(reject func(error)) (Promise, error) {
 			message, _ := exception.Message()
 			err = errors.New(message)
 		} else {
-			err = errors.New(helper.ValueToString(args[0]))
+			err = errors.New(js.ValueToString(args[0]))
 		}
 
 		if reject != nil {

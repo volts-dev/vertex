@@ -15,7 +15,8 @@ func main() {
 	fmt.Printf("Get self\n")
 	if instance, err := js.Self(); test.AssertErr(nil, err) {
 
-		if d, ok := instance.(dedicatedworkerglobalscope.DedicatedWorkerGlobalScope); ok {
+		//if d, ok := instance.(dedicatedworkerglobalscope.DedicatedWorkerGlobalScope); ok {
+		if d, err := dedicatedworkerglobalscope.NewFromJSObject(instance); test.AssertErr(nil, err) {
 			fmt.Printf("Install handler\n")
 			d.PostMessage("installok")
 			d.OnMessage(func(m messageevent.MessageEvent) {

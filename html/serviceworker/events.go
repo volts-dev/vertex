@@ -6,12 +6,12 @@ import (
 	"github.com/volts-dev/vertex/html/event"
 )
 
-func (s ServiceWorker) OnStateChange(handler func(e event.Event)) (js.Func, error) {
+func (s ServiceWorker) OnStateChange(handler func(e event.Event) error) (js.Func, error) {
 
 	return s.AddEventListener("statechange", handler)
 }
 
-func (s ServiceWorker) OnError(handler func(e event.Event)) (js.Func, error) {
+func (s ServiceWorker) OnError(handler func(e event.Event) error) (js.Func, error) {
 
 	return s.AddEventListener("error", handler)
 }

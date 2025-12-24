@@ -48,13 +48,14 @@ func TestIDBRequestMethods(t *testing.T) {
 
 		if openrequest, err := IDBOpenDBRequestNewFromJSObject(obj); test.AssertErr(t, err) {
 
-			openrequest.OnUpgradeNeeded(func(e event.Event) {
+			openrequest.OnUpgradeNeeded(func(e event.Event) error {
 
 				for _, result := range methodsIDBRequestAttempt {
 					test.InvokeCheck(t, openrequest, result)
 				}
 
 				io <- true
+				return nil
 			})
 
 			select {

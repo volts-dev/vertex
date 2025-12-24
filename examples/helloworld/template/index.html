@@ -1,0 +1,28 @@
+<html>
+  <body>
+    <script src="{{.static}}/js/test_super.js"></script>
+    <script src="{{.static}}/js/wasm_exec.js"></script>
+    <script>
+      registerTestSuper("test-com");
+      const go = new Go();
+      WebAssembly.instantiateStreaming(fetch("{{.static}}/app.wasm"), go.importObject)
+        .then((result) => {
+          go.run(result.instance).then(() => {
+            // 检查测试结果
+            const passed = globalThis.testStatus === 'PASS';
+            console.log(passed ? "All tests passed!" : "Tests failed.");
+          });
+        })
+        .catch((err) => {
+        // --- 在这里打印错误 ---
+        console.error("Wasm 加载失败:", err);
+        
+        // 常见错误 1: TypeError: Failed to execute 'compile' on 'WebAssembly': Incorrect response MIME type...
+        // 常见错误 2: TypeError: Failed to fetch
+      });
+    </script>
+      <hello-world></hello-world> 
+       <test-com></test-com> 
+  </body>
+
+ </html>

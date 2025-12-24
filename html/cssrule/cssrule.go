@@ -3,15 +3,13 @@ package cssrule
 import (
 	"sync"
 
-	"github.com/volts-dev/vertex/html/initinterface"
 	"github.com/volts-dev/vertex/html/stylesheet"
 	"github.com/volts-dev/vertex/js"
-	"github.com/volts-dev/vertex/js/object"
 )
 
 func init() {
 
-	initinterface.RegisterInterface(GetInterface)
+	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
@@ -79,7 +77,7 @@ func (c CSSRule) ParentRule() (CSSRule, error) {
 	if obj = c.GetValueByKey("parentRule"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 			cr, err = NewFromJSObject(obj)
@@ -95,7 +93,7 @@ func (c CSSRule) ParentStyleSheet() (stylesheet.StyleSheet, error) {
 	if obj = c.GetValueByKey("parentStyleSheet"); obj.Error() == nil {
 
 		if obj.IsUndefined() {
-			err = object.ErrNotAnObject
+			err = js.ErrNotAnObject
 
 		} else {
 			s, err = stylesheet.NewFromJSObject(obj)
