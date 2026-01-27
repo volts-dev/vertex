@@ -8,105 +8,133 @@ import (
 	"github.com/volts-dev/vertex/core/console"
 	"github.com/volts-dev/vertex/html/global"
 	"github.com/volts-dev/vertex/html/node"
+
+	"github.com/expr-lang/expr/vm"
 )
 
 type (
 	// TemplateInstance 执行模板更新对象
 	TemplateInstance struct {
 		template  *TemplateElement
-		parent    *ContentPart
-		parts     []IPart
+		parent    IPart
+		fragment  *node.Node // 克隆的节点片段
+		conditon  *vm.Program
+		env       map[string]any
+		parts     []IPart       // 模板中的所有更新部分
+		Value     any           // 当前 contentpart 的值
 		compValue reflect.Value // 每个handler的控制器必须是唯一的
 		comp      interface{}   // 提供Ctx特殊调用
+		context   context.Context
 	}
 )
 
-func NewTemplateInstance(tmpl *TemplateElement, parent *ContentPart, comp interface{}) *TemplateInstance {
+func NewTemplateInstance(tmpl *TemplateElement, parent IPart, ctx context.Context) *TemplateInstance {
+	com := ctx.Value("component")
+	value := reflect.ValueOf(com)
+
+	// 获取所有方法信息
+	// 注意：reflect.TypeOf(s) 如果 s 是值，只能取到值接收者方法；
+	// 如果 s 是指针，能取到值接收者 + 指针接收者方法。
+	typ := value.Type()
+	for i := 0; i < value.NumMethod(); i++ {
+		method := value.Method(i)
+		ctx = context.WithValue(ctx, typ.Method(i).Name, method)
+		//fmt.Println("NumMethod", pt.Method(i).Name, method.IsValid())
+	}
+
+	// 获取所有字段信息时使用非指针
+	if value.Kind() == reflect.Ptr {
+		value = value.Elem()
+	}
+
+	typ = value.Type()
+	for i := 0; i < value.NumField(); i++ {
+		field := value.Field(i)
+		ctx = context.WithValue(ctx, "."+typ.Field(i).Name, field)
+		//console.Info("Field:", "."+typ.Field(i).Name)
+	}
+
 	return &TemplateInstance{
 		template:  tmpl,
 		parent:    parent,
-		compValue: reflect.ValueOf(comp),
-		comp:      comp,
+		Value:     false,
+		compValue: value.Addr(),
+		comp:      com,
+		context:   ctx,
 	}
 }
 
 // 从 template 克隆一个新的实例
 func (self *TemplateInstance) CloneTemplate() (*node.Node, error) {
-	fmt.Println(self.template)
-	node, _ := self.template.el.Content()
+	tmpNode, _ := self.template.el.Content()
 	doc, err := global.Document()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get document: %w", err)
 	}
 
-	fragment, err := doc.ImportNode(node.Node, true)
+	fragment, err := doc.ImportNode(tmpNode.Node, true)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to import node: %w", err)
 	}
 
-	if walker.GetObjectValue().IsNull() && walker.GetObjectValue().IsUndefined() {
-		walker, err = doc.CreateTreeWalker(doc.Node)
-		if err != nil {
-
+	// 初始化树遍历器
+	if walker == nil {
+		if walker, err = doc.CreateTreeWalker(doc.Node); err != nil {
+			return nil, fmt.Errorf("failed to create tree walker: %w", err)
 		}
 	}
 
-	err = walker.SetCurrentNode(fragment.GetObjectValue())
-	if err != nil {
-		return nil, err
+	if err = walker.SetCurrentNode(fragment.GetObjectValue()); err != nil {
+		return nil, fmt.Errorf("failed to set current node: %w", err)
 	}
 
-	nnode, err := walker.NextNode()
-	nodeIndex := 0
-	var templatePart *TemplatePart
-	compValue := self.compValue.Elem()
+	defer func() {
+		if err = walker.SetCurrentNode(doc.GetObjectValue()); err != nil {
+			console.Error("failed to reset walker: %w", err)
+		}
+	}()
 
-	for partIndex := 0; partIndex < len(self.template.parts); partIndex++ {
-		templatePart = self.template.parts[partIndex]
-
-		if templatePart.Index != nodeIndex {
+	//console.Info("fragment:", node.GetObjectValue(), fragment.GetObjectValue())
+	/*
+		nnode, err := walker.NextNode()
+		if err != nil {
+			//console.Info("walker.NextNode", fragment.GetObjectValue(), err)
+			return fragment, nil
+		}
+	*/
+	var nnode *node.Node
+	nodeIndex := -1
+	for _, templatePart := range self.template.parts {
+		for templatePart.Index != nodeIndex {
 			nnode, err = walker.NextNode()
+			if err != nil {
+				goto DONE
+			}
+
 			nodeIndex++
 		}
 
-		if nodeIndex == templatePart.Index {
-			var part IPart
-
-			switch templatePart.Type {
-			case ATTRIBUTE_PART, BOOLEAN_ATTRIBUTE_PART, PROPERTY_PART:
-				f := compValue.FieldByName(templatePart.Name)
-				part = templatePart.Ctor(nnode, templatePart.Name, f, templatePart.Strings, self)
-			case EVENT_PART:
-				m := compValue.MethodByName(templatePart.Name)
-				part = NewEventPart(nnode, templatePart.Name, m, templatePart.Strings, self)
-			case CHILD_PART:
-				endNode, err := nnode.NextSibling()
-				if err != nil {
-					return nil, err
-				}
-				part = NewContentPart(nnode, endNode, self)
-			case ELEMENT_PART:
-				part = NewElementPart(nnode, self)
-
-			}
-
-			self.parts = append(self.parts, part)
+		if templatePart.Ctor == nil {
+			fmt.Println("Ctor found for part:", templatePart.Name)
+			panic("Miss templatePart.Ctor implementation")
 		}
+
+		self.parts = append(self.parts, templatePart.Ctor(templatePart, nnode, &self.compValue, self))
 	}
 
-	if err = walker.SetCurrentNode(doc.GetObjectValue()); err != nil {
-		return nil, err
-	}
-
+DONE:
 	return fragment, nil
 }
 
 // 更新克隆的实例
-func (self *TemplateInstance) Update(ctx ...context.Context) {
+func (self *TemplateInstance) Update(ctx ...context.Context) error {
 	for _, part := range self.parts {
-		err := part.SetValue(nil, nil)
-		if err != nil {
-			console.Error(err)
+		if err := part.SetValue(nil, self.context); err != nil {
+			console.Error("Failed to update part: %v", err)
+			//panic(err)
+			return err
 		}
 	}
+
+	return nil
 }

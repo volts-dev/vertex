@@ -95,6 +95,7 @@ func Info(args ...interface{}) {
 		Error(v.Error())
 	}
 }
+
 func Log(args ...interface{}) {
 	args = js.ToValues(args...)
 	if v := value.Call("log", args...); v.Error() != nil {

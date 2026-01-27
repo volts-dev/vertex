@@ -39,12 +39,6 @@ type (
 		Release()
 	}
 
-	// ObjectFrom Interface to check if Object is a BaseObject
-	ObjectFrom interface {
-		GetObjectValue() Value
-		BaseObject_() Object
-	}
-
 	__Error interface {
 		Error() string
 	}
@@ -132,6 +126,8 @@ func MustWasmExecJsPath() string {
 	}
 	return s
 }
+
+// GetFuncName 获取函数名称，从 JS 对象的 name 属性中读取
 func GetFuncName(inter Value) (string, error) {
 	var obj Value
 	var err error
@@ -147,18 +143,32 @@ func GetFuncName(inter Value) (string, error) {
 	return name, err
 }
 
+// Eval 执行 JavaScript 代码并返回结果
 func Eval(str string) (Value, error) {
-	f := (&value{v: global}).Call("eval", str)
-	return f, f.Error()
-}
-
-func Self() (Value, error) {
-	var self Value
-	if self = (&value{v: global}).Get("self"); self.Error() == nil {
-		return self, nil
+	if str == "" {
+		return Undefined(), fmt.Errorf("eval: empty string")
 	}
 
-	return nil, self.Error()
+	f := (&value{v: global}).Call("eval", str)
+	if err := f.Error(); err != nil {
+		return nil, fmt.Errorf("eval failed: %w", err)
+	}
+
+	return f, nil
+}
+
+// Self 获取全局 self 对象（在 Web Workers 中使用）
+func Self() (Value, error) {
+	self := (&value{v: global}).Get("self")
+	if err := self.Error(); err != nil {
+		return nil, fmt.Errorf("failed to get self: %w", err)
+	}
+
+	if self.IsUndefined() {
+		return nil, fmt.Errorf("self is undefined")
+	}
+
+	return self, nil
 }
 
 // Get is a shorthand for Global().Get().

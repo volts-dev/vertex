@@ -14,6 +14,8 @@ import (
 )
 
 var (
+	defaultApplication *application
+
 // defaultRouter = router.New("")
 // window = newBrowserWindow()
 // singleton sync.Once
@@ -65,7 +67,36 @@ func Init() {
 	js.Init()
 }
 
-func Start() {
+func Default() *application {
+	if defaultApplication == nil {
+		defaultApplication = New()
+	}
+
+	return defaultApplication
+
+}
+
+func New() *application {
+	localStorage, err := storage.New()
+	if err != nil {
+		console.Error(err)
+		panic(err)
+	}
+
+	sessionStorage, err := storage.New()
+	if err != nil {
+		console.Error(err)
+		panic(err)
+	}
+
+	return &application{
+		localStorage:   localStorage,
+		sessionStorage: sessionStorage,
+	}
+}
+
+func (self *application) Start() {
+	console.Info("start")
 	if IsServer {
 		return
 	}
@@ -99,35 +130,14 @@ func Start() {
 		engine.Navigate(window.Default().URL(), false)
 		engine.Start(120)
 	*/
-	app := newApplication()
-	app.Navigate(window.Default().URL(), false)
-	app.Start()
-}
-
-func newApplication() *application {
-	localStorage, err := storage.New()
-	if err != nil {
-		console.Error(err)
-		panic(err)
-	}
-
-	sessionStorage, err := storage.New()
-	if err != nil {
-		console.Error(err)
-		panic(err)
-	}
-
-	return &application{
-		localStorage:   localStorage,
-		sessionStorage: sessionStorage,
-	}
-}
-
-func (self *application) Start() {
-	console.Info("start")
+	self.Navigate(window.Default().URL(), false)
 	// 保持 Go 进程不退出
 	select {}
 }
 
 func (self *application) Navigate(destination *url.URL, updateHistory bool) {
+}
+
+func (self *application) Use(mid Middleware) {
+
 }

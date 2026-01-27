@@ -253,16 +253,14 @@ func (d Document) GetElementsByTagNameNS(namespace, tagname string) (htmlcollect
 }
 
 func (d Document) ImportNode(externalNode node.Node, deep bool) (*node.Node, error) {
-	var err error
 	var obj js.Value
 	var r *node.Node
 
 	if obj = d.Call("importNode", externalNode.GetObjectValue(), js.ValueOf(deep)); obj.Error() == nil {
-		r, err = node.NewFromJSObject(obj)
+		return node.NewFromJSObject(obj)
 	}
-	err = obj.Error()
 
-	return r, err
+	return r, obj.Error()
 }
 
 func (d Document) ReleaseCapture() error {

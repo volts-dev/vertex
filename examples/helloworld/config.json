@@ -32,7 +32,7 @@
       "serialize_type": "",
       "transport": {
         "acme_hosts": null,
-        "addrs": null,
+        "addrs": "",
         "dial_timeout": 15000000000,
         "enable_acme": false,
         "read_timeout": 15000000000,
@@ -122,7 +122,7 @@
         "secure": false,
         "transport": {
           "acme_hosts": null,
-          "addrs": null,
+          "addrs": "",
           "dial_timeout": 15000000000,
           "enable_acme": false,
           "read_timeout": 15000000000,
@@ -154,9 +154,7 @@
       },
       "transport": {
         "acme_hosts": null,
-        "addrs": [
-          ":9999"
-        ],
+        "addrs": ":9999",
         "dial_timeout": 999000000000,
         "enable_acme": false,
         "read_timeout": 999000000000,

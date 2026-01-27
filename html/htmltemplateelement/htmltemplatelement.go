@@ -12,12 +12,10 @@ import (
 )
 
 func init() {
-
 	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
-
 var htmltemplateelementinterface js.Value
 
 // HTMLTemplateElement struct
@@ -34,9 +32,7 @@ func (h HTMLTemplateElement) HTMLTemplateElement_() HTMLTemplateElement {
 }
 
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if htmltemplateelementinterface = js.Global().Get("HTMLTemplateElement"); htmltemplateelementinterface.Error() != nil {
 			htmltemplateelementinterface = js.Undefined()
 		}
@@ -101,11 +97,9 @@ func NewFromJSObject(obj js.Value) (HTMLTemplateElement, error) {
 
 func (h HTMLTemplateElement) Content() (documentfragment.DocumentFragment, error) {
 	var err error
-	var obj js.Value
 	var fragment documentfragment.DocumentFragment
 
-	if obj = h.GetValueByKey("content"); obj.Error() == nil {
-
+	if obj := h.GetValueByKey("content"); obj.Error() == nil {
 		fragment, err = documentfragment.NewFromJSObject(obj)
 	}
 

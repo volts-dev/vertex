@@ -46,32 +46,49 @@ func GoValueExt(object Value) interface{} {
 }
 
 func ValueToInt(v Value) int {
+	if v == nil {
+		return 0
+	}
+
 	value, err := v.Int()
 	if err != nil {
-		//debug(err.Error())
+		return 0
 	}
 
 	return value
 }
 func ValueToBool(v Value) bool {
+	if v == nil {
+		return false
+	}
+
 	value, err := v.Bool()
 	if err != nil {
-		//debug(err.Error())
+		return false
 	}
 
 	return value
 }
 
 func ValueToString(v Value) string {
+	if v == nil {
+		return ""
+	}
+
 	value, err := v.String()
 	if err != nil {
-		//debug(err.Error())
+		return ""
 	}
 
 	return value
 }
 
+// IsPrimitive 检查值是否为原始类型（不是对象或函数）
 func IsPrimitive(value Value) bool {
+	if value == nil {
+		return false
+	}
+
 	typ := value.Type()
 
 	return typ == TypeNull || typ == TypeUndefined ||
@@ -87,5 +104,6 @@ func ToValues(args ...interface{}) []any {
 	for i, arg := range args {
 		values[i] = unwrap(arg)
 	}
+
 	return values
 }

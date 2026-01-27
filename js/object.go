@@ -2,7 +2,6 @@ package js
 
 import (
 	"errors"
-	"fmt"
 	"sync"
 )
 
@@ -76,6 +75,11 @@ type ( /*
 
 			Keys() (Array, error)
 		}*/
+	// ObjectFrom Interface to check if Object is a BaseObject
+	ObjectFrom interface {
+		GetObjectValue() Value
+		BaseObject_() *Object
+	}
 
 	Object struct {
 		value Value
@@ -87,7 +91,6 @@ func init() {
 }
 
 var singleton sync.Once
-
 var objectinterface Value
 
 // GetInterface get the JS interface
@@ -107,26 +110,43 @@ func GetObjectInterface() Value {
 
 // NewFromJSObject Build a Object from a Js  Value Object given
 func ToObject(obj Value) (Object, error) {
-	var o Object
-	if obj.IsUndefined() || obj.IsNull() {
-		return o, ErrUndefinedValue
+	if obj == nil {
+		return Object{}, ErrUndefinedValue
 	}
 
-	//o.SetObjectValue(obj)
+	if obj.IsUndefined() || obj.IsNull() {
+		return Object{}, ErrUndefinedValue
+	}
+
 	return Object{
 		value: obj,
 	}, nil
 }
 
 // Base Object_ Return the current BaseObject
-func (b *Object) BaseObject_() Object {
-	return *b
+func (b *Object) BaseObject_() *Object {
+	return b
 }
 
+// Equal 检查两个 Object 是否相等
 func (b *Object) Equal(other any) bool {
+	if b == nil {
+		return false
+	}
+
+	if b.value == nil {
+		return false
+	}
+
 	if v, ok := other.(ObjectFrom); ok {
-		fmt.Println("Equal", b)
-		return b.value.Equal(v.GetObjectValue())
+		if (ObjectFrom)(nil) == v {
+			return false
+		}
+		otherVal := v.GetObjectValue()
+		if otherVal == nil {
+			return false
+		}
+		return b.value.Equal(otherVal)
 	}
 
 	return false
@@ -172,15 +192,22 @@ func (b Object) ConstructName() (string, error) {
 	return constructname, ErrUnableGetConstruct
 }
 
+// Value Equivalent to String()
+func (b Object) GetObjectValue() Value {
+	if b.value != nil {
+		return b.value
+	}
+
+	return Undefined()
+}
+
 // SetObject Set the JS value Object to this struct
-func (b *Object) SetObjectValue(value Value) *Object {
+func (b *Object) SetObjectValue(value Value) {
 	if b != nil {
 		b.value = value
-		return b
 	}
 
 	*b = Object{value: value}
-	return b
 }
 
 // String Get the current string representation of the js  Value attached to this struct
@@ -198,15 +225,6 @@ func (b Object) ToString() (string, error) {
 	}
 
 	return "", ErrNotAnObject
-}
-
-// Value Equivalent to String()
-func (b Object) GetObjectValue() Value {
-	if b.value != nil {
-		return b.value
-	}
-
-	return Undefined()
 }
 
 // Length Length of the JS.Value attached of this strict
@@ -287,11 +305,7 @@ func (b Object) Export(name string) {
 
 func (b Object) GetAttributeString(attribute string) (string, error) {
 	var err error
-	var obj Value
-	var ret = ""
-
-	obj = b.value.Get(attribute)
-	fmt.Println("GetAttributeString", obj)
+	obj := b.value.Get(attribute)
 	if obj.IsUndefined() || obj.IsNull() {
 		err = ErrUndefinedValue
 	} else {
@@ -302,7 +316,7 @@ func (b Object) GetAttributeString(attribute string) (string, error) {
 		}
 	}
 
-	return ret, err
+	return "", err
 }
 
 func (b Object) GetAttributeGlobal(attribute string) (interface{}, error) {

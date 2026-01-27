@@ -152,16 +152,17 @@ func (v *value) Type() Type {
 }
 
 func (v *value) Get(p string) (result Value) {
+	// 如果已经有错误，返回包含错误的新值
 	if v.err != nil {
-		return v
+		return &value{err: v.err}
 	}
 
+	// 检查值的有效性
 	if !v.v.Truthy() {
-		v.err = fmt.Errorf("wasm: get property '%s' on %s", p, v.v.Type().String())
-		return v
+		return &value{v: v.v, err: fmt.Errorf("wasm: get property '%s' on %s", p, v.v.Type().String())}
 	}
 
-	// 捕获 panic
+	// 捕获 panic 并返回错误
 	defer func() {
 		if r := recover(); r != nil {
 			result = &value{v: v.v, err: fmt.Errorf("wasm: panic getting property '%s': %v", p, r)}
@@ -272,7 +273,7 @@ func (v *value) Float() (float64, error) {
 	}
 
 	if v.v.Type() != js.TypeNumber {
-		return 0, fmt.Errorf("wasm: value is not a number (got %s)", v.v.Type())
+		return 0, fmt.Errorf("value is not a number (got %s)", v.v.Type())
 	}
 
 	return v.v.Float(), nil
@@ -284,7 +285,7 @@ func (v *value) Int() (int, error) {
 	}
 
 	if v.v.Type() != js.TypeNumber {
-		return 0, fmt.Errorf("wasm: value is not a number (got %s)", v.v.Type())
+		return 0, fmt.Errorf("value is not a number (got %s)", v.v.Type())
 	}
 
 	return v.v.Int(), nil
@@ -296,7 +297,7 @@ func (v *value) Bool() (bool, error) {
 	}
 
 	if v.v.Type() != js.TypeBoolean {
-		return false, fmt.Errorf("wasm: value is not a boolean (got %s)", v.v.Type())
+		return false, fmt.Errorf("value is not a boolean (got %s)", v.v.Type())
 	}
 
 	return v.v.Bool(), nil
@@ -308,7 +309,7 @@ func (v *value) String() (string, error) {
 	}
 
 	if v.v.Type() != js.TypeString {
-		return "", fmt.Errorf("wasm: value is not a string (got %s)", v.v.Type())
+		return "", fmt.Errorf("value is not a string (got %s)", v.v.Type())
 	}
 
 	return v.v.String(), nil

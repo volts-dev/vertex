@@ -96,7 +96,7 @@ func (self *Parser) SkipSpace() (item *lexer.TToken) {
 		if self.isEnd {
 			break
 		}
-		//fmt.Println("consume_whitespace", self.Item().Val)
+
 		switch self.Token().Type {
 		case lexer.SAPCE: //lexer.TokenWhitespace,
 			continue
@@ -132,6 +132,14 @@ func (self *Parser) Backup(cnt ...int) {
 	if (self.len - count) > 0 {
 		self.pos = self.pos - count
 	}
+}
+
+func (self *Parser) Peek() *lexer.TToken {
+	if self.pos+1 >= self.len-1 { //如果大于Buf 则停止
+		return nil
+	}
+
+	return self.Tokens[self.pos+1]
 }
 
 func (self *Parser) Next() {

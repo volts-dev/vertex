@@ -2,10 +2,19 @@ package vhtml
 
 import (
 	"context"
+	"crypto/rand"
+	"math/big"
 
 	"github.com/volts-dev/vertex/core/console"
 	"github.com/volts-dev/vertex/html/global"
 	"github.com/volts-dev/vertex/html/node"
+	"github.com/volts-dev/vertex/js"
+)
+
+const (
+	// Base62 字符集 (去掉了容易混淆的符号)
+	vertexPrefix = "$vtx"
+	letters      = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 )
 
 type (
@@ -20,9 +29,10 @@ type (
 	}
 
 	TemplateResult struct {
-		typ  ResultType
-		html string //bytes.Buffer
-		comp Component
+		Context context.Context
+		typ     ResultType
+		html    string //bytes.Buffer
+		comp    Component
 	}
 )
 
@@ -33,17 +43,16 @@ func HTML(html string) *TemplateResult {
 	}
 }
 
-func Render(value any, hostNode *node.Node, opts *RenderOptions) (*ContentPart, error) {
-	node := hostNode.GetValueByKey("$vtx")
-	contentPart, _ := NewContentPartFromJSObject(node)
+func Render(value any, hostNode *node.Node, ctx context.Context) (*ContentPart, error) {
+	nodeObj := hostNode.GetValueByKey(vertexPrefix)
+	contentPart, _ := NewContentPartFromJSObject(nodeObj)
 	if contentPart == nil {
-		endNode := opts.renderBefore
+		endNode, _ := ctx.Value("renderBefore").(*node.Node)
 		/*container, err := element.NewFromJSObject(hostNode.GetObjectValue())
 		if err != nil {
 			return nil, err
 		}*/
 
-		//if createMarker.GetObjectValue().IsNull() || createMarker.GetObjectValue().IsUndefined() {
 		if createMarker == nil {
 			doc, err := global.Document()
 			if err != nil {
@@ -64,11 +73,35 @@ func Render(value any, hostNode *node.Node, opts *RenderOptions) (*ContentPart, 
 		}
 
 		// 创建一个新的模板实例
-		contentPart = NewContentPart(cnode, endNode, nil)
+		contentPart = NewContentPart(&TemplatePart{}, cnode, nil, nil).(*ContentPart)
+		contentPart.endNode = endNode
 		// 保存到 hostNode 上
-		hostNode.SetValueByKey("$vtx", contentPart.object.GetObjectValue())
+		hostNode.SetValueByKey(vertexPrefix, contentPart.object.GetObjectValue())
 	}
 
-	contentPart.SetValue(value, opts)
+	defer func() {
+		if r := recover(); r != nil {
+			js.RecoverHandler(r)
+		}
+	}()
+
+	contentPart.SetValue(value, ctx)
 	return contentPart, nil
+}
+
+func NewMarker() string {
+	marker, _ := GenerateShortUID(8)
+	return vertexPrefix + marker
+}
+
+func GenerateShortUID(n int) (string, error) {
+	ret := make([]byte, n)
+	for i := 0; i < n; i++ {
+		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(letters))))
+		if err != nil {
+			return "", err
+		}
+		ret[i] = letters[num.Int64()]
+	}
+	return string(ret), nil
 }

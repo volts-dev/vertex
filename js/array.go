@@ -39,10 +39,10 @@ type Array struct {
 }
 
 type ArrayFrom interface {
-	Array_() Array
+	Array_() *Array
 }
 
-func (a Array) Array_() Array {
+func (a *Array) Array_() *Array {
 	return a
 }
 
@@ -115,8 +115,8 @@ func NewArray(values ...interface{}) (Array, error) {
 	for _, value := range values {
 		arrayJS = append(arrayJS, ValueOf(value))
 	}
-	if ai := GetArrayInterface(); !ai.IsUndefined() {
 
+	if ai := GetArrayInterface(); !ai.IsUndefined() {
 		if obj = ai.New(arrayJS...); obj.Error() == nil {
 			a.SetObjectValue(obj)
 		}
@@ -124,8 +124,8 @@ func NewArray(values ...interface{}) (Array, error) {
 	} else {
 		err = ErrNotImplemented
 	}
-	return a, err
 
+	return a, err
 }
 
 func NewArrayFromJSObject(obj Value) (Array, error) {
@@ -468,7 +468,6 @@ func (a Array) Push(i interface{}) (int, error) {
 	}
 
 	return index, err
-
 }
 
 func (a Array) Reduce(f func(accumulateur interface{}, value interface{}, opts ...interface{}) interface{}, initialValue ...interface{}) (interface{}, error) {

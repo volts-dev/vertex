@@ -16,7 +16,6 @@ func init() {
 }
 
 var singletonDate sync.Once
-
 var dateinterface Value
 
 // GetJSInterface get the JS interface
@@ -39,10 +38,10 @@ type Date struct {
 }
 
 type DateFrom interface {
-	Date_() Date
+	Date_() *Date
 }
 
-func (d Date) Date_() Date {
+func (d *Date) Date_() *Date {
 	return d
 }
 

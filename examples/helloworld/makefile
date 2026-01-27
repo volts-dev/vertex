@@ -16,6 +16,9 @@ init:
 build:
 	@GOARCH=wasm GOOS=js go build -o ./static/app.wasm main.go
 
+release:
+	@GOARCH=wasm GOOS=js GOEXPERIMENT=wasmgc go build -o ./static/app.wasm main.go
+
 # 运行程序
 run: build
 	@go build

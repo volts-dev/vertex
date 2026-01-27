@@ -3,7 +3,6 @@
     <script src="{{.static}}/js/test_super.js"></script>
     <script src="{{.static}}/js/wasm_exec.js"></script>
     <script>
-      registerTestSuper("test-com");
       const go = new Go();
       WebAssembly.instantiateStreaming(fetch("{{.static}}/app.wasm"), go.importObject)
         .then((result) => {
@@ -20,9 +19,10 @@
         // 常见错误 1: TypeError: Failed to execute 'compile' on 'WebAssembly': Incorrect response MIME type...
         // 常见错误 2: TypeError: Failed to fetch
       });
+      registerTestSuper("test-com");
     </script>
       <hello-world></hello-world> 
-       <test-com></test-com> 
+        <test-com></test-com> 
   </body>
 
  </html>

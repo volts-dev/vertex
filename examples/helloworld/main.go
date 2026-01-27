@@ -8,5 +8,5 @@ import (
 )
 
 func main() {
-	app.Start()
+	app:=app.Default()
 }

@@ -20,12 +20,12 @@ require (
 	github.com/bytedance/sonic/loader v0.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.6 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
+	github.com/expr-lang/expr v1.17.7 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-acme/lego/v4 v4.26.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/jinzhu/copier v0.4.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/miekg/dns v1.1.68 // indirect
@@ -41,8 +41,8 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	github.com/volts-dev/cacher v0.0.0-20251213115225-e1113e910030 // indirect
-	github.com/volts-dev/dataset v0.0.0-20251214170336-a07c98c1bba5 // indirect
+	github.com/volts-dev/cacher v0.0.0-20260108163127-b0c79465d9d6 // indirect
+	github.com/volts-dev/dataset v0.0.0-20251225093026-6d6fb8739587 // indirect
 	github.com/volts-dev/lexer v0.0.0-20251110194144-a67bf55d1b63 // indirect
 	github.com/volts-dev/template v0.0.0-20240613070915-3d2783a5c479 // indirect
 	github.com/volts-dev/utils v0.0.0-20241206111447-ee54d4e2c42c // indirect

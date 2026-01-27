@@ -80,37 +80,43 @@ func (n Node) Node_() Node {
 }
 
 func NewFromJSObject(obj js.Value) (*Node, error) {
-	var n Node
-	var err error
-
-	if ni := GetInterface(); !ni.IsUndefined() {
-		if obj.IsUndefined() || obj.IsNull() {
-			return nil, js.ErrUndefinedValue
-		} else {
-			if obj.InstanceOf(ni) {
-				n.SetObjectValue(obj)
-				return &n, err
-			}
-
-			return nil, ErrNotANode
-		}
+	// 检查 obj 的有效性
+	if obj == nil || obj.IsUndefined() || obj.IsNull() {
+		return nil, js.ErrUndefinedValue
 	}
 
-	return nil, ErrNotImplemented
+	// 检查 Node 接口是否存在
+	ni := GetInterface()
+	if ni.IsUndefined() {
+		return nil, ErrNotImplemented
+	}
+
+	// 检查 obj 是否是 Node 的实例
+	if !obj.InstanceOf(ni) {
+		return nil, ErrNotANode
+	}
+
+	// 创建并返回 Node
+	n := Node{}
+	n.SetObjectValue(obj)
+	return &n, nil
 }
 
 func (n Node) getAttributeNode(attribute string) (*Node, error) {
-	var nodeObject js.Value
+	nodeObject := n.GetValueByKey(attribute)
 
-	if nodeObject = n.GetValueByKey(attribute); nodeObject.Error() == nil {
-		if nodeObject.IsUndefined() {
-			return nil, ErrNodeNoChilds
-		}
-
-		return NewFromJSObject(nodeObject)
+	// 检查值是否为 nil 或 undefined
+	if nodeObject == nil || nodeObject.IsUndefined() {
+		return nil, ErrNodeNoChilds
 	}
 
-	return nil, nodeObject.Error()
+	// 检查操作过程中是否有错误
+	if err := nodeObject.Error(); err != nil {
+		return nil, err
+	}
+
+	// 将 JS 对象转换为 Node
+	return NewFromJSObject(nodeObject)
 }
 
 func (n Node) BaseURI() (string, error) {
@@ -271,7 +277,7 @@ func (n Node) IsDefaultNamespace(namespace string) (bool, error) {
 }
 
 func (n Node) IsNull() bool {
-	return n.GetObjectValue() == js.Null()
+	return n.GetObjectValue().IsNull() || n.GetObjectValue().IsUndefined()
 }
 
 func (n Node) IsEqualNode(n1 *Node) (bool, error) {

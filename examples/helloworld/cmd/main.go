@@ -21,8 +21,8 @@ func main() {
 
 	srv := volts.New()
 	srv.Server().Config().Init(
-		server.WithTransport(tr),
 		server.WithRouter(r),
+		server.WithTransport(tr),
 	)
 
 	srv.Run()

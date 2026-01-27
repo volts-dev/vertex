@@ -12,12 +12,10 @@ import (
 )
 
 func init() {
-
 	js.RegisterInterface(GetInterface)
 }
 
 var singleton sync.Once
-
 var documentfragementinterface js.Value
 
 type DocumentFragment struct {
@@ -33,9 +31,7 @@ func (d DocumentFragment) DocumentFragment_() DocumentFragment {
 }
 
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
-
 		if documentfragementinterface = js.Global().Get("DocumentFragment"); documentfragementinterface.Error() != nil {
 			documentfragementinterface = js.Undefined()
 		}
@@ -47,25 +43,6 @@ func GetInterface() js.Value {
 	return documentfragementinterface
 }
 
-func New() (DocumentFragment, error) {
-
-	var d DocumentFragment
-	var err error
-	var obj js.Value
-	if di := GetInterface(); !di.IsUndefined() {
-
-		if obj = di.New(); obj.Error() == nil {
-			d.SetObjectValue(obj)
-		}
-
-	} else {
-
-		err = ErrNotImplemented
-	}
-
-	return d, err
-}
-
 func NewFromJSObject(obj js.Value) (DocumentFragment, error) {
 	var d DocumentFragment
 	var err error
@@ -73,11 +50,8 @@ func NewFromJSObject(obj js.Value) (DocumentFragment, error) {
 		if obj.IsUndefined() || obj.IsNull() {
 			err = js.ErrUndefinedValue
 		} else {
-
 			if obj.InstanceOf(dci) {
-
 				d.SetObjectValue(obj)
-
 			} else {
 				err = ErrNotADocumentFragment
 			}
@@ -85,6 +59,21 @@ func NewFromJSObject(obj js.Value) (DocumentFragment, error) {
 	} else {
 		err = ErrNotImplemented
 	}
+	return d, err
+}
+
+func New() (DocumentFragment, error) {
+	var d DocumentFragment
+	var err error
+	var obj js.Value
+	if di := GetInterface(); !di.IsUndefined() {
+		if obj = di.New(); obj.Error() == nil {
+			d.SetObjectValue(obj)
+		}
+	} else {
+		err = ErrNotImplemented
+	}
+
 	return d, err
 }
 
@@ -98,7 +87,6 @@ func (e DocumentFragment) Children() (htmlcollection.HtmlCollection, error) {
 	var collection htmlcollection.HtmlCollection
 
 	if obj = e.GetValueByKey("children"); obj.Error() == nil {
-
 		collection, err = htmlcollection.NewFromJSObject(obj)
 	}
 
