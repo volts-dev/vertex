@@ -21,7 +21,7 @@ func TestNew(t *testing.T) {
 
 	if c, err := New(); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object console]", c.ToString_())
+		test.AssertExpect(t, "[object console]", c.ToString())
 
 		test.ImplementedExpect(t, c.Object, expectMethods)
 	}

@@ -101,7 +101,7 @@ func NewFromJSObject(obj js.Value) (Text, error) {
 	return h, err
 }
 
-func (h Text) Text() (string, error) {
+func (h Text) Text() string {
 	text := h.GetValueByKey("data")
 	return text.String()
 }

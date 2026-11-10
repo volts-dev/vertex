@@ -3,7 +3,6 @@ package router
 import (
 	"context"
 
-	"github.com/volts-dev/vertex/component"
 	"github.com/volts-dev/vertex/html/event"
 	"github.com/volts-dev/vertex/html/window"
 )
@@ -20,7 +19,7 @@ func New() *Router {
 	return router
 }
 
-func (self *Router) Route(url string, com component.Component) {
+func (self *Router) Route(url string, com *Route) {
 
 }
 

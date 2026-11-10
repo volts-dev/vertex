@@ -20,7 +20,7 @@ func TestNew(t *testing.T) {
 
 	if k, err := New("test"); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object MouseEvent]", k.ToString_())
+		test.AssertExpect(t, "[object MouseEvent]", k.ToString())
 
 	}
 }
@@ -30,7 +30,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("mevent"); test.AssertErr(t, obj.Error()) {
 		if mevent, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object MouseEvent]", mevent.ToString_())
+			test.AssertExpect(t, "[object MouseEvent]", mevent.ToString())
 
 		}
 	}

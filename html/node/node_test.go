@@ -44,9 +44,7 @@ func TestNodeValue(t *testing.T) {
 		if node, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			if c, err := node.FirstChild(); test.AssertErr(t, err) {
-				if v, err := c.NodValue(); test.AssertErr(t, err) {
-					test.AssertExpect(t, "hello", v)
-				}
+				test.AssertExpect(t, "hello", c.NodValue())
 
 			}
 		}
@@ -68,9 +66,7 @@ func TestSetNodeValue(t *testing.T) {
 
 				test.AssertErr(t, c.SetNodeValue("world"))
 
-				if v, err := c.NodValue(); test.AssertErr(t, err) {
-					test.AssertExpect(t, "world", v)
-				}
+				test.AssertExpect(t, "world", c.NodValue())
 
 			}
 		}
@@ -173,8 +169,8 @@ func TestCloneNode(t *testing.T) {
 				test.AssertExpect(t, "HTMLTitleElement", clone.ConstructName_())
 				test.AssertErr(t, clone.SetTextContent("world"))
 
-				v1, _ := clone.TextContent()
-				v2, _ := node.TextContent()
+				v1 := clone.TextContent()
+				v2 := node.TextContent()
 				test.AssertExpect(t, true, v1 != v2)
 
 			}
@@ -200,10 +196,7 @@ func TestCompareDocumentPosition(t *testing.T) {
 
 				if div, err := NewFromJSObject(divobj); test.AssertErr(t, err) {
 
-					if n, err := node.CompareDocumentPosition(div); test.AssertErr(t, err) {
-						test.AssertExpect(t, 20, n)
-
-					}
+					test.AssertExpect(t, 20, node.CompareDocumentPosition(div))
 
 				}
 			}
@@ -229,17 +222,12 @@ func TestContains(t *testing.T) {
 
 				if div, err := NewFromJSObject(divobj); test.AssertErr(t, err) {
 
-					if b, err := node.Contains(div); test.AssertErr(t, err) {
-						test.AssertExpect(t, true, b)
-
-					}
+					test.AssertExpect(t, true, node.Contains(div))
 
 					node.RemoveChild(div)
 
-					if b, err := node.Contains(div); test.AssertErr(t, err) {
-						test.AssertExpect(t, false, b)
+					test.AssertExpect(t, false, node.Contains(div))
 
-					}
 				}
 			}
 
@@ -264,16 +252,12 @@ func TestHasChildNodes(t *testing.T) {
 
 				if div, err := NewFromJSObject(divobj); test.AssertErr(t, err) {
 
-					if b, err := node.HasChildNodes(); test.AssertErr(t, err) {
-						test.AssertExpect(t, true, b)
+					test.AssertExpect(t, true, node.Contains(div))
 
-					}
 					node.RemoveChild(div)
 
-					if b, err := node.HasChildNodes(); test.AssertErr(t, err) {
-						test.AssertExpect(t, false, b)
+					test.AssertExpect(t, false, node.Contains(div))
 
-					}
 				}
 			}
 
@@ -339,17 +323,11 @@ func TestIsEqualNode(t *testing.T) {
 
 			if clone, err := node.CloneNode(true); test.AssertErr(t, err) {
 
-				if b, err := clone.IsEqualNode(node); test.AssertErr(t, err) {
+				test.AssertExpect(t, true, clone.IsEqualNode(node))
 
-					test.AssertExpect(t, true, b)
-
-				}
 				clone.SetTextContent("world")
-				if b, err := clone.IsEqualNode(node); test.AssertErr(t, err) {
 
-					test.AssertExpect(t, false, b)
-
-				}
+				test.AssertExpect(t, false, clone.IsEqualNode(node))
 
 			}
 
@@ -371,16 +349,9 @@ func TestIsSameNode(t *testing.T) {
 
 			if clone, err := node.CloneNode(true); test.AssertErr(t, err) {
 
-				if b, err := clone.IsSameNode(node); test.AssertErr(t, err) {
+				test.AssertExpect(t, false, clone.IsSameNode(node))
 
-					test.AssertExpect(t, false, b)
-
-				}
-				if b, err := node.IsSameNode(node); test.AssertErr(t, err) {
-
-					test.AssertExpect(t, true, b)
-
-				}
+				test.AssertExpect(t, true, node.IsSameNode(node))
 
 			}
 
@@ -414,7 +385,7 @@ func TestNormalize(t *testing.T) {
 
 							if textn, err := node.FirstChild(); test.AssertErr(t, err) {
 
-								test.AssertExpect(t, "-Partie 1 Partie 2 -", textn.TextContent_())
+								test.AssertExpect(t, "-Partie 1 Partie 2 -", textn.TextContent())
 
 							}
 
@@ -455,7 +426,7 @@ func TestRemoveChild(t *testing.T) {
 
 								if n, err := node.FirstChild(); test.AssertErr(t, err) {
 
-									test.AssertExpect(t, "Partie 2 -", n.TextContent_())
+									test.AssertExpect(t, "Partie 2 -", n.TextContent())
 
 								}
 
@@ -497,10 +468,10 @@ func TestReplaceChild(t *testing.T) {
 								if text3, err := NewFromJSObject(text3obj); test.AssertErr(t, err) {
 									if replace, err := node.ReplaceChild(text3, text1); test.AssertErr(t, err) {
 
-										test.AssertExpect(t, "-Partie 1 ", replace.TextContent_())
+										test.AssertExpect(t, "-Partie 1 ", replace.TextContent())
 										if n, err := node.FirstChild(); test.AssertErr(t, err) {
 
-											test.AssertExpect(t, "Partie 3 -", n.TextContent_())
+											test.AssertExpect(t, "Partie 3 -", n.TextContent())
 
 										}
 

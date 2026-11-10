@@ -62,7 +62,7 @@ func NewFromJSObject(obj js.Value) (Navigator, error) {
 	return n, ErrNotImplemented
 }
 
-func (n Navigator) CookieEnabled() (bool, error) {
+func (n Navigator) CookieEnabled() bool {
 
 	return n.GetAttributeBool("cookieEnabled")
 }
@@ -121,22 +121,22 @@ func (n Navigator) USB() (usb.USB, error) {
 	return u, err
 }
 
-func (n Navigator) DeviceMemory() (float64, error) {
+func (n Navigator) DeviceMemory() float64 {
 
 	return n.GetAttributeDouble("deviceMemory")
 }
 
-func (n Navigator) HardwareConcurrency() (int, error) {
+func (n Navigator) HardwareConcurrency() int {
 
 	return n.GetAttributeInt("hardwareConcurrency")
 }
 
-func (n Navigator) UserAgent() (string, error) {
+func (n Navigator) UserAgent() string {
 
 	return n.GetAttributeString("userAgent")
 }
 
-func (n Navigator) Language() (string, error) {
+func (n Navigator) Language() string {
 
 	return n.GetAttributeString("language")
 }
@@ -159,11 +159,11 @@ func (n Navigator) ServiceWorker() (serviceworkercontainer.ServiceWorkerContaine
 	return s, err
 }
 
-func (n Navigator) Vendor() (string, error) {
+func (n Navigator) Vendor() string {
 
 	return n.GetAttributeString("vendor")
 }
 
-func (n Navigator) JavaEnabled() (bool, error) {
+func (n Navigator) JavaEnabled() bool {
 	return n.CallBool("javaEnabled")
 }

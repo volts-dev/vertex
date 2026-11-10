@@ -127,73 +127,71 @@ func NewFromJSObject(obj js.Value) (Response, error) {
 	return response, err
 }
 
-func (r Response) Ok() (bool, error) {
+func (r Response) Ok() bool {
 
-	var err error
+	//var err error
 	var obj js.Value
 
 	if obj = r.GetValueByKey("ok"); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return false, err
+	return false //, err
 }
 
-func (r Response) Redirected() (bool, error) {
+func (r Response) Redirected() bool {
 	return r.GetAttributeBool("redirected")
 }
 
-func (r Response) Status() (int, error) {
+func (r Response) Status() int {
 	var code int
-	var err error
-	if code, err = r.GetAttributeInt("status"); err != nil {
+	//var err error
+	if code = r.GetAttributeInt("status"); code == 0 {
 		code = 456
 	}
-	return code, err
+	return code //, err
 }
 
-func (r Response) StatusText() (string, error) {
+func (r Response) StatusText() string {
 
-	var err error
+	//var err error
 	var obj js.Value
 
 	if obj = r.GetValueByKey("statusText"); obj.Error() == nil {
 
 		return obj.String()
 	}
-	return "", err
+	return "" //, err
 }
 
-func (r Response) Type() (string, error) {
-
-	var err error
+func (r Response) Type() string {
+	//var err error
 	var obj js.Value
 
 	if obj = r.GetValueByKey("type"); obj.Error() == nil {
 
 		return obj.String()
 	}
-	return "", err
+	return "" //, err
 }
 
-func (r Response) Url() (string, error) {
+func (r Response) Url() string {
 
-	var err error
+	//var err error
 	var obj js.Value
 
 	if obj = r.GetValueByKey("url"); obj.Error() == nil {
 
 		return obj.String()
 	}
-	return "", err
+	return "" //, err
 }
 
-func (r Response) BodyUsed() (bool, error) {
-
+func (r Response) BodyUsed() bool {
 	return r.GetAttributeBool("bodyUsed")
 }
 

@@ -19,7 +19,7 @@ func TestNew(t *testing.T) {
 
 	if a, err := New(); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object AbortController]", a.ToString_())
+		test.AssertExpect(t, "[object AbortController]", a.ToString())
 
 	}
 }
@@ -30,7 +30,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("abortctrl"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object AbortController]", d.ToString_())
+			test.AssertExpect(t, "[object AbortController]", d.ToString())
 
 		}
 	}

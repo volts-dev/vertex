@@ -99,7 +99,7 @@ func NewFromJSObject(obj js.Value) (HtmlSourceElement, error) {
 	return h, err
 }
 
-func (h HtmlSourceElement) Media() (string, error) {
+func (h HtmlSourceElement) Media() string {
 	return h.GetAttributeString("media")
 }
 
@@ -107,7 +107,7 @@ func (h HtmlSourceElement) SetMedia(value string) error {
 	return h.SetAttributeString("media", value)
 }
 
-func (h HtmlSourceElement) Sizes() (string, error) {
+func (h HtmlSourceElement) Sizes() string {
 	return h.GetAttributeString("sizes")
 }
 
@@ -115,7 +115,7 @@ func (h HtmlSourceElement) SetSizes(value string) error {
 	return h.SetAttributeString("sizes", value)
 }
 
-func (h HtmlSourceElement) Src() (string, error) {
+func (h HtmlSourceElement) Src() string {
 	return h.GetAttributeString("src")
 }
 
@@ -123,7 +123,7 @@ func (h HtmlSourceElement) SetSrc(value string) error {
 	return h.SetAttributeString("src", value)
 }
 
-func (h HtmlSourceElement) SrcSet() (string, error) {
+func (h HtmlSourceElement) SrcSet() string {
 	return h.GetAttributeString("srcset")
 }
 
@@ -131,7 +131,7 @@ func (h HtmlSourceElement) SetSrcSet(value string) error {
 	return h.SetAttributeString("srcset", value)
 }
 
-func (h HtmlSourceElement) Type() (string, error) {
+func (h HtmlSourceElement) Type() string {
 	return h.GetAttributeString("type")
 }
 

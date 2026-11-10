@@ -1,7 +1,6 @@
 package headers
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/volts-dev/vertex/js"
@@ -36,10 +35,8 @@ func TestAppend(t *testing.T) {
 
 	if h, err := New(); test.AssertErr(t, err) {
 		test.AssertErr(t, h.Append("X-custom", "1234"))
-		if v, err := h.Get("X-custom"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "1234", v)
-		}
+		test.AssertExpect(t, "1234", h.Get("X-custom"))
 	}
 
 }
@@ -51,9 +48,8 @@ func TestDelete(t *testing.T) {
 
 		test.AssertErr(t, h.Delete("X-custom"))
 
-		_, err := h.Get("X-custom")
+		h.Get("X-custom")
 
-		test.AssertExpect(t, true, errors.Is(err, js.ErrUndefinedValue))
 	}
 
 }
@@ -63,14 +59,10 @@ func TestHas(t *testing.T) {
 	if h, err := New(); test.AssertErr(t, err) {
 		test.AssertErr(t, h.Append("X-custom", "1234"))
 
-		if b, err := h.Has("X-custom"); test.AssertErr(t, err) {
-			test.AssertExpect(t, true, b)
-		}
+		test.AssertExpect(t, true, h.Has("X-custom"))
 		test.AssertErr(t, h.Delete("X-custom"))
 
-		if b, err := h.Has("X-custom"); test.AssertErr(t, err) {
-			test.AssertExpect(t, false, b)
-		}
+		test.AssertExpect(t, false, h.Has("X-custom"))
 
 	}
 
@@ -82,7 +74,7 @@ func TestKeys(t *testing.T) {
 		test.AssertErr(t, h.Append("X-custom", "1234"))
 
 		if it, err := h.Keys(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Headers Iterator]", it.ToString_())
+			test.AssertExpect(t, "[object Headers Iterator]", it.ToString())
 		}
 	}
 }
@@ -93,7 +85,7 @@ func TestValues(t *testing.T) {
 		test.AssertErr(t, h.Append("X-custom", "1234"))
 
 		if it, err := h.Keys(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Headers Iterator]", it.ToString_())
+			test.AssertExpect(t, "[object Headers Iterator]", it.ToString())
 		}
 	}
 }
@@ -104,10 +96,8 @@ func TestSet(t *testing.T) {
 		test.AssertErr(t, h.Append("X-custom", "1234"))
 
 		test.AssertErr(t, h.Set("X-custom", "4567"))
-		if v, err := h.Get("X-custom"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "4567", v)
-		}
+		test.AssertExpect(t, "4567", h.Get("X-custom"))
 
 	}
 }

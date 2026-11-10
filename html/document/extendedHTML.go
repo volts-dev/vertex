@@ -31,7 +31,7 @@ func (d Document) getSelection() {
 	//TO IMPLEMENT
 }
 
-func (d Document) HasFocus() (bool, error) {
+func (d Document) HasFocus() bool {
 
 	return d.GetAttributeBool("hasFocus")
 }

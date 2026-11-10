@@ -51,7 +51,7 @@ func (r ReadableStream) ReadableStream_() ReadableStream {
 	return r
 }
 
-func (r ReadableStream) Locked() (bool, error) {
+func (r ReadableStream) Locked() bool {
 	return r.GetAttributeBool("locked")
 }
 

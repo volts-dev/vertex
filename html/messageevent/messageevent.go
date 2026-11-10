@@ -102,7 +102,7 @@ func (m MessageEvent) Data() (interface{}, error) {
 	var globalObj interface{}
 	var err error
 	if jsObject = m.GetValueByKey("data"); jsObject.Error() == nil {
-		globalObj, err = js.GoValue(jsObject)
+		globalObj = js.GoValue(jsObject)
 	}
 
 	return globalObj, err
@@ -124,22 +124,22 @@ func (m MessageEvent) Source() (interface{}, error) {
 
 	return i, err
 }
-func (m MessageEvent) Origin() (string, error) {
-	var err error
+func (m MessageEvent) Origin() string {
+	//var err error
 	var originObject js.Value
 
 	if originObject = m.GetValueByKey("origin"); originObject.Error() == nil {
 		return originObject.String()
 	}
-	return "", err
+	return "" //, err
 }
 
-func (m MessageEvent) LastEventId() (string, error) {
-	var err error
+func (m MessageEvent) LastEventId() string {
+	//var err error
 	var originObject js.Value
 
 	if originObject = m.GetValueByKey("lastEventId"); originObject.Error() == nil {
 		return originObject.String()
 	}
-	return "", err
+	return "" //, err
 }

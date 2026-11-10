@@ -25,7 +25,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("ro"); test.AssertErr(t, obj.Error()) {
 		if rect, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object DOMRectReadOnly]", rect.ToString_())
+			test.AssertExpect(t, "[object DOMRectReadOnly]", rect.ToString())
 
 		}
 	}

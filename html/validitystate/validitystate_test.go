@@ -22,7 +22,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("validity"); test.AssertErr(t, obj.Error()) {
 		if mevent, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object ValidityState]", mevent.ToString_())
+			test.AssertExpect(t, "[object ValidityState]", mevent.ToString())
 
 		}
 	}

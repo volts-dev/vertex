@@ -14,11 +14,8 @@ func TestNew(t *testing.T) {
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
-		if s, err := m.Size(); test.AssertErr(t, err) {
+		test.AssertExpect(t, 2, m.Size())
 
-			test.AssertExpect(t, 2, s)
-
-		}
 	}
 }
 
@@ -27,11 +24,9 @@ func TestClear(t *testing.T) {
 
 	if m, err := New(a); test.AssertErr(t, err) {
 		if err := m.Clear(); test.AssertErr(t, err) {
-			if s, err := m.Size(); test.AssertErr(t, err) {
 
-				test.AssertExpect(t, 0, s)
+			test.AssertExpect(t, 0, m.Size())
 
-			}
 		}
 
 	}
@@ -42,19 +37,11 @@ func TestHas(t *testing.T) {
 	a := js.NewArray_(js.NewArray_("a", "b"), js.NewArray_("c", "d"))
 
 	if m, err := New(a); test.AssertErr(t, err) {
-		if ok, err := m.Has("a"); test.AssertErr(t, err) {
-			test.AssertExpect(t, true, ok)
+		test.AssertExpect(t, true, m.Has("a"))
 
-		}
+		test.AssertExpect(t, true, m.Has("c"))
 
-		if ok, err := m.Has("c"); test.AssertErr(t, err) {
-			test.AssertExpect(t, true, ok)
-
-		}
-
-		if ok, err := m.Has("d"); test.AssertErr(t, err) {
-			test.AssertExpect(t, false, ok)
-		}
+		test.AssertExpect(t, false, m.Has("d"))
 	}
 
 }
@@ -64,17 +51,9 @@ func TestDelete(t *testing.T) {
 
 	if m, err := New(a); test.AssertErr(t, err) {
 
-		if ok, err := m.Delete("a"); test.AssertErr(t, err) {
+		test.AssertExpect(t, true, m.Delete("a"))
 
-			test.AssertExpect(t, true, ok)
-
-		}
-
-		if ok, err := m.Has("a"); test.AssertErr(t, err) {
-
-			test.AssertExpect(t, false, ok)
-
-		}
+		test.AssertExpect(t, false, m.Has("a"))
 
 	}
 
@@ -246,14 +225,8 @@ func TestSet(t *testing.T) {
 
 		if err := m.Set("hello", "World"); test.AssertErr(t, err) {
 
-			if s, err := m.Size(); err == nil {
-
-				if s != 3 {
-					t.Errorf("Size must be 3 have %d", s)
-				}
-
-			} else {
-				t.Error(err.Error())
+			if m.Size() != 3 {
+				t.Errorf("Size must be 3 have %d", m.Size())
 			}
 
 			if value, err := m.Get("hello"); err == nil {

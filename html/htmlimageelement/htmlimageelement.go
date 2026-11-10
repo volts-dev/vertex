@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlImageElement, error) {
 	return h, err
 }
 
-func (h HtmlImageElement) Alt() (string, error) {
+func (h HtmlImageElement) Alt() string {
 	return h.GetAttributeString("alt")
 }
 
@@ -108,11 +108,11 @@ func (h HtmlImageElement) SetAlt(value string) error {
 	return h.SetAttributeString("alt", value)
 }
 
-func (h HtmlImageElement) Complete() (bool, error) {
+func (h HtmlImageElement) Complete() bool {
 	return h.GetAttributeBool("complete")
 }
 
-func (h HtmlImageElement) CrossOrigin() (string, error) {
+func (h HtmlImageElement) CrossOrigin() string {
 	return h.GetAttributeString("crossOrigin")
 }
 
@@ -120,18 +120,18 @@ func (h HtmlImageElement) SetCrossOrigin(value string) error {
 	return h.SetAttributeString("crossOrigin", value)
 }
 
-func (h HtmlImageElement) CurrentSrc() (string, error) {
+func (h HtmlImageElement) CurrentSrc() string {
 	return h.GetAttributeString("currentSrc")
 }
 
-func (h HtmlImageElement) Decoding() (string, error) {
+func (h HtmlImageElement) Decoding() string {
 	return h.GetAttributeString("decoding")
 }
 
 func (h HtmlImageElement) SetDecoding(value string) error {
 	return h.SetAttributeString("decoding", value)
 }
-func (h HtmlImageElement) Height() (int, error) {
+func (h HtmlImageElement) Height() int {
 	return h.GetAttributeInt("height")
 }
 
@@ -139,7 +139,7 @@ func (h HtmlImageElement) SetHeight(value int) error {
 	return h.SetAttributeInt("height", value)
 }
 
-func (h HtmlImageElement) IsMap() (bool, error) {
+func (h HtmlImageElement) IsMap() bool {
 	return h.GetAttributeBool("isMap")
 }
 
@@ -147,7 +147,7 @@ func (h HtmlImageElement) SetIsMap(value bool) error {
 	return h.SetAttributeBool("isMap", value)
 }
 
-func (h HtmlImageElement) Loading() (string, error) {
+func (h HtmlImageElement) Loading() string {
 	return h.GetAttributeString("loading")
 }
 
@@ -155,15 +155,15 @@ func (h HtmlImageElement) SetLoading(value string) error {
 	return h.SetAttributeString("loading", value)
 }
 
-func (h HtmlImageElement) NaturalHeight() (int, error) {
+func (h HtmlImageElement) NaturalHeight() int {
 	return h.GetAttributeInt("naturalHeight")
 }
 
-func (h HtmlImageElement) NaturalWidth() (int, error) {
+func (h HtmlImageElement) NaturalWidth() int {
 	return h.GetAttributeInt("naturalWidth")
 }
 
-func (h HtmlImageElement) Src() (string, error) {
+func (h HtmlImageElement) Src() string {
 	return h.GetAttributeString("src")
 }
 
@@ -171,7 +171,7 @@ func (h HtmlImageElement) SetSrc(value string) error {
 	return h.SetAttributeString("src", value)
 }
 
-func (h HtmlImageElement) Width() (int, error) {
+func (h HtmlImageElement) Width() int {
 	return h.GetAttributeInt("width")
 }
 
@@ -179,11 +179,11 @@ func (h HtmlImageElement) SetWidth(value int) error {
 	return h.SetAttributeInt("width", value)
 }
 
-func (h HtmlImageElement) X() (int, error) {
+func (h HtmlImageElement) X() int {
 	return h.GetAttributeInt("x")
 }
 
-func (h HtmlImageElement) Y() (int, error) {
+func (h HtmlImageElement) Y() int {
 	return h.GetAttributeInt("y")
 }
 

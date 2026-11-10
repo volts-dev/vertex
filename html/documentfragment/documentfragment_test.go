@@ -22,7 +22,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("df"); test.AssertErr(t, obj.Error()) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object DocumentFragment]", o.ToString_())
+			test.AssertExpect(t, "[object DocumentFragment]", o.ToString())
 
 		}
 	}
@@ -33,7 +33,7 @@ func TestNew(t *testing.T) {
 
 	js.Eval(`df=new DocumentFragment()`)
 	if d, err := New(); test.AssertErr(t, err) {
-		test.AssertExpect(t, "[object DocumentFragment]", d.ToString_())
+		test.AssertExpect(t, "[object DocumentFragment]", d.ToString())
 
 	}
 }
@@ -46,9 +46,7 @@ func TestChildElementCount(t *testing.T) {
 	`)
 	if obj := js.Global().Get("df"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			if n, err := d.ChildElementCount(); test.AssertErr(t, err) {
-				test.AssertExpect(t, 1, n)
-			}
+			test.AssertExpect(t, 1, d.ChildElementCount())
 
 		}
 	}
@@ -66,7 +64,7 @@ func TestChildren(t *testing.T) {
 	if obj := js.Global().Get("df"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if c, err := d.Children(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLCollection]", c.ToString_())
+				test.AssertExpect(t, "[object HTMLCollection]", c.ToString())
 			}
 
 		}
@@ -85,7 +83,7 @@ func TestFirstElementChild(t *testing.T) {
 	if obj := js.Global().Get("df"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if c, err := d.FirstElementChild(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLDivElement]", c.ToString_())
+				test.AssertExpect(t, "[object HTMLDivElement]", c.ToString())
 			}
 
 		}
@@ -104,7 +102,7 @@ func TestLastElementChild(t *testing.T) {
 	if obj := js.Global().Get("df"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if c, err := d.LastElementChild(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLSpanElement]", c.ToString_())
+				test.AssertExpect(t, "[object HTMLSpanElement]", c.ToString())
 			}
 
 		}
@@ -127,10 +125,7 @@ func TestQueryAppend(t *testing.T) {
 				if e, err := element.NewFromJSObject(divobj); test.AssertErr(t, err) {
 					test.AssertErr(t, d.Append(e))
 
-					if count, err := d.ChildElementCount(); test.AssertErr(t, err) {
-
-						test.AssertExpect(t, 1, count)
-					}
+					test.AssertExpect(t, 1, d.ChildElementCount())
 
 					span := js.Global().Get("span")
 					b := js.Global().Get("b")
@@ -139,16 +134,13 @@ func TestQueryAppend(t *testing.T) {
 
 					test.AssertErr(t, d.Append(es, eb))
 
-					if count, err := d.ChildElementCount(); test.AssertErr(t, err) {
-
-						test.AssertExpect(t, 3, count)
-					}
+					test.AssertExpect(t, 3, d.ChildElementCount())
 
 					if c, err := d.FirstElementChild(); test.AssertErr(t, err) {
-						test.AssertExpect(t, "[object HTMLDivElement]", c.ToString_())
+						test.AssertExpect(t, "[object HTMLDivElement]", c.ToString())
 					}
 					if c, err := d.LastElementChild(); test.AssertErr(t, err) {
-						test.AssertExpect(t, "[object HTMLElement]", c.ToString_())
+						test.AssertExpect(t, "[object HTMLElement]", c.ToString())
 					}
 
 				}
@@ -176,10 +168,7 @@ func TestQueryPrepend(t *testing.T) {
 				if e, err := element.NewFromJSObject(divobj); test.AssertErr(t, err) {
 					test.AssertErr(t, d.Prepend(e))
 
-					if count, err := d.ChildElementCount(); test.AssertErr(t, err) {
-
-						test.AssertExpect(t, 1, count)
-					}
+					test.AssertExpect(t, 1, d.ChildElementCount())
 
 					span := js.Global().Get("span")
 					b := js.Global().Get("b")
@@ -188,16 +177,13 @@ func TestQueryPrepend(t *testing.T) {
 
 					test.AssertErr(t, d.Prepend(es, eb))
 
-					if count, err := d.ChildElementCount(); test.AssertErr(t, err) {
-
-						test.AssertExpect(t, 3, count)
-					}
+					test.AssertExpect(t, 3, d.ChildElementCount())
 
 					if c, err := d.FirstElementChild(); test.AssertErr(t, err) {
-						test.AssertExpect(t, "[object HTMLSpanElement]", c.ToString_())
+						test.AssertExpect(t, "[object HTMLSpanElement]", c.ToString())
 					}
 					if c, err := d.LastElementChild(); test.AssertErr(t, err) {
-						test.AssertExpect(t, "[object HTMLDivElement]", c.ToString_())
+						test.AssertExpect(t, "[object HTMLDivElement]", c.ToString())
 					}
 				}
 
@@ -219,7 +205,7 @@ func TestQuerySelector(t *testing.T) {
 	if obj := js.Global().Get("df"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if c, err := d.QuerySelector("div"); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLDivElement]", c.ToString_())
+				test.AssertExpect(t, "[object HTMLDivElement]", c.ToString())
 			}
 
 			_, err := d.QuerySelector("button")
@@ -241,7 +227,7 @@ func TestQuerySelectorAll(t *testing.T) {
 	if obj := js.Global().Get("df"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if c, err := d.QuerySelectorAll("div"); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object NodeList]", c.ToString_())
+				test.AssertExpect(t, "[object NodeList]", c.ToString())
 			}
 		}
 	}
@@ -264,12 +250,12 @@ func TestReplaceChild(t *testing.T) {
 			eb, _ := element.NewFromJSObject(b)
 
 			if c, err := d.FirstElementChild(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLDivElement]", c.ToString_())
+				test.AssertExpect(t, "[object HTMLDivElement]", c.ToString())
 
 				if old, err := d.ReplaceChild(eb.Node, c.Node); test.AssertErr(t, err) {
-					test.AssertExpect(t, "[object HTMLDivElement]", old.ToString_())
+					test.AssertExpect(t, "[object HTMLDivElement]", old.ToString())
 					if c2, err := d.FirstElementChild(); test.AssertErr(t, err) {
-						test.AssertExpect(t, "[object HTMLElement]", c2.ToString_())
+						test.AssertExpect(t, "[object HTMLElement]", c2.ToString())
 
 					}
 				}
@@ -294,10 +280,10 @@ func TestGetElementById(t *testing.T) {
 	if obj := js.Global().Get("df"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if c, err := d.GetElementById("test"); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLDivElement]", c.ToString_())
+				test.AssertExpect(t, "[object HTMLDivElement]", c.ToString())
 			}
 			if c, err := d.GetElementById("test2"); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLSpanElement]", c.ToString_())
+				test.AssertExpect(t, "[object HTMLSpanElement]", c.ToString())
 			}
 			_, err := d.GetElementById("unknown")
 			test.AssertExpect(t, true, errors.Is(err, js.ErrUndefinedValue))

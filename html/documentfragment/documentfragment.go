@@ -43,23 +43,27 @@ func GetInterface() js.Value {
 	return documentfragementinterface
 }
 
-func NewFromJSObject(obj js.Value) (DocumentFragment, error) {
-	var d DocumentFragment
-	var err error
-	if dci := GetInterface(); !dci.IsUndefined() {
-		if obj.IsUndefined() || obj.IsNull() {
-			err = js.ErrUndefinedValue
-		} else {
-			if obj.InstanceOf(dci) {
-				d.SetObjectValue(obj)
-			} else {
-				err = ErrNotADocumentFragment
-			}
-		}
-	} else {
-		err = ErrNotImplemented
+func NewFromJSObject(obj js.Value) (*DocumentFragment, error) {
+	// Validate the provided JS value
+	if obj == nil || obj.IsUndefined() || obj.IsNull() {
+		return nil, js.ErrUndefinedValue
 	}
-	return d, err
+
+	// Ensure the JS interface exists
+	dci := GetInterface()
+	if dci.IsUndefined() {
+		return nil, ErrNotImplemented
+	}
+
+	// Ensure the object is an instance of DocumentFragment
+	if !obj.InstanceOf(dci) {
+		return nil, ErrNotADocumentFragment
+	}
+
+	// Create and return the DocumentFragment
+	d := DocumentFragment{}
+	d.SetObjectValue(obj)
+	return &d, nil
 }
 
 func New() (DocumentFragment, error) {
@@ -77,7 +81,7 @@ func New() (DocumentFragment, error) {
 	return d, err
 }
 
-func (d DocumentFragment) ChildElementCount() (int, error) {
+func (d DocumentFragment) ChildElementCount() int {
 	return d.GetAttributeInt("childElementCount")
 }
 

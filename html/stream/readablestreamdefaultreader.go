@@ -67,7 +67,7 @@ func (r ReadableStreamDefaultReader) newRead(data []byte, dataHandle func([]byte
 				if b, ok := i.(js.ObjectFrom); ok {
 					obj = b.GetObjectValue()
 					var done bool = false
-					if js.ValueToBool(obj.Get("done")) == true {
+					if obj.Get("done").Bool() == true {
 						done = true
 					}
 

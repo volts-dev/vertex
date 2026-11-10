@@ -19,9 +19,7 @@ func TestMain(m *testing.M) {
 func TestDomain(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if str, err := d.Domain(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "localhost", str)
-		}
+		test.AssertExpect(t, "localhost", d.Domain())
 
 		if err := d.SetDomain("testing.com"); err == nil {
 			t.Error("Must return error")
@@ -37,17 +35,11 @@ func TestDomain(t *testing.T) {
 
 func TestTitle(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
-		if str, err := d.Title(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "Go wasm", str)
-
-		}
+		test.AssertExpect(t, "Go wasm", d.Title())
 
 		test.AssertErr(t, d.SetTitle("Hello"))
 
-		if str, err := d.Title(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "Hello", str)
-
-		}
+		test.AssertExpect(t, "Hello", d.Title())
 
 	}
 
@@ -57,7 +49,7 @@ func TestBody(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 		if b, err := d.Body(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object HTMLBodyElement]", b.ToString_())
+			test.AssertExpect(t, "[object HTMLBodyElement]", b.ToString())
 		}
 
 	}
@@ -67,16 +59,14 @@ func TestBody(t *testing.T) {
 func TestActiveElement(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
 		if el, err := d.ActiveElement(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object HTMLBodyElement]", el.ToString_())
+			test.AssertExpect(t, "[object HTMLBodyElement]", el.ToString())
 		}
 	}
 }
 
 func TestCharacterSet(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
-		if s, err := d.CharacterSet(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "UTF-8", s)
-		}
+		test.AssertExpect(t, "UTF-8", d.CharacterSet())
 
 	}
 }
@@ -84,9 +74,7 @@ func TestCharacterSet(t *testing.T) {
 func TestChildElementCount(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
-		if c, err := d.ChildElementCount(); test.AssertErr(t, err) {
-			test.AssertExpect(t, 1, c)
-		}
+		test.AssertExpect(t, 1, d.ChildElementCount())
 
 	}
 }
@@ -97,7 +85,7 @@ func TestChildren(t *testing.T) {
 		if collections, err := d.Children(); test.AssertErr(t, err) {
 			test.AssertExpect(t, 1, collections.Length())
 			if item, err := collections.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLHtmlElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLHtmlElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 
@@ -108,9 +96,7 @@ func TestCompatMode(t *testing.T) {
 
 	//var expectElementString []string = []string{"", ""}
 	if d, err := New(); test.AssertErr(t, err) {
-		if compatmode, err := d.CompatMode(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "CSS1Compat", compatmode)
-		}
+		test.AssertExpect(t, "CSS1Compat", d.CompatMode())
 
 	}
 }
@@ -119,10 +105,9 @@ func TestContentType(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if str, err := d.ContentType(); test.AssertErr(t, err) {
-			if str != "text/html" {
-				t.Errorf("Content Type must be text/html, have %s", str)
-			}
+		str := d.ContentType()
+		if str != "text/html" {
+			t.Errorf("Content Type must be text/html, have %s", str)
 		}
 
 	}
@@ -133,7 +118,7 @@ func TestDocumentElement(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
 
 		if elem, err := d.DocumentElement(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object HTMLHtmlElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLHtmlElement]", elem.ToString())
 		}
 
 	}
@@ -144,12 +129,10 @@ func TestDocumentURI(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if uri, err := d.DocumentURI(); test.AssertErr(t, err) {
-			var expect string = "http://localhost"
-			if !strings.Contains(uri, expect) {
-				t.Errorf("Must contain %s have %s", expect, uri)
-			}
-
+		uri := d.DocumentURI()
+		var expect string = "http://localhost"
+		if !strings.Contains(uri, expect) {
+			t.Errorf("Must contain %s have %s", expect, uri)
 		}
 
 	}
@@ -163,7 +146,7 @@ func TestEmbeds(t *testing.T) {
 		if collections, err := d.Embeds(); test.AssertErr(t, err) {
 			test.AssertExpect(t, 1, collections.Length())
 			if item, err := collections.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLEmbedElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLEmbedElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 		js.Eval("emb.parentNode.removeChild(emb)")
@@ -175,7 +158,7 @@ func TestFirstElementChild(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
 
 		if elem, err := d.FirstElementChild(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object HTMLHtmlElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLHtmlElement]", elem.ToString())
 		}
 
 	}
@@ -189,7 +172,7 @@ func TestForms(t *testing.T) {
 		if collections, err := d.Forms(); test.AssertErr(t, err) {
 			test.AssertExpect(t, 1, collections.Length())
 			if item, err := collections.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLFormElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLFormElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 
@@ -203,7 +186,7 @@ func TestFullscreenElement(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
 
 		if elem, err := d.FullscreenElement(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "", elem.ToString_())
+			test.AssertExpect(t, "", elem.ToString())
 		}
 
 	}
@@ -214,7 +197,7 @@ func TestHead(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 		if h, err := d.Head(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object HTMLHeadElement]", h.ToString_())
+			test.AssertExpect(t, "[object HTMLHeadElement]", h.ToString())
 		}
 
 	}
@@ -225,9 +208,7 @@ func TestHidden(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if h, err := d.Hidden(); test.AssertErr(t, err) {
-			test.AssertExpect(t, false, h)
-		}
+		test.AssertExpect(t, false, d.Hidden())
 
 	}
 
@@ -241,7 +222,7 @@ func TestImages(t *testing.T) {
 		if collections, err := d.Images(); test.AssertErr(t, err) {
 			test.AssertExpect(t, 1, collections.Length())
 			if item, err := collections.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLImageElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLImageElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 		js.Eval("img.parentNode.removeChild(img)")
@@ -253,7 +234,7 @@ func TestLastElementChild(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
 
 		if elem, err := d.LastElementChild(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object HTMLHtmlElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLHtmlElement]", elem.ToString())
 		}
 
 	}
@@ -268,7 +249,7 @@ func TestLinks(t *testing.T) {
 		if collections, err := d.Links(); test.AssertErr(t, err) {
 			test.AssertExpect(t, 1, collections.Length())
 			if item, err := collections.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "testing://localhost", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "testing://localhost", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 		js.Eval("a.parentNode.removeChild(a)")
@@ -293,9 +274,7 @@ func TestPictureInPictureEnabled(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if ok, err := d.PictureInPictureEnabled(); test.AssertErr(t, err) {
-			test.AssertExpect(t, true, ok)
-		}
+		test.AssertExpect(t, true, d.PictureInPictureEnabled())
 
 	}
 }
@@ -308,7 +287,7 @@ func TestPlugins(t *testing.T) {
 		if collections, err := d.Plugins(); test.AssertErr(t, err) {
 			test.AssertExpect(t, 1, collections.Length())
 			if item, err := collections.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLEmbedElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLEmbedElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 		js.Eval("emb.parentNode.removeChild(emb)")
@@ -323,7 +302,7 @@ func TestScripts(t *testing.T) {
 		if collections, err := d.Scripts(); test.AssertErr(t, err) {
 			test.AssertExpect(t, 2, collections.Length())
 			if item, err := collections.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLScriptElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLScriptElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 
@@ -335,7 +314,7 @@ func TestScrollingElement(t *testing.T) {
 	if d, err := New(); test.AssertErr(t, err) {
 
 		if elem, err := d.ScrollingElement(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object HTMLHtmlElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLHtmlElement]", elem.ToString())
 		}
 
 	}
@@ -345,9 +324,7 @@ func TestVisibilityState(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if state, err := d.VisibilityState(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "visible", state)
-		}
+		test.AssertExpect(t, "visible", d.VisibilityState())
 
 	}
 
@@ -357,10 +334,9 @@ func TestLastModified(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if state, err := d.LastModified(); test.AssertErr(t, err) {
-			if len(state) == 0 {
-				t.Errorf("Must have value")
-			}
+		state := d.LastModified()
+		if len(state) == 0 {
+			t.Errorf("Must have value")
 		}
 
 	}
@@ -371,9 +347,7 @@ func TestReadyState(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if state, err := d.ReadyState(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "complete", state)
-		}
+		test.AssertExpect(t, "complete", d.ReadyState())
 
 	}
 
@@ -383,9 +357,7 @@ func TestReferrer(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if state, err := d.Referrer(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "", state)
-		}
+		test.AssertExpect(t, "", d.Referrer())
 
 	}
 
@@ -394,11 +366,10 @@ func TestURL(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if state, err := d.URL(); test.AssertErr(t, err) {
-			var expect string = "http://localhost"
-			if !strings.Contains(state, expect) {
-				t.Errorf("Must contain %s have %s", expect, state)
-			}
+		state := d.URL()
+		var expect string = "http://localhost"
+		if !strings.Contains(state, expect) {
+			t.Errorf("Must contain %s have %s", expect, state)
 		}
 
 	}
@@ -409,19 +380,13 @@ func TestCookie(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		if str, err := d.Cookie(); test.AssertErr(t, err) {
+		test.AssertExpect(t, "", d.Cookie())
 
-			test.AssertExpect(t, "", str)
-
-		}
 		test.AssertErr(t, d.SetCookie("hello world"))
-		if str, err := d.Cookie(); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "hello world", str)
-		}
+		test.AssertExpect(t, "hello world", d.Cookie())
 
 	}
-
 }
 
 func TestAppend(t *testing.T) {
@@ -443,14 +408,10 @@ func TestCreateAttribute(t *testing.T) {
 
 		if attr, err := d.CreateAttribute("myattr"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object Attr]", attr.ToString_())
-			if n, err := attr.Name(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "myattr", n)
-			}
+			test.AssertExpect(t, "[object Attr]", attr.ToString())
+			test.AssertExpect(t, "myattr", attr.Name())
 
-			if n, err := attr.LocalName(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "myattr", n)
-			}
+			test.AssertExpect(t, "myattr", attr.LocalName())
 
 			if n := attr.GetObjectValue(); test.AssertErr(t, n.Error()) {
 				test.AssertExpect(t, "", n)
@@ -467,7 +428,7 @@ func TestCreateComment(t *testing.T) {
 
 		if comment, err := d.CreateComment("com"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object Comment]", comment.ToString_())
+			test.AssertExpect(t, "[object Comment]", comment.ToString())
 
 		}
 	}
@@ -479,7 +440,7 @@ func TestCreateDocumentFragment(t *testing.T) {
 
 		if fragment, err := d.CreateDocumentFragment(); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object DocumentFragment]", fragment.ToString_())
+			test.AssertExpect(t, "[object DocumentFragment]", fragment.ToString())
 
 		}
 	}
@@ -492,19 +453,19 @@ func TestCreateHTMLElement(t *testing.T) {
 
 		if elem, err := d.CreateHTMLElement("test"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLUnknownElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLUnknownElement]", elem.ToString())
 
 		}
 
 		if elem, err := d.CreateHTMLElement("input"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLInputElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLInputElement]", elem.ToString())
 
 		}
 
 		if elem, err := d.CreateHTMLElement("button"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLButtonElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLButtonElement]", elem.ToString())
 
 		}
 	}
@@ -517,18 +478,18 @@ func TestCreateElement(t *testing.T) {
 
 		if elem, err := d.CreateElement("test"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLUnknownElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLUnknownElement]", elem.ToString())
 
 		}
 		if elem, err := d.CreateElement("input"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLInputElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLInputElement]", elem.ToString())
 
 		}
 
 		if elem, err := d.CreateElement("button"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLButtonElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLButtonElement]", elem.ToString())
 
 		}
 	}
@@ -541,18 +502,18 @@ func TestCreateElementNS(t *testing.T) {
 
 		if elem, err := d.CreateElementNS("http://www.w3.org/1999/xhtml", "test"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLUnknownElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLUnknownElement]", elem.ToString())
 
 		}
 		if elem, err := d.CreateElementNS("http://www.w3.org/1999/xhtml", "input"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLInputElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLInputElement]", elem.ToString())
 
 		}
 
 		if elem, err := d.CreateElementNS("http://www.w3.org/1999/xhtml", "button"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLButtonElement]", elem.ToString_())
+			test.AssertExpect(t, "[object HTMLButtonElement]", elem.ToString())
 
 		}
 	}
@@ -565,7 +526,7 @@ func TestCreateEvent(t *testing.T) {
 
 		if event, err := d.CreateEvent("KeyboardEvent"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object KeyboardEvent]", event.ToString_())
+			test.AssertExpect(t, "[object KeyboardEvent]", event.ToString())
 
 		}
 
@@ -584,7 +545,7 @@ func TestCreateTextNode(t *testing.T) {
 
 		if textnode, err := d.CreateTextNode("test"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object Text]", textnode.ToString_())
+			test.AssertExpect(t, "[object Text]", textnode.ToString())
 
 		}
 
@@ -600,7 +561,7 @@ func TestGetElementsByClassName(t *testing.T) {
 		if collections, err := d.GetElementsByClassName("test"); test.AssertErr(t, err) {
 			test.AssertExpect(t, 1, collections.Length())
 			if item, err := collections.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLDivElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLDivElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 		js.Eval("div.parentNode.removeChild(div)")
@@ -622,7 +583,7 @@ func TestGetElementsByTagName(t *testing.T) {
 			test.AssertExpect(t, 1, collection.Length())
 
 			if item, err := collection.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLDivElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLDivElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 		js.Eval("div.parentNode.removeChild(div)")
@@ -644,7 +605,7 @@ func TestGetElementsByTagNameNS(t *testing.T) {
 			test.AssertExpect(t, 1, collection.Length())
 
 			if item, err := collection.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLDivElement]", item.(js.ObjectFrom).BaseObject_().ToString_())
+				test.AssertExpect(t, "[object HTMLDivElement]", item.(js.ObjectFrom).BaseObject_().ToString())
 			}
 		}
 		js.Eval("div.parentNode.removeChild(div)")
@@ -665,7 +626,7 @@ func TestGetElementById(t *testing.T) {
 
 		if item, err := d.GetElementById("testid"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLDivElement]", item.ToString_())
+			test.AssertExpect(t, "[object HTMLDivElement]", item.ToString())
 
 		}
 
@@ -685,7 +646,7 @@ func TestQuerySelector(t *testing.T) {
 
 		if item, err := d.QuerySelector("#testid"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object HTMLDivElement]", item.ToString_())
+			test.AssertExpect(t, "[object HTMLDivElement]", item.ToString())
 
 		}
 
@@ -707,7 +668,7 @@ func TestQuerySelectorAll(t *testing.T) {
 
 			test.AssertExpect(t, 1, nodeslist.Length())
 			if item, err := nodeslist.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object HTMLDivElement]", item.ToString_())
+				test.AssertExpect(t, "[object HTMLDivElement]", item.ToString())
 			}
 		}
 

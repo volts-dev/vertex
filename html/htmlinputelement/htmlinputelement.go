@@ -120,7 +120,7 @@ func (h HtmlInputElement) Form() (element.Element, error) {
 	return elem, err
 }
 
-func (h HtmlInputElement) FormAction() (string, error) {
+func (h HtmlInputElement) FormAction() string {
 	return h.GetAttributeString("formAction")
 }
 
@@ -128,7 +128,7 @@ func (h HtmlInputElement) SetFormAction(value string) error {
 	return h.SetAttributeString("formAction", value)
 }
 
-func (h HtmlInputElement) FormEncType() (string, error) {
+func (h HtmlInputElement) FormEncType() string {
 	return h.GetAttributeString("formEncType")
 }
 
@@ -136,7 +136,7 @@ func (h HtmlInputElement) SetFormEncType(value string) error {
 	return h.SetAttributeString("formEncType", value)
 }
 
-func (h HtmlInputElement) FormMethod() (string, error) {
+func (h HtmlInputElement) FormMethod() string {
 	return h.GetAttributeString("formMethod")
 }
 
@@ -144,7 +144,7 @@ func (h HtmlInputElement) SetFormMethod(value string) error {
 	return h.SetAttributeString("formMethod", value)
 }
 
-func (h HtmlInputElement) FormNoValidate() (bool, error) {
+func (h HtmlInputElement) FormNoValidate() (bool) {
 	return h.GetAttributeBool("formNoValidate")
 }
 
@@ -152,7 +152,7 @@ func (h HtmlInputElement) SetFormNoValidate(value bool) error {
 	return h.SetAttributeBool("formNoValidate", value)
 }
 
-func (h HtmlInputElement) FormTarget() (string, error) {
+func (h HtmlInputElement) FormTarget() string {
 	return h.GetAttributeString("formTarget")
 }
 
@@ -162,7 +162,7 @@ func (h HtmlInputElement) SetFormTarget(value string) error {
 
 //Properties that apply to any type of input element that is not hidden
 
-func (h HtmlInputElement) Name() (string, error) {
+func (h HtmlInputElement) Name() string {
 	return h.GetAttributeString("name")
 }
 
@@ -170,7 +170,7 @@ func (h HtmlInputElement) SetName(value string) error {
 	return h.SetAttributeString("name", value)
 }
 
-func (h HtmlInputElement) Type() (string, error) {
+func (h HtmlInputElement) Type() string {
 	return h.GetAttributeString("type")
 }
 
@@ -178,7 +178,7 @@ func (h HtmlInputElement) SetType(value string) error {
 	return h.SetAttributeString("type", value)
 }
 
-func (h HtmlInputElement) Disabled() (bool, error) {
+func (h HtmlInputElement) Disabled() (bool) {
 	return h.GetAttributeBool("disabled")
 }
 
@@ -186,7 +186,7 @@ func (h HtmlInputElement) SetDisabled(value bool) error {
 	return h.SetAttributeBool("disabled", value)
 }
 
-func (h HtmlInputElement) Autofocus() (bool, error) {
+func (h HtmlInputElement) Autofocus() (bool) {
 	return h.GetAttributeBool("autofocus")
 }
 
@@ -194,7 +194,7 @@ func (h HtmlInputElement) SetAutofocus(value bool) error {
 	return h.SetAttributeBool("autofocus", value)
 }
 
-func (h HtmlInputElement) Required() (bool, error) {
+func (h HtmlInputElement) Required() (bool) {
 	return h.GetAttributeBool("required")
 }
 
@@ -202,7 +202,7 @@ func (h HtmlInputElement) SetRequired(value bool) error {
 	return h.SetAttributeBool("required", value)
 }
 
-func (h HtmlInputElement) Value() (string, error) {
+func (h HtmlInputElement) Value() string {
 	return h.GetAttributeString("value")
 }
 
@@ -223,16 +223,16 @@ func (h HtmlInputElement) Validity() (validitystate.ValidityState, error) {
 
 }
 
-func (h HtmlInputElement) ValidationMessage() (string, error) {
+func (h HtmlInputElement) ValidationMessage() string {
 	return h.GetAttributeString("validationMessage")
 }
 
-func (h HtmlInputElement) WillValidate() (bool, error) {
+func (h HtmlInputElement) WillValidate() (bool) {
 	return h.GetAttributeBool("willValidate")
 }
 
 // Properties that apply only to elements of type "checkbox" or "radio"
-func (h HtmlInputElement) Checked() (bool, error) {
+func (h HtmlInputElement) Checked() (bool) {
 	return h.GetAttributeBool("checked")
 }
 
@@ -240,7 +240,7 @@ func (h HtmlInputElement) SetChecked(value bool) error {
 	return h.SetAttributeBool("checked", value)
 }
 
-func (h HtmlInputElement) DefaultChecked() (bool, error) {
+func (h HtmlInputElement) DefaultChecked() (bool) {
 	return h.GetAttributeBool("defaultChecked")
 }
 
@@ -248,7 +248,7 @@ func (h HtmlInputElement) SetDefaultChecked(value bool) error {
 	return h.SetAttributeBool("defaultChecked", value)
 }
 
-func (h HtmlInputElement) Indeterminate() (bool, error) {
+func (h HtmlInputElement) Indeterminate() (bool) {
 	return h.GetAttributeBool("indeterminate")
 }
 
@@ -258,7 +258,7 @@ func (h HtmlInputElement) SetIndeterminate(value bool) error {
 
 // Properties that apply only to elements of type "image"
 
-func (h HtmlInputElement) Alt() (string, error) {
+func (h HtmlInputElement) Alt() string {
 	return h.GetAttributeString("alt")
 }
 
@@ -268,7 +268,7 @@ func (h HtmlInputElement) SetAlt(value string) error {
 
 // MSN  is wrong return type is int not string
 
-func (h HtmlInputElement) Height() (int, error) {
+func (h HtmlInputElement) Height() int {
 	return h.GetAttributeInt("height")
 }
 
@@ -276,7 +276,7 @@ func (h HtmlInputElement) SetHeight(value int) error {
 	return h.SetAttributeInt("height", value)
 }
 
-func (h HtmlInputElement) Src() (string, error) {
+func (h HtmlInputElement) Src() string {
 	return h.GetAttributeString("src")
 }
 
@@ -284,7 +284,7 @@ func (h HtmlInputElement) SetSrc(value string) error {
 	return h.SetAttributeString("src", value)
 }
 
-func (h HtmlInputElement) Width() (int, error) {
+func (h HtmlInputElement) Width() int {
 	return h.GetAttributeInt("width")
 }
 
@@ -294,7 +294,7 @@ func (h HtmlInputElement) SetWidth(value int) error {
 
 // Properties that apply only to elements of type "file"
 
-func (h HtmlInputElement) Accept() (string, error) {
+func (h HtmlInputElement) Accept() string {
 	return h.GetAttributeString("accept")
 }
 
@@ -313,7 +313,7 @@ func (h HtmlInputElement) Files() (filelist.FileList, error) {
 
 // Properties that apply only to text/number-containing or elements
 
-func (h HtmlInputElement) Autocomplete() (string, error) {
+func (h HtmlInputElement) Autocomplete() string {
 	return h.GetAttributeString("autocomplete")
 }
 
@@ -321,7 +321,7 @@ func (h HtmlInputElement) SetAutocomplete(value string) error {
 	return h.SetAttributeString("autocomplete", value)
 }
 
-func (h HtmlInputElement) Max() (string, error) {
+func (h HtmlInputElement) Max() string {
 	return h.GetAttributeString("max")
 }
 
@@ -329,7 +329,7 @@ func (h HtmlInputElement) SetMax(value string) error {
 	return h.SetAttributeString("max", value)
 }
 
-func (h HtmlInputElement) MaxLength() (int, error) {
+func (h HtmlInputElement) MaxLength() int {
 	return h.GetAttributeInt("maxLength")
 }
 
@@ -337,7 +337,7 @@ func (h HtmlInputElement) SetMaxLength(value int) error {
 	return h.SetAttributeInt("maxLength", value)
 }
 
-func (h HtmlInputElement) Min() (string, error) {
+func (h HtmlInputElement) Min() string {
 	return h.GetAttributeString("min")
 }
 
@@ -345,7 +345,7 @@ func (h HtmlInputElement) SetMin(value string) error {
 	return h.SetAttributeString("min", value)
 }
 
-func (h HtmlInputElement) MinLength() (int, error) {
+func (h HtmlInputElement) MinLength() int {
 	return h.GetAttributeInt("minLength")
 }
 
@@ -353,7 +353,7 @@ func (h HtmlInputElement) SetMinLength(value int) error {
 	return h.SetAttributeInt("minLength", value)
 }
 
-func (h HtmlInputElement) Pattern() (string, error) {
+func (h HtmlInputElement) Pattern() string {
 	return h.GetAttributeString("pattern")
 }
 
@@ -361,7 +361,7 @@ func (h HtmlInputElement) SetPattern(value string) error {
 	return h.SetAttributeString("pattern", value)
 }
 
-func (h HtmlInputElement) Placeholder() (string, error) {
+func (h HtmlInputElement) Placeholder() string {
 	return h.GetAttributeString("placeholder")
 }
 
@@ -369,7 +369,7 @@ func (h HtmlInputElement) SetPlaceholder(value string) error {
 	return h.SetAttributeString("placeholder", value)
 }
 
-func (h HtmlInputElement) ReadOnly() (bool, error) {
+func (h HtmlInputElement) ReadOnly() (bool ) {
 	return h.GetAttributeBool("readOnly")
 }
 
@@ -377,7 +377,7 @@ func (h HtmlInputElement) SetReadOnly(value bool) error {
 	return h.SetAttributeBool("readOnly", value)
 }
 
-func (h HtmlInputElement) SelectionStart() (int, error) {
+func (h HtmlInputElement) SelectionStart() int {
 	return h.GetAttributeInt("selectionStart")
 }
 
@@ -385,7 +385,7 @@ func (h HtmlInputElement) SetSelectionStart(value int) error {
 	return h.SetAttributeInt("selectionStart", value)
 }
 
-func (h HtmlInputElement) SelectionEnd() (int, error) {
+func (h HtmlInputElement) SelectionEnd() int {
 	return h.GetAttributeInt("selectionEnd")
 }
 
@@ -393,7 +393,7 @@ func (h HtmlInputElement) SetSelectionEnd(value int) error {
 	return h.SetAttributeInt("selectionEnd", value)
 }
 
-func (h HtmlInputElement) SelectionDirection() (string, error) {
+func (h HtmlInputElement) SelectionDirection() string {
 	return h.GetAttributeString("selectionDirection")
 }
 
@@ -401,7 +401,7 @@ func (h HtmlInputElement) SetSelectionDirection(value string) error {
 	return h.SetAttributeString("selectionDirection", value)
 }
 
-func (h HtmlInputElement) Size() (int, error) {
+func (h HtmlInputElement) Size() int {
 	return h.GetAttributeInt("size")
 }
 
@@ -411,7 +411,7 @@ func (h HtmlInputElement) SetSize(value int) error {
 
 //  Properties not yet categorized
 
-func (h HtmlInputElement) DefaulValue() (string, error) {
+func (h HtmlInputElement) DefaulValue() string {
 	return h.GetAttributeString("defaultValue")
 }
 
@@ -419,7 +419,7 @@ func (h HtmlInputElement) SetDefaultValue(value string) error {
 	return h.SetAttributeString("defaultValue", value)
 }
 
-func (h HtmlInputElement) DirName() (string, error) {
+func (h HtmlInputElement) DirName() string {
 	return h.GetAttributeString("dirName")
 }
 
@@ -438,7 +438,7 @@ func (h HtmlInputElement) List() (htmlelement.HtmlElement, error) {
 	return elem, err
 }
 
-func (h HtmlInputElement) Multiple() (bool, error) {
+func (h HtmlInputElement) Multiple() bool {
 	return h.GetAttributeBool("multiple")
 }
 
@@ -457,7 +457,7 @@ func (h HtmlInputElement) Labels() (nodelist.NodeList, error) {
 	return arr, err
 }
 
-func (h HtmlInputElement) Step() (string, error) {
+func (h HtmlInputElement) Step() string {
 	return h.GetAttributeString("step")
 }
 
@@ -476,6 +476,6 @@ func (h HtmlInputElement) ValueAsDate() (js.Date, error) {
 	return arr, err
 }
 
-func (h HtmlInputElement) ValueAsNumber() (float64, error) {
+func (h HtmlInputElement) ValueAsNumber() (float64 ) {
 	return h.GetAttributeDouble("valueAsNumber")
 }

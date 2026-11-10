@@ -90,25 +90,25 @@ func New(url string, opts ...interface{}) (EventSource, error) {
 	return e, err
 }
 
-func (e EventSource) ReadyState() (int, error) {
-	var err error
+func (e EventSource) ReadyState() int {
+	//var err error
 	var obj js.Value
 	if obj = e.GetValueByKey("readyState"); obj.Error() == nil {
 
 		return obj.Int()
 	}
-	return 0, err
+	return 0 //, err
 }
 
-func (e EventSource) Url() (string, error) {
+func (e EventSource) Url() string {
 
-	var err error
+	//var err error
 	var obj js.Value
 	if obj = e.GetValueByKey("url"); obj.Error() == nil {
 
 		return obj.String()
 	}
-	return "", err
+	return "" //, err
 
 }
 
@@ -118,7 +118,7 @@ func (e EventSource) Close() error {
 	return err
 }
 
-func (e EventSource) WithCredentials() (bool, error) {
+func (e EventSource) WithCredentials() bool {
 	return e.GetAttributeBool("withCredentials")
 }
 

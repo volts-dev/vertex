@@ -99,7 +99,7 @@ func NewFromJSObject(obj js.Value) (HtmlTableColElement, error) {
 	return h, err
 }
 
-func (h HtmlTableColElement) Span() (int, error) {
+func (h HtmlTableColElement) Span() int {
 	return h.GetAttributeInt("span")
 }
 

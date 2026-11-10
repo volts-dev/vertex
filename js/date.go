@@ -89,9 +89,9 @@ func NewDateFromJSObject(obj Value) (Date, error) {
 	return d, err
 }
 
-func (d Date) callString(method string, opts ...interface{}) (string, error) {
+func (d Date) callString(method string, opts ...interface{}) string {
 
-	var err error
+	//var err error
 	var obj Value
 	var ret string
 
@@ -105,77 +105,77 @@ func (d Date) callString(method string, opts ...interface{}) (string, error) {
 		if obj.Type() == TypeString {
 			return obj.String()
 		} else {
-			err = ErrObjectNotString
+			//	err = ErrObjectNotString
 		}
 	}
-	return ret, err
+	return ret //, err
 }
 
-func (d Date) GetDate() (int, error) {
+func (d Date) GetDate() int {
 	return d.CallInt("getDate")
 }
 
-func (d Date) GetDay() (int, error) {
+func (d Date) GetDay() int {
 	return d.CallInt("getDay")
 }
 
-func (d Date) GetFullYear() (int, error) {
+func (d Date) GetFullYear() int {
 	return d.CallInt("getFullYear")
 }
 
-func (d Date) GetHours() (int, error) {
+func (d Date) GetHours() int {
 	return d.CallInt("getHours")
 }
 
-func (d Date) GetMilliseconds() (int, error) {
+func (d Date) GetMilliseconds() int {
 	return d.CallInt("getMilliseconds")
 }
 
-func (d Date) GetMinutes() (int, error) {
+func (d Date) GetMinutes() int {
 	return d.CallInt("getMinutes")
 }
 
-func (d Date) GetSeconds() (int, error) {
+func (d Date) GetSeconds() int {
 	return d.CallInt("getSeconds")
 }
 
-func (d Date) GetTime() (int64, error) {
+func (d Date) GetTime() int64 {
 	return d.CallInt64("getTime")
 }
 
-func (d Date) GetTimezoneOffset() (int64, error) {
+func (d Date) GetTimezoneOffset() int64 {
 	return d.CallInt64("getTimezoneOffset")
 }
 
-func (d Date) GetUTCDate() (int, error) {
+func (d Date) GetUTCDate() int {
 	return d.CallInt("getUTCDate")
 }
 
-func (d Date) GetUTCDay() (int, error) {
+func (d Date) GetUTCDay() int {
 	return d.CallInt("getUTCDay")
 }
 
-func (d Date) GetUTCFullYear() (int, error) {
+func (d Date) GetUTCFullYear() int {
 	return d.CallInt("getUTCFullYear")
 }
 
-func (d Date) GetUTCHours() (int, error) {
+func (d Date) GetUTCHours() int {
 	return d.CallInt("getUTCHours")
 }
 
-func (d Date) GetUTCMilliseconds() (int, error) {
+func (d Date) GetUTCMilliseconds() int {
 	return d.CallInt("getUTCMilliseconds")
 }
 
-func (d Date) GetUTCMinutes() (int, error) {
+func (d Date) GetUTCMinutes() int {
 	return d.CallInt("getUTCMinutes")
 }
 
-func (d Date) GetUTCMonth() (int, error) {
+func (d Date) GetUTCMonth() int {
 	return d.CallInt("getUTCMonth")
 }
 
-func (d Date) GetUTCSeconds() (int, error) {
+func (d Date) GetUTCSeconds() int {
 	return d.CallInt("getUTCSeconds")
 }
 
@@ -248,64 +248,63 @@ func (d Date) SetUTCSeconds(value int) error {
 	return d.Call("setUTCSeconds", ValueOf(value)).Error()
 }
 
-func Parse(value string) (int64, error) {
-	var err error
+func Parse(value string) int64 {
+	//var err error
 	var obj Value
 	var ret int64
 	if di := GetDateInterface(); !di.IsUndefined() {
 		if obj = di.Call("parse", ValueOf(value)); obj.Error() == nil {
 			if obj.Type() == TypeNumber {
-				v, _ := obj.Float()
+				v := obj.Float()
 				ret = int64(v)
 			} else {
-				err = ErrObjectNotNumber
+				//err = ErrObjectNotNumber
 			}
 		}
-		return ret, err
+		return ret //, err
 
 	} else {
-		err = ErrNotImplemented
+		//	err = ErrNotImplemented
 	}
 
-	return ret, err
+	return ret //, err
 }
 
-func Now() (int64, error) {
-	var err error
+func Now() int64 {
 	var obj Value
 	var ret int64
 	if di := GetDateInterface(); !di.IsUndefined() {
 
 		if obj = di.Call("now"); obj.Error() == nil {
 			if obj.Type() == TypeNumber {
-				v, _ := obj.Float()
+				v := obj.Float()
 				ret = int64(v)
 			} else {
-				err = ErrObjectNotNumber
+				//err = ErrObjectNotNumber
 			}
 		}
-		return ret, err
+		return ret //, err
 
 	} else {
-		err = ErrNotImplemented
+		//err = ErrNotImplemented
 	}
 
-	return ret, err
+	return ret //, err
 }
 
-func (d Date) ToDateString() (string, error) {
+func (d Date) ToDateString() string {
 	return d.callString("toDateString")
 }
 
-func (d Date) ToISOString() (string, error) {
+func (d Date) ToISOString() string {
 	return d.callString("toISOString")
 }
 
-func (d Date) ToJSON() (string, error) {
+func (d Date) ToJSON() string {
 	return d.callString("toJSON")
 }
 
-func (d Date) ToLocaleDateString(opts ...interface{}) (string, error) {
+func (d Date) ToLocaleDateString(opts ...interface{}) string {
 	var arrayopts []interface{}
 	if len(opts) > 0 {
 		arrayopts = append(arrayopts, ValueOf(opts[0]))
@@ -317,7 +316,7 @@ func (d Date) ToLocaleDateString(opts ...interface{}) (string, error) {
 	return d.callString("toLocaleDateString", arrayopts...)
 }
 
-func (d Date) ToLocaleString(opts ...interface{}) (string, error) {
+func (d Date) ToLocaleString(opts ...interface{}) string {
 
 	var arrayopts []interface{}
 	if len(opts) > 0 {
@@ -331,7 +330,7 @@ func (d Date) ToLocaleString(opts ...interface{}) (string, error) {
 	return d.callString("toLocaleString", arrayopts...)
 }
 
-func (d Date) ToLocaleTimeString(opts ...interface{}) (string, error) {
+func (d Date) ToLocaleTimeString(opts ...interface{}) string {
 
 	var arrayopts []interface{}
 	if len(opts) > 0 {
@@ -344,20 +343,20 @@ func (d Date) ToLocaleTimeString(opts ...interface{}) (string, error) {
 	return d.callString("toLocaleTimeString", arrayopts...)
 }
 
-func (d Date) ToTimeString() (string, error) {
+func (d Date) ToTimeString() string {
 	return d.callString("toTimeString")
 }
 
-func (d Date) ToUTCString() (string, error) {
+func (d Date) ToUTCString() string {
 	return d.callString("toUTCString")
 }
 
-func (d Date) ValueOf() (int64, error) {
+func (d Date) ValueOf() int64 {
 	return d.CallInt64("valueOf")
 }
 
-func UTC(values ...interface{}) (int64, error) {
-	var err error
+func UTC(values ...interface{}) int64 {
+	//var err error
 	var obj Value
 	var ret int64
 	var arrayJS []interface{}
@@ -370,19 +369,19 @@ func UTC(values ...interface{}) (int64, error) {
 
 		if obj = di.Call("UTC", arrayJS...); obj.Error() == nil {
 			if obj.Type() == TypeNumber {
-				v, _ := obj.Float()
+				v := obj.Float()
 				ret = int64(v)
 			} else {
-				err = ErrObjectNotNumber
+				//err = ErrObjectNotNumber
 			}
 		}
-		return ret, err
+		return ret //, err
 
 	} else {
-		err = ErrNotImplemented
+		//err = ErrNotImplemented
 	}
 
-	return ret, err
+	return ret //, err
 }
 
 func NewDate_(values ...interface{}) Date {
@@ -392,16 +391,4 @@ func NewDate_(values ...interface{}) Date {
 		d.Debug(err.Error())
 	}
 	return d
-}
-
-func (d Date) ToISOString_() string {
-
-	var s string
-	var err error
-
-	if s, err = d.ToISOString(); err != nil {
-		d.Debug(err.Error())
-	}
-
-	return s
 }

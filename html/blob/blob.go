@@ -131,8 +131,8 @@ func NewFromJSObject(obj js.Value) (Blob, error) {
 	return b, err
 }
 
-func (b Blob) IsClosed() (bool, error) {
-	var err error
+func (b Blob) IsClosed() bool {
+	//var err error
 	var obj js.Value
 	var ret bool
 
@@ -140,26 +140,26 @@ func (b Blob) IsClosed() (bool, error) {
 		if !obj.IsUndefined() {
 			return obj.Bool()
 		} else {
-			err = js.ErrNotImplementedFunc
+			//	err = js.ErrNotImplementedFunc
 		}
 
 	}
-	return ret, err
+	return ret //, err
 }
 
-func (b Blob) Size() (int64, error) {
+func (b Blob) Size() int64 {
 
 	return b.GetAttributeInt64("size")
 }
-func (b Blob) Type() (string, error) {
-	var err error
+func (b Blob) Type() string {
+	//var err error
 	var obj js.Value
 
 	if obj = b.GetValueByKey("type"); obj.Error() == nil {
 
 		return obj.String()
 	}
-	return "", err
+	return "" //, err
 }
 
 func (b Blob) Close() error {

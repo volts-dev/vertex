@@ -21,11 +21,11 @@ type (
 		Call(m string, args ...interface{}) Value
 		Invoke(args ...interface{}) Value
 		New(args ...interface{}) Value
-		Float() (float64, error)
-		Int() (int, error)
-		Bool() (bool, error)
-		String() (string, error)
-		Bytes() ([]byte, error)
+		Float() float64
+		Int() int
+		Bool() bool
+		String() string
+		Bytes() []byte
 		Truthy() bool
 		InstanceOf(t Value) bool
 		IsUndefined() bool
@@ -135,7 +135,7 @@ func GetFuncName(inter Value) (string, error) {
 
 	obj = inter.Get("name")
 	if !obj.IsUndefined() {
-		return obj.String()
+		return obj.String(), nil
 	} else {
 		err = ErrUnableGetFunctName
 	}

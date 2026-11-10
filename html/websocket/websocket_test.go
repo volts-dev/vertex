@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/volts-dev/vertex/html/messageevent"
+	"github.com/volts-dev/vertex/js/reflect"
+	"github.com/volts-dev/vertex/test"
 )
 
 func TestMain(m *testing.M) {
@@ -19,7 +21,7 @@ func TestNew(t *testing.T) {
 
 	if ws, err := New("wss://ws.ifelse.io"); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object WebSocket]", ws.ToString_())
+		test.AssertExpect(t, "[object WebSocket]", ws.ToString())
 	}
 }
 

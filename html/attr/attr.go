@@ -67,23 +67,23 @@ func NewFromJSObject(obj js.Value) (Attr, error) {
 	return a, err
 }
 
-func (a Attr) Name() (string, error) {
+func (a Attr) Name() string {
 	return a.GetAttributeString("name")
 }
 
-func (a Attr) NamespaceURI() (string, error) {
+func (a Attr) NamespaceURI() string {
 	return a.GetAttributeString("namespaceURI")
 }
 
-func (a Attr) LocalName() (string, error) {
+func (a Attr) LocalName() string {
 	return a.GetAttributeString("localName")
 }
 
-func (a Attr) Prefix() (string, error) {
+func (a Attr) Prefix() string {
 	return a.GetAttributeString("prefix")
 }
 
-func (a Attr) Value() (string, error) {
+func (a Attr) Value() string {
 	return a.GetAttributeString("value")
 }
 

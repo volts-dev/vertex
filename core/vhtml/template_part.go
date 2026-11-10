@@ -86,7 +86,7 @@ func WrapNode(n *node.Node) *node.Node {
 	// 3. global.ShadyDOM.noPatch 是否为 true
 	if shadyDOM := js.Global().Get("ShadyDOM"); !shadyDOM.IsNull() && !shadyDOM.IsUndefined() {
 		console.Info("ShadyDOM")
-		if enableShadydomNoPatch, err := shadyDOM.Get("noPatch").Bool(); enableShadydomNoPatch && err != nil {
+		if shadyDOM.Get("noPatch").Bool() {
 			// 如果所有条件都满足，使用 ShadyDOM 的 wrap 方法
 			if v := shadyDOM.Call("wrap", n.GetObjectValue()); v.Error() == nil {
 				vv, err := node.NewFromJSObject(v)
@@ -654,8 +654,8 @@ func (self *AttributePart) commitValue(value any) error {
 func (self *BooleanAttributePart) commitValue(value any) error {
 	ele, _ := element.NewFromJSObject(self.element.GetObjectValue())
 	v, _ := value.(bool)
-	_, err := ele.ToggleAttribute(self.name, v)
-	return err
+	ele.ToggleAttribute(self.name, v)
+	return nil
 }
 
 func (self *PropertyPart) commitValue(value any) error {

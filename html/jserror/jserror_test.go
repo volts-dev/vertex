@@ -17,33 +17,29 @@ func TestNew(t *testing.T) {
 
 	if e, err := New("throw error"); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "Error: throw error", e.ToString_())
+		test.AssertExpect(t, "Error: throw error", e.ToString())
 
 	}
 
 	var message string = "message error"
 
 	if e, err := New(message); test.AssertErr(t, err) {
-		test.AssertExpect(t, "Error: message error", e.ToString_())
+		test.AssertExpect(t, "Error: message error", e.ToString())
 
-		if str, err := e.Message(); test.AssertErr(t, err) {
-			test.AssertExpect(t, message, str)
-		}
+		test.AssertExpect(t, message, e.Message())
 		message = "message error2"
 		e.SetMessage(message)
 
-		test.AssertExpect(t, "Error: message error2", e.ToString_())
+		test.AssertExpect(t, "Error: message error2", e.ToString())
 
 	}
 
 	var customname string = "custom name"
 	if e, err := New(message); test.AssertErr(t, err) {
 		e.SetName(customname)
-		test.AssertExpect(t, "custom name: message error2", e.ToString_())
+		test.AssertExpect(t, "custom name: message error2", e.ToString())
 
-		if str, err := e.Name(); test.AssertErr(t, err) {
-			test.AssertExpect(t, customname, str)
-		}
+		test.AssertExpect(t, customname, e.Name())
 	}
 
 }
@@ -55,7 +51,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("err"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "Error", d.ToString_())
+			test.AssertExpect(t, "Error", d.ToString())
 
 		}
 	}

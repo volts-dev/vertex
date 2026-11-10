@@ -81,9 +81,9 @@ func (f IDBFactory) genericRequest(method string, dbname string, option ...strin
 
 }
 
-func (f IDBFactory) Cmp(a, b interface{}) (int, error) {
+func (f IDBFactory) Cmp(a, b interface{}) int {
 	var arrayJS []interface{}
-	var err error
+	//var err error
 	var obj js.Value
 	var result int
 	arrayJS = append(arrayJS, js.ValueOf(a), js.ValueOf(b))
@@ -91,10 +91,10 @@ func (f IDBFactory) Cmp(a, b interface{}) (int, error) {
 		if obj.Type() == js.TypeNumber {
 			return obj.Int()
 		} else {
-			err = js.ErrObjectNotNumber
+			//err = js.ErrObjectNotNumber
 		}
 	}
-	return result, err
+	return result//, err
 
 }
 

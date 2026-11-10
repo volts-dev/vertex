@@ -62,12 +62,12 @@ func NewFromJSObject(obj js.Value) (ServiceWorker, error) {
 	return s, ErrNotImplemented
 }
 
-func (s ServiceWorker) ScriptURL() (string, error) {
+func (s ServiceWorker) ScriptURL() string {
 
 	return s.GetAttributeString("scriptURL")
 }
 
-func (s ServiceWorker) State() (string, error) {
+func (s ServiceWorker) State() string {
 
 	return s.GetAttributeString("state")
 }

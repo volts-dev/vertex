@@ -77,7 +77,7 @@ func (c BroadcastChannel) Close() error {
 	return err
 }
 
-func (c BroadcastChannel) Name() (string, error) {
+func (c BroadcastChannel) Name() string {
 
 	return c.GetAttributeString("name")
 }

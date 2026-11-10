@@ -164,10 +164,7 @@ func TestAfter(t *testing.T) {
 
 							test.AssertErr(t, div.After(br))
 
-							if val, err := span.OuterHTML(); test.AssertErr(t, err) {
-								test.AssertExpect(t, "<span><div></div><br></span>", val)
-
-							}
+							test.AssertExpect(t, "<span><div></div><br></span>", span.OuterHTML())
 
 						}
 					}
@@ -262,10 +259,7 @@ func TestBefore(t *testing.T) {
 
 							test.AssertErr(t, div.Before(br))
 
-							if val, err := span.OuterHTML(); test.AssertErr(t, err) {
-								test.AssertExpect(t, "<span><br><div></div></span>", val)
-
-							}
+							test.AssertExpect(t, "<span><br><div></div></span>", span.OuterHTML())
 
 						}
 					}
@@ -297,11 +291,8 @@ func TestInsertAdjacentElement(t *testing.T) {
 
 					if elem, err := p.InsertAdjacentElement("afterbegin", br); test.AssertErr(t, err) {
 
-						test.AssertExpect(t, "[object HTMLBRElement]", elem.ToString_())
-						if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-							test.AssertExpect(t, "<p><br>hello</p>", val)
-
-						}
+						test.AssertExpect(t, "[object HTMLBRElement]", elem.ToString())
+						test.AssertExpect(t, "<p><br>hello</p>", p.OuterHTML())
 
 					}
 
@@ -328,10 +319,7 @@ func TestInsertAdjacentHTML(t *testing.T) {
 
 			test.AssertErr(t, p.InsertAdjacentHTML("afterbegin", "<div>test</div>"))
 
-			if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "<p><div>test</div>hello</p>", val)
-
-			}
+			test.AssertExpect(t, "<p><div>test</div>hello</p>", p.OuterHTML())
 
 		}
 	}
@@ -353,10 +341,7 @@ func TestInsertAdjacentText(t *testing.T) {
 
 			test.AssertErr(t, p.InsertAdjacentText("beforeend", "this is text <br>"))
 
-			if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "<p>hellothis is text &lt;br&gt;</p>", val)
-
-			}
+			test.AssertExpect(t, "<p>hellothis is text &lt;br&gt;</p>", p.OuterHTML())
 
 		}
 	}
@@ -381,10 +366,7 @@ func TestRemove(t *testing.T) {
 				if p, err := NewFromJSObject(objp); test.AssertErr(t, err) {
 
 					test.AssertErr(t, div.Remove())
-					if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-						test.AssertExpect(t, "<p></p>", val)
-
-					}
+					test.AssertExpect(t, "<p></p>", p.OuterHTML())
 
 				}
 			}
@@ -407,10 +389,7 @@ func TestRemoveAttribute(t *testing.T) {
 		if p, err := NewFromJSObject(objp); test.AssertErr(t, err) {
 
 			test.AssertErr(t, p.RemoveAttribute("hello"))
-			if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "<p hello1=\"world1\"></p>", val)
-
-			}
+			test.AssertExpect(t, "<p hello1=\"world1\"></p>", p.OuterHTML())
 
 		}
 	}
@@ -431,10 +410,7 @@ func TestRemoveAttributeNS(t *testing.T) {
 		if p, err := NewFromJSObject(objp); test.AssertErr(t, err) {
 
 			test.AssertErr(t, p.RemoveAttributeNS("space", "hello"))
-			if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "<p hello=\"world\" hello1=\"world1\"></p>", val)
-
-			}
+			test.AssertExpect(t, "<p hello=\"world\" hello1=\"world1\"></p>", p.OuterHTML())
 
 		}
 	}
@@ -456,9 +432,8 @@ func TestReplaceChildren(t *testing.T) {
 			if objspan := js.Global().Get("span"); test.AssertErr(t, objspan.Error()) {
 				if span, err := NewFromJSObject(objspan); test.AssertErr(t, err) {
 					test.AssertErr(t, div.ReplaceChildren("well ", span.Node))
-					if val, err := div.OuterHTML(); test.AssertErr(t, err) {
-						test.AssertExpect(t, "<div>well <span>done</span></div>", val)
-					}
+					test.AssertExpect(t, "<div>well <span>done</span></div>", div.OuterHTML())
+
 				}
 			}
 		}
@@ -477,10 +452,7 @@ func TestSetAttribute(t *testing.T) {
 		if p, err := NewFromJSObject(objp); test.AssertErr(t, err) {
 
 			test.AssertErr(t, p.SetAttribute("space", "hello"))
-			if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "<p space=\"hello\"></p>", val)
-
-			}
+			test.AssertExpect(t, "<p space=\"hello\"></p>", p.OuterHTML())
 
 		}
 	}
@@ -499,10 +471,7 @@ func TestSetAttributeNS(t *testing.T) {
 		if p, err := NewFromJSObject(objp); test.AssertErr(t, err) {
 
 			test.AssertErr(t, p.SetAttributeNS("space", "hello", "world"))
-			if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "<p hello=\"world\"></p>", val)
-
-			}
+			test.AssertExpect(t, "<p hello=\"world\"></p>", p.OuterHTML())
 
 		}
 	}
@@ -519,14 +488,8 @@ func TestToggleAttribute(t *testing.T) {
 
 		if p, err := NewFromJSObject(objp); test.AssertErr(t, err) {
 
-			if b, err := p.ToggleAttribute("disabled", true); test.AssertErr(t, err) {
-
-				test.AssertExpect(t, true, b)
-				if val, err := p.OuterHTML(); test.AssertErr(t, err) {
-					test.AssertExpect(t, "<p disabled=\"\"></p>", val)
-
-				}
-			}
+			test.AssertExpect(t, true, p.ToggleAttribute("disabled", true))
+			test.AssertExpect(t, "<p disabled=\"\"></p>", p.OuterHTML())
 
 		}
 	}

@@ -69,7 +69,7 @@ type ( /*
 			Debug(msg string) error
 			//GoValue_(object Value) interface{}
 			Class_() string
-			ToString_() string
+			ToString() string
 			ConstructName_() string
 			GetAttributeString_(attribute string) string
 
@@ -211,12 +211,12 @@ func (b *Object) SetObjectValue(value Value) {
 }
 
 // String Get the current string representation of the js  Value attached to this struct
-func (b Object) String() (string, error) {
+func (b Object) String() string {
 	return b.value.String()
 }
 
 // ToString Get the current toString representation of the js  Value attached to this struct
-func (b Object) ToString() (string, error) {
+func (b Object) ToString() string {
 	var value Value
 	if b.value.Type() == TypeObject {
 		if value = b.Call("toString"); !value.IsUndefined() {
@@ -224,7 +224,7 @@ func (b Object) ToString() (string, error) {
 		}
 	}
 
-	return "", ErrNotAnObject
+	return ""
 }
 
 // Length Length of the JS.Value attached of this strict
@@ -261,8 +261,7 @@ func (b Object) Implement(method string) (bool, error) {
 	return false, err
 }
 
-func (b Object) Class() (string, error) {
-	var err error
+func (b Object) Class() string {
 	var objconstructor, objname Value
 	var classname string
 
@@ -272,7 +271,7 @@ func (b Object) Class() (string, error) {
 		}
 	}
 
-	return classname, err
+	return classname
 }
 func (o Object) Keys() (Array, error) {
 	var err error
@@ -303,20 +302,20 @@ func (b Object) Export(name string) {
 	Global().Set(name, b.value)
 }
 
-func (b Object) GetAttributeString(attribute string) (string, error) {
-	var err error
+func (b Object) GetAttributeString(attribute string) string {
+	//var err error
 	obj := b.value.Get(attribute)
 	if obj.IsUndefined() || obj.IsNull() {
-		err = ErrUndefinedValue
+		//err = ErrUndefinedValue
 	} else {
 		if obj.Type() == TypeString {
 			return obj.String()
 		} else {
-			err = ErrObjectNotString
+			//err = ErrObjectNotString
 		}
 	}
 
-	return "", err
+	return ""
 }
 
 func (b Object) GetAttributeGlobal(attribute string) (interface{}, error) {
@@ -345,8 +344,7 @@ func (b Object) SetAttributeString(attribute string, value string) error {
 	return b.value.Error()
 }
 
-func (b Object) GetAttributeBool(attribute string) (bool, error) {
-	var err error
+func (b Object) GetAttributeBool(attribute string) bool {
 	var obj Value
 	var ret bool
 
@@ -354,10 +352,10 @@ func (b Object) GetAttributeBool(attribute string) (bool, error) {
 	if obj.Type() == TypeBoolean {
 		return obj.Bool()
 	} else {
-		err = ErrObjectNotBool
+		//err = ErrObjectNotBool
 	}
 
-	return ret, err
+	return ret
 }
 
 func (b Object) SetAttributeBool(attribute string, value bool) error {
@@ -365,46 +363,44 @@ func (b Object) SetAttributeBool(attribute string, value bool) error {
 	return b.value.Error()
 }
 
-func (b Object) GetAttributeInt(attribute string) (int, error) {
+func (b Object) GetAttributeInt(attribute string) int {
 
-	var err error
 	var obj Value
 	var result int
 
 	obj = b.value.Get(attribute)
 	if obj.IsUndefined() {
-		err = ErrUndefinedValue
+		//err = ErrUndefinedValue
 	} else {
 
 		if obj.Type() == TypeNumber {
 			return obj.Int()
 		} else {
-			err = ErrObjectNotNumber
+			//err = ErrObjectNotNumber
 		}
 	}
 
-	return result, err
+	return result
 }
 
-func (b Object) GetAttributeInt64(attribute string) (int64, error) {
-	var err error
+func (b Object) GetAttributeInt64(attribute string) int64 {
 	var obj Value
 	var ret int64
 
 	obj = b.value.Get(attribute)
 	if obj.IsUndefined() {
-		err = ErrUndefinedValue
+		//err = ErrUndefinedValue
 	} else {
 
 		if obj.Type() == TypeNumber {
-			retf, err := obj.Float()
-			return int64(retf), err
+			retf := obj.Float()
+			return int64(retf)
 		} else {
-			err = ErrObjectNotNumber
+			//err = ErrObjectNotNumber
 		}
 	}
 
-	return ret, err
+	return ret
 }
 
 func (b Object) SetAttributeInt(attribute string, value int) error {
@@ -412,24 +408,23 @@ func (b Object) SetAttributeInt(attribute string, value int) error {
 	return b.value.Error()
 }
 
-func (b Object) GetAttributeDouble(attribute string) (float64, error) {
-	var err error
+func (b Object) GetAttributeDouble(attribute string) float64 {
 	var obj Value
 	var result float64
 
 	obj = b.value.Get(attribute)
 	if obj.IsUndefined() {
-		err = ErrUndefinedValue
+		//err = ErrUndefinedValue
 	} else {
 
 		if obj.Type() == TypeNumber {
 			return obj.Float()
 		} else {
-			err = ErrObjectNotDouble
+			//err = ErrObjectNotDouble
 		}
 	}
 
-	return result, err
+	return result
 }
 
 func (b Object) SetAttributeDouble(attribute string, value float64) error {
@@ -438,64 +433,65 @@ func (b Object) SetAttributeDouble(attribute string, value float64) error {
 }
 
 // CallInt64 Call method given and return a 64bit int
-func (b Object) CallInt64(method string) (int64, error) {
+func (b Object) CallInt64(method string) int64 {
 	obj := b.value.Call(method)
 	if obj.Type() == TypeNumber {
-		fv, err := obj.Float()
-		return int64(fv), err
+		fv := obj.Float()
+		return int64(fv)
 	}
 
-	return 0, ErrObjectNotNumber
+	return 0 //, ErrObjectNotNumber
 }
 
 // CallInt Call method given and return int
-func (b Object) CallInt(method string) (int, error) {
+func (b Object) CallInt(method string) int {
 	obj := b.value.Call(method)
 	if obj.Type() == TypeNumber {
 		return obj.Int()
 	}
 
-	return 0, ErrObjectNotNumber
+	return 0 //, ErrObjectNotNumber
 }
 
 // CallInt64 Call method given and return a bool int
-func (b Object) CallBool(method string) (bool, error) {
+func (b Object) CallBool(method string) bool {
 	obj := b.value.Call(method)
 	if obj.Type() == TypeBoolean {
 		return obj.Bool()
 	}
 
-	return false, ErrObjectNotBool
+	return false //, ErrObjectNotBool
 }
 
 func (b Object) Debug(msg string) error {
 	return Debug(msg)
 }
 
+/*
 func (b Object) Class_() string {
 
-	var c string
-	var err error
+		var c string
+		var err error
 
-	if c, err = b.Class(); err != nil {
-		b.Debug(err.Error())
+		if c, err = b.Class(); err != nil {
+			b.Debug(err.Error())
+		}
+
+		return c
 	}
 
-	return c
-}
+func (b Object) ToString() string {
 
-func (b Object) ToString_() string {
+		var c string
+		var err error
 
-	var c string
-	var err error
+		if c, err = b.ToString(); err != nil {
+			b.Debug(err.Error())
+		}
 
-	if c, err = b.ToString(); err != nil {
-		b.Debug(err.Error())
+		return c
 	}
-
-	return c
-}
-
+*/
 func (b Object) ConstructName_() string {
 
 	var c string
@@ -508,6 +504,7 @@ func (b Object) ConstructName_() string {
 	return c
 }
 
+/*
 func (b Object) GetAttributeString_(attribute string) string {
 	var c string
 	var err error
@@ -518,3 +515,4 @@ func (b Object) GetAttributeString_(attribute string) string {
 
 	return c
 }
+*/

@@ -50,9 +50,9 @@ func pairValues(obj Value) (interface{}, interface{}) {
 	if obj.Type() == TypeObject {
 		if obj.Length() == 2 {
 
-			index = GoValue_(obj.Index(0))
+			index = GoValue(obj.Index(0))
 
-			value = GoValue_(obj.Index(1))
+			value = GoValue(obj.Index(1))
 
 		}
 
@@ -68,7 +68,6 @@ for index, value, err := it.Next(); err == nil; index, value, err = it.Next() {
 */
 
 func (i Iterator) Next() (interface{}, interface{}, error) {
-
 	var err error
 	var done bool = true
 	var obj, doneobj, valueobj Value
@@ -79,7 +78,7 @@ func (i Iterator) Next() (interface{}, interface{}, error) {
 
 		if doneobj = obj.Get("done"); doneobj.Error() == nil {
 			if doneobj.Type() == TypeBoolean {
-				done = ValueToBool(doneobj)
+				done = doneobj.Bool()
 			} else {
 				err = ErrObjectNotBool
 			}
@@ -93,7 +92,7 @@ func (i Iterator) Next() (interface{}, interface{}, error) {
 				if valueobj.Type() == TypeObject {
 					index, value = pairValues(valueobj)
 				} else {
-					value, err = GoValue(valueobj)
+					value = GoValue(valueobj)
 				}
 
 			}

@@ -91,14 +91,14 @@ func NewFromJSObject(obj js.Value) (ProgressEvent, error) {
 	return p, err
 }
 
-func (p ProgressEvent) LengthComputable() (bool, error) {
+func (p ProgressEvent) LengthComputable() bool {
 	return p.GetAttributeBool("lengthComputable")
 }
 
-func (p ProgressEvent) Loaded() (int, error) {
+func (p ProgressEvent) Loaded() int {
 	return p.GetAttributeInt("loaded")
 }
 
-func (p ProgressEvent) Total() (int, error) {
+func (p ProgressEvent) Total() int {
 	return p.GetAttributeInt("total")
 }

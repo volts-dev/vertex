@@ -39,19 +39,12 @@ func TestParse(t *testing.T) {
 }
 func TestStringify(t *testing.T) {
 
-	if str, err := Stringify(1, "hello", true); test.AssertErr(t, err) {
-
-		test.AssertExpect(t, "[1,\"hello\",true]", str)
-
-	}
+	test.AssertExpect(t, "[1,\"hello\",true]", Stringify(1, "hello", true))
 
 }
 
 func TestStringifyObject(t *testing.T) {
 
-	if str, err := StringifyObject(map[string]interface{}{"hello": "world"}); test.AssertErr(t, err) {
+	test.AssertExpect(t, "{\"hello\":\"world\"}", StringifyObject(map[string]interface{}{"hello": "world"}))
 
-		test.AssertExpect(t, "{\"hello\":\"world\"}", str)
-
-	}
 }

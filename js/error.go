@@ -93,7 +93,7 @@ func NewFromJSObject(obj Value) (Error, error) {
 	return e, err
 }
 
-func (j Error) Message() (string, error) {
+func (j Error) Message() string {
 	return j.GetAttributeString("message")
 }
 
@@ -101,13 +101,13 @@ func (j Error) SetMessage(value string) error {
 	return j.SetAttributeString("message", value)
 }
 
-func (j Error) Name() (string, error) {
+func (j Error) Name() string {
 	return j.GetAttributeString("name")
 }
 func (j Error) SetName(value string) error {
 	return j.SetAttributeString("name", value)
 }
 
-func (j Error) Stack() (string, error) {
+func (j Error) Stack() string {
 	return j.GetAttributeString("stack")
 }

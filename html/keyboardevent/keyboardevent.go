@@ -97,46 +97,46 @@ func NewFromJSObject(obj js.Value) (KeyboardEvent, error) {
 	return k, err
 }
 
-func (k KeyboardEvent) AltKey() (bool, error) {
+func (k KeyboardEvent) AltKey() bool {
 
 	return k.GetAttributeBool("altKey")
 }
 
-func (k KeyboardEvent) CtrlKey() (bool, error) {
+func (k KeyboardEvent) CtrlKey() bool {
 
 	return k.GetAttributeBool("ctrlKey")
 }
-func (k KeyboardEvent) Key() (string, error) {
+func (k KeyboardEvent) Key() string {
 
 	return k.GetAttributeString("key")
 }
 
-func (k KeyboardEvent) Code() (string, error) {
+func (k KeyboardEvent) Code() string {
 
 	return k.GetAttributeString("code")
 }
 
-func (k KeyboardEvent) IsComposing() (bool, error) {
+func (k KeyboardEvent) IsComposing() bool {
 
 	return k.GetAttributeBool("isComposing")
 }
 
-func (k KeyboardEvent) Location() (int64, error) {
+func (k KeyboardEvent) Location() int64 {
 
 	return k.GetAttributeInt64("location")
 }
 
-func (k KeyboardEvent) MetaKey() (bool, error) {
+func (k KeyboardEvent) MetaKey() bool {
 
 	return k.GetAttributeBool("metaKey")
 }
 
-func (k KeyboardEvent) Repeat() (bool, error) {
+func (k KeyboardEvent) Repeat() bool {
 
 	return k.GetAttributeBool("repeat")
 }
 
-func (k KeyboardEvent) ShiftKey() (bool, error) {
+func (k KeyboardEvent) ShiftKey() bool {
 
 	return k.GetAttributeBool("shiftKey")
 }

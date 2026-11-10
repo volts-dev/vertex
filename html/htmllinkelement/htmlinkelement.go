@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlLinkElement, error) {
 	return h, err
 }
 
-func (h HtmlLinkElement) As() (string, error) {
+func (h HtmlLinkElement) As() string {
 	return h.GetAttributeString("as")
 }
 
@@ -108,7 +108,7 @@ func (h HtmlLinkElement) SetAs(value string) error {
 	return h.SetAttributeString("as", value)
 }
 
-func (s HtmlLinkElement) Disabled() (bool, error) {
+func (s HtmlLinkElement) Disabled() bool {
 	return s.GetAttributeBool("disabled")
 }
 
@@ -116,7 +116,7 @@ func (s HtmlLinkElement) SetDisabled(value bool) error {
 	return s.SetAttributeBool("disabled", value)
 }
 
-func (h HtmlLinkElement) Media() (string, error) {
+func (h HtmlLinkElement) Media() string {
 	return h.GetAttributeString("media")
 }
 
@@ -124,7 +124,7 @@ func (h HtmlLinkElement) SetMedia(value string) error {
 	return h.SetAttributeString("media", value)
 }
 
-func (h HtmlLinkElement) Href() (string, error) {
+func (h HtmlLinkElement) Href() string {
 	return h.GetAttributeString("href")
 }
 
@@ -132,7 +132,7 @@ func (h HtmlLinkElement) SetHref(value string) error {
 	return h.SetAttributeString("href", value)
 }
 
-func (h HtmlLinkElement) Hreflang() (string, error) {
+func (h HtmlLinkElement) Hreflang() string {
 	return h.GetAttributeString("hreflang")
 }
 
@@ -140,7 +140,7 @@ func (h HtmlLinkElement) SetHreflang(value string) error {
 	return h.SetAttributeString("hreflang", value)
 }
 
-func (h HtmlLinkElement) ReferrerPolicy() (string, error) {
+func (h HtmlLinkElement) ReferrerPolicy() string {
 	return h.GetAttributeString("referrerPolicy")
 }
 
@@ -148,7 +148,7 @@ func (h HtmlLinkElement) SetReferrerPolicy(value string) error {
 	return h.SetAttributeString("referrerPolicy", value)
 }
 
-func (h HtmlLinkElement) Rel() (string, error) {
+func (h HtmlLinkElement) Rel() string {
 	return h.GetAttributeString("rel")
 }
 
@@ -201,7 +201,7 @@ func (h HtmlLinkElement) Sizes() (domtokenlist.DOMTokenList, error) {
 	return d, err
 }
 
-func (h HtmlLinkElement) Type() (string, error) {
+func (h HtmlLinkElement) Type() string {
 	return h.GetAttributeString("type")
 }
 

@@ -99,7 +99,7 @@ func NewFromJSObject(obj js.Value) (HtmlTimeElement, error) {
 	return h, err
 }
 
-func (h HtmlTimeElement) DateTime() (string, error) {
+func (h HtmlTimeElement) DateTime() string {
 	return h.GetAttributeString("dateTime")
 }
 

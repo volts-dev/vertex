@@ -56,11 +56,11 @@ func (d Document) Body() (htmlelement.HtmlElement, error) {
 	return body, err
 }
 
-func (d Document) CharacterSet() (string, error) {
+func (d Document) CharacterSet() string {
 	return d.GetAttributeString("characterSet")
 }
 
-func (d Document) ChildElementCount() (int, error) {
+func (d Document) ChildElementCount() int {
 	return d.GetAttributeInt("childElementCount")
 }
 
@@ -68,11 +68,11 @@ func (d Document) Children() (htmlcollection.HtmlCollection, error) {
 	return d.getAttributeHTMLCollection("children")
 }
 
-func (d Document) CompatMode() (string, error) {
+func (d Document) CompatMode() string {
 	return d.GetAttributeString("compatMode")
 }
 
-func (d Document) ContentType() (string, error) {
+func (d Document) ContentType() string {
 	return d.GetAttributeString("contentType")
 }
 
@@ -84,7 +84,7 @@ func (d Document) DocumentElement() (element.Element, error) {
 	return d.getAttributeElement("documentElement")
 }
 
-func (d *Document) DocumentURI() (string, error) {
+func (d *Document) DocumentURI() string {
 	return d.GetAttributeString("documentURI")
 }
 
@@ -113,7 +113,7 @@ func (d Document) Head() (element.Element, error) {
 	return d.getAttributeElement("head")
 }
 
-func (d Document) Hidden() (bool, error) {
+func (d Document) Hidden() bool {
 
 	return d.GetAttributeBool("hidden")
 }
@@ -138,7 +138,7 @@ func (d Document) PictureInPictureElement() (element.Element, error) {
 	return d.getAttributeElement("pictureInPictureElement")
 }
 
-func (d Document) PictureInPictureEnabled() (bool, error) {
+func (d Document) PictureInPictureEnabled() bool {
 	return d.GetAttributeBool("pictureInPictureEnabled")
 }
 
@@ -159,17 +159,17 @@ func (d Document) ScrollingElement() (element.Element, error) {
 	return d.getAttributeElement("scrollingElement")
 }
 
-func (d Document) VisibilityState() (string, error) {
+func (d Document) VisibilityState() string {
 
 	return d.GetAttributeString("visibilityState")
 }
 
-func (d Document) Domain() (string, error) {
+func (d Document) Domain() string {
 
 	return d.GetAttributeString("domain")
 }
 
-func (d Document) LastModified() (string, error) {
+func (d Document) LastModified() string {
 
 	return d.GetAttributeString("lastModified")
 }
@@ -179,18 +179,18 @@ func (d Document) SetDomain(domain string) error {
 	return d.SetAttributeString("domain", domain)
 }
 
-func (d Document) ReadyState() (string, error) {
+func (d Document) ReadyState() string {
 
 	return d.GetAttributeString("readyState")
 
 }
 
-func (d Document) Referrer() (string, error) {
+func (d Document) Referrer() string {
 
 	return d.GetAttributeString("referrer")
 }
 
-func (d Document) Title() (string, error) {
+func (d Document) Title() string {
 
 	return d.GetAttributeString("title")
 }
@@ -200,16 +200,21 @@ func (d Document) SetTitle(title string) error {
 	return d.SetAttributeString("title", title)
 }
 
-func (d Document) URL() (string, error) {
+func (d Document) URL() string {
 
 	return d.GetAttributeString("URL")
 
 }
 
-func (d Document) Cookie() (string, error) {
+func (d Document) Cookie() string {
 	return d.GetAttributeString("cookie")
 }
 
 func (d Document) SetCookie(cookie string) error {
 	return d.SetAttributeString("cookie", cookie)
+}
+
+// TODO
+func (d Document) DefaultView() js.Value {
+	return d.GetValueByKey("defaultView")
 }

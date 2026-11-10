@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Popover Demo</title>
+    <script src="static/js/wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("static/app.wasm"), go.importObject).then((result) => {
+            go.run(result.instance);
+        });
+    </script>
+    <style>
+        body { font-family: sans-serif; padding: 50px; }
+        .btn { padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Popover Demo</h1>
+    
+    <div style="margin-top: 100px; text-align: center;">
+        <button id="btn-1" class="btn">Target 1 (Bottom)</button>
+        <web-popover target="#btn-1" position="bottom" arrow>
+            <div style="padding: 8px;">
+                <strong>Popover 1</strong><br>
+                Content for target 1.
+            </div>
+        </web-popover>
+    </div>
+
+    <div style="margin-top: 100px; text-align: center;">
+        <button id="btn-2" class="btn">Target 2 (Right)</button>
+        <web-popover target="#btn-2" position="right" arrow>
+            <div style="padding: 8px; color: blue;">
+                 Popover 2 (Right)
+            </div>
+        </web-popover>
+    </div>
+
+</body>
+</html>

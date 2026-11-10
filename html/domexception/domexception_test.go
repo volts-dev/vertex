@@ -30,27 +30,23 @@ func TestNewFromJSObject(t *testing.T) {
 func TestException(t *testing.T) {
 
 	if e, err := New(); test.AssertErr(t, err) {
-		test.AssertExpect(t, "Error", e.ToString_())
+		test.AssertExpect(t, "Error", e.ToString())
 	}
 
 	var message string = "message error"
 
 	if e, err := New(message); test.AssertErr(t, err) {
-		test.AssertExpect(t, "Error: message error", e.ToString_())
+		test.AssertExpect(t, "Error: message error", e.ToString())
 
-		if str, err := e.Message(); test.AssertErr(t, err) {
-			test.AssertExpect(t, message, str)
-		}
+		test.AssertExpect(t, message, e.Message())
 
 	}
 
 	var customname string = "custom name"
 	if e, err := New(message, customname); test.AssertErr(t, err) {
-		test.AssertExpect(t, "custom name: message error", e.ToString_())
+		test.AssertExpect(t, "custom name: message error", e.ToString())
 
-		if str, err := e.Name(); test.AssertErr(t, err) {
-			test.AssertExpect(t, customname, str)
-		}
+		test.AssertExpect(t, customname, e.Name())
 
 	}
 

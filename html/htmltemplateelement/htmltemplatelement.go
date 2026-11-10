@@ -95,9 +95,9 @@ func NewFromJSObject(obj js.Value) (HTMLTemplateElement, error) {
 	return h, err
 }
 
-func (h HTMLTemplateElement) Content() (documentfragment.DocumentFragment, error) {
+func (h HTMLTemplateElement) Content() (*documentfragment.DocumentFragment, error) {
 	var err error
-	var fragment documentfragment.DocumentFragment
+	var fragment *documentfragment.DocumentFragment
 
 	if obj := h.GetValueByKey("content"); obj.Error() == nil {
 		fragment, err = documentfragment.NewFromJSObject(obj)

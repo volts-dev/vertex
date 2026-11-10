@@ -84,7 +84,7 @@ func NewFromJSObject(obj js.Value) (ArrayBuffer, error) {
 	return a, err
 }
 
-func (a ArrayBuffer) ByteLength() (int64, error) {
+func (a ArrayBuffer) ByteLength() (int64) {
 
 	return a.GetAttributeInt64("byteLength")
 }
@@ -108,9 +108,9 @@ func (a ArrayBuffer) Slice(begin int, end ...int) (ArrayBuffer, error) {
 	return ret, err
 }
 
-func IsView(i interface{}) (bool, error) {
+func IsView(i interface{}) (bool) {
 	var ret bool
-	var err error
+	//var err error
 	var obj js.Value
 
 	if ai := GetInterface(); !ai.IsUndefined() {
@@ -120,12 +120,12 @@ func IsView(i interface{}) (bool, error) {
 			if obj.Type() == js.TypeBoolean {
 				return obj.Bool()
 			} else {
-				err = js.ErrObjectNotBool
+				//err = js.ErrObjectNotBool
 			}
 		}
 	} else {
-		err = ErrNotImplemented
+		//err = ErrNotImplemented
 	}
 
-	return ret, err
+	return ret//, err
 }

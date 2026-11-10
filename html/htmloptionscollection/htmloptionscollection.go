@@ -68,7 +68,7 @@ func NewFromJSObject(obj js.Value) (HtmlOptionsCollection, error) {
 	return h, err
 }
 
-func (h HtmlOptionsCollection) Length() (int, error) {
+func (h HtmlOptionsCollection) Length() int {
 
 	return h.GetAttributeInt("length")
 

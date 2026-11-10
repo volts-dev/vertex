@@ -63,7 +63,7 @@ func NewFromJSObject(obj js.Value) (AbortSignal, error) {
 	return a, err
 }
 
-func (a AbortSignal) Aborted() (bool, error) {
+func (a AbortSignal) Aborted() bool {
 
 	return a.GetAttributeBool("aborted")
 

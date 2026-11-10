@@ -8,7 +8,7 @@ func MapFromJSObject(jsobj js.Value) interface{} {
 	var retvalue interface{}
 
 	if obj, err := js.ToObject(jsobj); err == nil {
-		if ok, err := js.IsArray(obj); ok && err == nil {
+		if ok := js.IsArray(obj); ok {
 			var arrayret []interface{}
 
 			if a, err := js.NewArrayFromJSObject(obj.GetObjectValue()); err == nil {
@@ -38,7 +38,7 @@ func MapFromJSObject(jsobj js.Value) interface{} {
 			for _, vkey, err := itkeys.Next(); err == nil; _, vkey, err = itkeys.Next() {
 				if key, ok := vkey.(string); ok {
 					if value := jsobj.Get(key); value.Error() == nil {
-						i := js.GoValue_(value)
+						i := js.GoValue(value)
 						if obj1, ok := i.(js.ObjectFrom); !ok {
 							vmap[key] = i
 						} else {

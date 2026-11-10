@@ -18,7 +18,7 @@ func ImplementedExpect(t *testing.T, obj js.Object, methodsname []string) {
 		if ok, err := obj.Implement(methodname); AssertErr(t, err) {
 
 			if !ok {
-				t.Errorf("%s must implemented %s", obj.ToString_(), methodname)
+				t.Errorf("%s must implemented %s", obj.ToString(), methodname)
 			}
 
 		}

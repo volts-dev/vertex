@@ -267,81 +267,90 @@ func (v *value) New(args ...any) (result Value) {
 	return &value{v: res}
 }
 
-func (v *value) Float() (float64, error) {
+func (v *value) Float() float64 {
 	if v.err != nil {
-		return 0, v.err
+		fmt.Println(v.err)
+		return 0
 	}
 
 	if v.v.Type() != js.TypeNumber {
-		return 0, fmt.Errorf("value is not a number (got %s)", v.v.Type())
+		fmt.Errorf("value is not a number (got %s)", v.v.Type())
+		return 0
 	}
 
-	return v.v.Float(), nil
+	return v.v.Float()
 }
 
-func (v *value) Int() (int, error) {
+func (v *value) Int() int {
 	if v.err != nil {
-		return 0, v.err
+		fmt.Println(v.err)
+		return 0
 	}
 
 	if v.v.Type() != js.TypeNumber {
-		return 0, fmt.Errorf("value is not a number (got %s)", v.v.Type())
+		fmt.Errorf("value is not a number (got %s)", v.v.Type())
+		return 0
 	}
 
-	return v.v.Int(), nil
+	return v.v.Int()
 }
 
-func (v *value) Bool() (bool, error) {
+func (v *value) Bool() bool {
 	if v.err != nil {
-		return false, v.err
+		fmt.Println(v.err)
+		return false
 	}
 
 	if v.v.Type() != js.TypeBoolean {
-		return false, fmt.Errorf("value is not a boolean (got %s)", v.v.Type())
+		fmt.Errorf("value is not a boolean (got %s)", v.v.Type())
+		return false
 	}
 
-	return v.v.Bool(), nil
+	return v.v.Bool()
 }
 
-func (v *value) String() (string, error) {
+func (v *value) String() string {
 	if v.err != nil {
-		return "", v.err
+		fmt.Println(v.err)
+		return ""
 	}
 
 	if v.v.Type() != js.TypeString {
-		return "", fmt.Errorf("value is not a string (got %s)", v.v.Type())
+		fmt.Errorf("value is not a string (got %s)", v.v.Type())
+		return ""
 	}
 
-	return v.v.String(), nil
+	return v.v.String()
 }
 
 // Bytes 将 JS 中的 Uint8Array 复制到 Go 的 []byte 中。
-func (v *value) Bytes() ([]byte, error) {
+func (v *value) Bytes() []byte {
 	if v.err != nil {
-		return nil, v.err
+		fmt.Println(v.err)
+		return nil
 	}
 
 	if !v.v.Truthy() || v.v.Type() != js.TypeObject {
-		return nil, fmt.Errorf("wasm: value is not a Uint8Array (got %s)", v.v.Type())
+		fmt.Errorf("wasm: value is not a Uint8Array (got %s)", v.v.Type())
+		return nil
 	}
 
 	lengthVal := v.Get("length")
 	if lengthVal.Error() != nil {
-		return nil, fmt.Errorf("wasm: could not get length of array: %w", lengthVal.Error())
+		fmt.Errorf("wasm: could not get length of array: %w", lengthVal.Error())
+		return nil
 	}
 
-	length, err := lengthVal.Int()
-	if err != nil {
-		return nil, fmt.Errorf("wasm: array length is not a number: %w", err)
-	}
+	length := lengthVal.Int()
 
 	dst := make([]byte, length)
 	copied := js.CopyBytesToGo(dst, v.v)
 	if copied != length {
-		return nil, errors.New("wasm: failed to copy all bytes from Uint8Array")
+		errors.New("wasm: failed to copy all bytes from Uint8Array")
+		return nil
 	}
 
-	return dst, nil
+	return dst
 }
 
 func (v *value) Truthy() bool {

@@ -94,10 +94,7 @@ func TestCreateObjectURL(t *testing.T) {
 
 		if f, err := file.NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if s, err := CreateObjectURL(f); test.AssertErr(t, err) {
-
-				test.AssertStringContains(t, "blob:http://", s)
-			}
+			test.AssertStringContains(t, "blob:http://", CreateObjectURL(f))
 
 		}
 	}
@@ -112,11 +109,7 @@ func TestRevokeObjectURL(t *testing.T) {
 
 		if f, err := file.NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if s, err := CreateObjectURL(f); test.AssertErr(t, err) {
-
-				test.AssertErr(t, RevokeObjectURL(s))
-
-			}
+			test.AssertErr(t, RevokeObjectURL(CreateObjectURL(f)))
 
 		}
 	}

@@ -79,7 +79,7 @@ func NewWriteableStreamFromJSObject(obj js.Value) (WritableStream, error) {
 	return w, err
 }
 
-func (w WritableStream) Locked() (bool, error) {
+func (w WritableStream) Locked() bool {
 	return w.GetAttributeBool("locked")
 }
 

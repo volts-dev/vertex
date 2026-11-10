@@ -119,7 +119,7 @@ func (n Node) getAttributeNode(attribute string) (*Node, error) {
 	return NewFromJSObject(nodeObject)
 }
 
-func (n Node) BaseURI() (string, error) {
+func (n Node) BaseURI() string {
 	return n.GetAttributeString("baseURI")
 }
 
@@ -127,7 +127,7 @@ func (n Node) FirstChild() (*Node, error) {
 	return n.getAttributeNode("firstChild")
 }
 
-func (n Node) IsConnected() (bool, error) {
+func (n Node) IsConnected() bool {
 	return n.GetAttributeBool("isConnected")
 }
 
@@ -139,24 +139,24 @@ func (n Node) NextSibling() (*Node, error) {
 	return n.getAttributeNode("nextSibling")
 }
 
-func (n Node) NodeName() (string, error) {
+func (n Node) NodeName() string {
 	return n.GetAttributeString("nodeName")
 }
 
-func (n Node) NodeType() (int, error) {
+func (n Node) NodeType() int {
 	return n.GetAttributeInt("nodeType")
 }
 
-func (n Node) NodValue() (interface{}, error) {
-	var err error
+func (n Node) NodValue() interface{} {
+	//var err error
 	var obj js.Value
 	var v interface{}
 
 	if obj = n.GetValueByKey("nodeValue"); obj.Error() == nil {
-		v, err = js.GoValue(obj)
+		v = js.GoValue(obj)
 	}
 
-	return v, err
+	return v //, err
 }
 
 func (n Node) SetNodeValue(i interface{}) error {
@@ -180,7 +180,7 @@ func (n Node) PreviousSibling() (*Node, error) {
 	return n.getAttributeNode("previousSibling")
 }
 
-func (n Node) TextContent() (string, error) {
+func (n Node) TextContent() string {
 	return n.GetAttributeString("textContent")
 }
 
@@ -206,8 +206,8 @@ func (n Node) CloneNode(deep bool) (*Node, error) {
 	return newNode, err
 }
 
-func (n Node) CompareDocumentPosition(node *Node) (int, error) {
-	var err error
+func (n Node) CompareDocumentPosition(node *Node) int {
+	//var err error
 	var obj js.Value
 	var result int
 
@@ -216,14 +216,14 @@ func (n Node) CompareDocumentPosition(node *Node) (int, error) {
 			return obj.Int()
 		}
 
-		err = js.ErrObjectNotNumber
+		//err = js.ErrObjectNotNumber
 	}
 
-	return result, err
+	return result //, err
 }
 
-func (n Node) Contains(node *Node) (bool, error) {
-	var err error
+func (n Node) Contains(node *Node) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 	if obj = n.Call("contains", node.GetObjectValue()); obj.Error() == nil {
@@ -231,10 +231,10 @@ func (n Node) Contains(node *Node) (bool, error) {
 			return obj.Bool()
 		}
 
-		err = js.ErrObjectNotBool
+		//err = js.ErrObjectNotBool
 	}
 
-	return result, err
+	return result //, err
 }
 
 func (n Node) GetRootNode() (*Node, error) {
@@ -247,7 +247,7 @@ func (n Node) GetRootNode() (*Node, error) {
 	return nil, obj.Error()
 }
 
-func (n Node) HasChildNodes() (bool, error) {
+func (n Node) HasChildNodes() bool {
 	return n.CallBool("hasChildNodes")
 }
 
@@ -262,54 +262,54 @@ func (n Node) InsertBefore(new, before *Node) (*Node, error) {
 	return new, err
 }
 
-func (n Node) IsDefaultNamespace(namespace string) (bool, error) {
-	var err error
+func (n Node) IsDefaultNamespace(namespace string) bool {
+	//var err error
 	var obj js.Value
 
 	if obj = n.Call("isDefaultNamespace", js.ValueOf(namespace)); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		}
-		err = js.ErrObjectNotBool
+		//	err = js.ErrObjectNotBool
 	}
 
-	return false, err
+	return false //, err
 }
 
 func (n Node) IsNull() bool {
 	return n.GetObjectValue().IsNull() || n.GetObjectValue().IsUndefined()
 }
 
-func (n Node) IsEqualNode(n1 *Node) (bool, error) {
-	var err error
+func (n Node) IsEqualNode(n1 *Node) bool {
+	//var err error
 	var obj js.Value
 
 	if obj = n.Call("isEqualNode", n1.GetObjectValue()); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		}
-		err = js.ErrObjectNotBool
+		//	err = js.ErrObjectNotBool
 	}
 
-	return false, err
+	return false //, err
 }
 
-func (n Node) IsSameNode(n1 *Node) (bool, error) {
-	var err error
+func (n Node) IsSameNode(n1 *Node) bool {
+	//var err error
 	var obj js.Value
 
 	if obj = n.Call("isSameNode", n1.GetObjectValue()); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		}
-		err = js.ErrObjectNotBool
+		//err = js.ErrObjectNotBool
 	}
 
-	return false, err
+	return false //, err
 }
 
-func (n Node) LookupPrefix(prefix string) (string, error) {
-	var err error
+func (n Node) LookupPrefix(prefix string) string {
+	//var err error
 	var obj js.Value
 	var result string
 
@@ -319,7 +319,7 @@ func (n Node) LookupPrefix(prefix string) (string, error) {
 		}
 	}
 
-	return result, err
+	return result //, err
 }
 
 func (n Node) LookupNamespaceURI(prefix string) error {

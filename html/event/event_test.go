@@ -19,7 +19,7 @@ func TestNew(t *testing.T) {
 
 	if e, err := New("test", map[string]interface{}{"bubbles": true, "cancelable": true, "composed": true}); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object Event]", e.ToString_())
+		test.AssertExpect(t, "[object Event]", e.ToString())
 
 	}
 }
@@ -29,7 +29,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("event"); test.AssertErr(t, obj.Error()) {
 		if event, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object Event]", event.ToString_())
+			test.AssertExpect(t, "[object Event]", event.ToString())
 
 		}
 	}

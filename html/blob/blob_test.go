@@ -20,11 +20,8 @@ func TestNew(t *testing.T) {
 
 	if a, err := New(); test.AssertErr(t, err) {
 
-		if s, err := a.Size(); test.AssertErr(t, err) {
+		test.AssertExpect(t, int64(0), a.Size())
 
-			test.AssertExpect(t, int64(0), s)
-
-		}
 	}
 }
 
@@ -35,7 +32,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("blob1"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object Blob]", d.ToString_())
+			test.AssertExpect(t, "[object Blob]", d.ToString())
 
 		}
 	}
@@ -50,11 +47,7 @@ func TestNewWithArrayBuffer(t *testing.T) {
 
 			if ab, err := NewWithArrayBuffer(a); test.AssertErr(t, err) {
 
-				if s, err := ab.Size(); test.AssertErr(t, err) {
-
-					test.AssertExpect(t, int64(8), s)
-
-				}
+				test.AssertExpect(t, int64(8), ab.Size())
 
 			}
 
@@ -74,11 +67,7 @@ func TestNewWith2ArrayBuffer(t *testing.T) {
 
 				if appendblob, err := New(viewuint8, struint8); test.AssertErr(t, err) {
 
-					if s, err := appendblob.Size(); test.AssertErr(t, err) {
-
-						test.AssertExpect(t, int64(19), s)
-
-					}
+					test.AssertExpect(t, int64(19), appendblob.Size())
 
 				}
 
@@ -93,7 +82,7 @@ func TestIsClosed(t *testing.T) {
 
 	if a, err := New(); test.AssertErr(t, err) {
 
-		_, err := a.IsClosed()
+		a.IsClosed()
 		test.AssertExpect(t, js.ErrNotImplementedFunc, err)
 	}
 }
@@ -117,11 +106,9 @@ func TestSlice(t *testing.T) {
 			if ab, err := NewWithArrayBuffer(b); test.AssertErr(t, err) {
 
 				if blob2, err := ab.Slice(0, 6); test.AssertErr(t, err) {
-					if s, err := blob2.Size(); test.AssertErr(t, err) {
 
-						test.AssertExpect(t, int64(6), s)
+					test.AssertExpect(t, int64(6), blob2.Size())
 
-					}
 				}
 
 			}
@@ -141,7 +128,7 @@ func TestStream(t *testing.T) {
 			if ab, err := NewWithArrayBuffer(b); test.AssertErr(t, err) {
 
 				if stream, err := ab.Stream(); test.AssertErr(t, err) {
-					test.AssertExpect(t, "[object ReadableStream]", stream.ToString_())
+					test.AssertExpect(t, "[object ReadableStream]", stream.ToString())
 				}
 
 			}
@@ -161,7 +148,7 @@ func TestArrayBuffer(t *testing.T) {
 			if ab, err := NewWithArrayBuffer(b); test.AssertErr(t, err) {
 
 				if blobbuffer, err := ab.ArrayBuffer(); test.AssertErr(t, err) {
-					test.AssertExpect(t, "[object Promise]", blobbuffer.ToString_())
+					test.AssertExpect(t, "[object Promise]", blobbuffer.ToString())
 				}
 
 			}
@@ -180,7 +167,7 @@ func TestText(t *testing.T) {
 			if ab, err := NewWithArrayBuffer(b); test.AssertErr(t, err) {
 
 				if blobtext, err := ab.Text(); test.AssertErr(t, err) {
-					test.AssertExpect(t, "[object Promise]", blobtext.ToString_())
+					test.AssertExpect(t, "[object Promise]", blobtext.ToString())
 				}
 
 			}

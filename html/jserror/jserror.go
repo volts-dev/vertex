@@ -91,7 +91,7 @@ func NewFromJSObject(obj js.Value) (JSError, error) {
 	return e, err
 }
 
-func (j JSError) Message() (string, error) {
+func (j JSError) Message() string {
 	return j.GetAttributeString("message")
 }
 
@@ -99,13 +99,13 @@ func (j JSError) SetMessage(value string) error {
 	return j.SetAttributeString("message", value)
 }
 
-func (j JSError) Name() (string, error) {
+func (j JSError) Name() string {
 	return j.GetAttributeString("name")
 }
 func (j JSError) SetName(value string) error {
 	return j.SetAttributeString("name", value)
 }
 
-func (j JSError) Stack() (string, error) {
+func (j JSError) Stack() string {
 	return j.GetAttributeString("stack")
 }

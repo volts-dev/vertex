@@ -22,7 +22,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("rectlist"); test.AssertErr(t, obj.Error()) {
 		if rect, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object DOMRectList]", rect.ToString_())
+			test.AssertExpect(t, "[object DOMRectList]", rect.ToString())
 
 		}
 	}

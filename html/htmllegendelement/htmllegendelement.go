@@ -113,7 +113,7 @@ func (h HtmlLegendElement) Form() (htmlformelement.HtmlFormElement, error) {
 	return formelem, err
 }
 
-func (h HtmlLegendElement) AccessKey() (string, error) {
+func (h HtmlLegendElement) AccessKey() string {
 	return h.GetAttributeString("accessKey")
 }
 

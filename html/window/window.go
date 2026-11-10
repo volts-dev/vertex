@@ -111,7 +111,7 @@ func New() (Window, error) {
 }
 
 func (w Window) URL() *url.URL {
-	rawurl, _ := w.
+	rawurl := w.
 		GetValueByKey("location").
 		Get("href").
 		String()

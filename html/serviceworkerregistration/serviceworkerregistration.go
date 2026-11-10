@@ -97,7 +97,7 @@ func (s ServiceWorkerRegistration) Active() (serviceworker.ServiceWorker, error)
 	return s.getserviceworkerAttribute("active")
 }
 
-func (s ServiceWorkerRegistration) Index() (int, error) {
+func (s ServiceWorkerRegistration) Index() int {
 
 	return s.GetAttributeInt("index")
 }
@@ -107,7 +107,7 @@ func (s ServiceWorkerRegistration) Installing() (serviceworker.ServiceWorker, er
 	return s.getserviceworkerAttribute("installing")
 }
 
-func (s ServiceWorkerRegistration) Scope() (string, error) {
+func (s ServiceWorkerRegistration) Scope() string {
 
 	return s.GetAttributeString("scope")
 }

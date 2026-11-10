@@ -1,7 +1,5 @@
 package js
 
-type ()
-
 var (
 	registry map[string]func(Value) (interface{}, error)
 )
@@ -43,7 +41,7 @@ func Discover(obj Value) (any, error) {
 
 	if objconstructor = obj.Get("constructor"); objconstructor.IsUndefined() {
 		if objname = objconstructor.Get("name"); objconstructor.IsUndefined() {
-			name, _ := objname.String()
+			name := objname.String()
 			if f, ok := registry[name]; ok {
 				var obji any
 				var ok bool

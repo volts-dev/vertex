@@ -80,7 +80,7 @@ func (b *BlobStream) AsyncRead(data []byte, dataHandle func([]byte, int)) (promi
 
 		b.cur = 0
 		b.buffersize = int64(len(data))
-		b.size, _ = b.Blob.Size()
+		b.size = b.Blob.Size()
 
 		p = b.newRead(data, dataHandle)
 

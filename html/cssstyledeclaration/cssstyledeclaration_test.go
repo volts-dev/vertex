@@ -27,7 +27,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("style"); test.AssertErr(t, obj.Error()) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object CSSStyleDeclaration]", o.ToString_())
+			test.AssertExpect(t, "[object CSSStyleDeclaration]", o.ToString())
 
 		}
 	}
@@ -48,7 +48,7 @@ func TestParentRule(t *testing.T) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			if p, err := o.ParentRule(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object CSSStyleRule]", p.ToString_())
+				test.AssertExpect(t, "[object CSSStyleRule]", p.ToString())
 
 			}
 
@@ -70,10 +70,7 @@ func TestGetPropertyValue(t *testing.T) {
 	if obj := js.Global().Get("style"); test.AssertErr(t, obj.Error()) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := o.GetPropertyValue("color"); test.AssertErr(t, err) {
-
-				test.AssertExpect(t, "red", v)
-			}
+			test.AssertExpect(t, "red", o.GetPropertyValue("color"))
 
 		}
 	}
@@ -95,10 +92,7 @@ func TestSetProperty(t *testing.T) {
 
 			if err := o.SetProperty("color", "blue"); test.AssertErr(t, err) {
 
-				if v, err := o.GetPropertyValue("color"); test.AssertErr(t, err) {
-
-					test.AssertExpect(t, "blue", v)
-				}
+				test.AssertExpect(t, "blue", o.GetPropertyValue("color"))
 
 			}
 
@@ -120,11 +114,7 @@ func TestItem(t *testing.T) {
 	if obj := js.Global().Get("style"); test.AssertErr(t, obj.Error()) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := o.Item(0); test.AssertErr(t, err) {
-
-				test.AssertExpect(t, "color", v)
-
-			}
+			test.AssertExpect(t, "color", o.Item(0))
 
 		}
 	}
@@ -144,11 +134,7 @@ func TestGetPropertyPriority(t *testing.T) {
 	if obj := js.Global().Get("style"); test.AssertErr(t, obj.Error()) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := o.GetPropertyPriority("color"); test.AssertErr(t, err) {
-
-				test.AssertExpect(t, "important", v)
-
-			}
+			test.AssertExpect(t, "important", o.GetPropertyPriority("color"))
 
 		}
 	}
@@ -167,14 +153,8 @@ func TestRemoveProperty(t *testing.T) {
 	if obj := js.Global().Get("style"); test.AssertErr(t, obj.Error()) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := o.RemoveProperty("color"); test.AssertErr(t, err) {
-				test.AssertExpect(t, "red", v)
-				if v2, err := o.GetPropertyValue("color"); test.AssertErr(t, err) {
-
-					test.AssertExpect(t, "", v2)
-				}
-
-			}
+			test.AssertExpect(t, "red", o.RemoveProperty("color"))
+			test.AssertExpect(t, "", o.GetPropertyValue("color"))
 
 		}
 	}

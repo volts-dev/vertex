@@ -56,57 +56,57 @@ func NewFromJSObject(obj js.Value) (Location, error) {
 	return l, ErrNotImplemented
 }
 
-func (l Location) Hash() (string, error) {
+func (l Location) Hash() string {
 
 	return l.GetAttributeString("hash")
 }
 
-func (l Location) Host() (string, error) {
+func (l Location) Host() string {
 
 	return l.GetAttributeString("host")
 }
 
-func (l Location) Hostname() (string, error) {
+func (l Location) Hostname() string {
 
 	return l.GetAttributeString("hostname")
 }
 
-func (l Location) Href() (string, error) {
+func (l Location) Href() string {
 
 	return l.GetAttributeString("href")
 }
 
-func (l Location) Origin() (string, error) {
+func (l Location) Origin() string {
 
 	return l.GetAttributeString("origin")
 }
 
-func (l Location) Pathname() (string, error) {
+func (l Location) Pathname() string {
 
 	return l.GetAttributeString("pathname")
 }
 
-func (l Location) Port() (string, error) {
+func (l Location) Port() string {
 
 	return l.GetAttributeString("port")
 }
 
-func (l Location) Protocol() (string, error) {
+func (l Location) Protocol() string {
 
 	return l.GetAttributeString("protocol")
 }
 
-func (l Location) Search() (string, error) {
+func (l Location) Search() string {
 
 	return l.GetAttributeString("search")
 }
 
-func (l Location) Username() (string, error) {
+func (l Location) Username() string {
 
 	return l.GetAttributeString("username")
 }
 
-func (l Location) Password() (string, error) {
+func (l Location) Password() string {
 
 	return l.GetAttributeString("password")
 }

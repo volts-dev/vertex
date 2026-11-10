@@ -34,10 +34,7 @@ func TestItem(t *testing.T) {
 	if obj := js.Global().Get("list"); test.AssertErr(t, obj.Error()) {
 		if list, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if i, err := list.Item(0); test.AssertErr(t, err) {
-
-				test.AssertExpect(t, "a", i)
-			}
+			test.AssertExpect(t, "a", list.Item(0))
 
 		}
 	}
@@ -49,15 +46,9 @@ func TestContains(t *testing.T) {
 	if obj := js.Global().Get("list"); test.AssertErr(t, obj.Error()) {
 		if list, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if b, err := list.Contains("b"); test.AssertErr(t, err) {
+			test.AssertExpect(t, true, list.Contains("b"))
 
-				test.AssertExpect(t, true, b)
-			}
-
-			if b, err := list.Contains("d"); test.AssertErr(t, err) {
-
-				test.AssertExpect(t, false, b)
-			}
+			test.AssertExpect(t, false, list.Contains("d"))
 
 		}
 	}
@@ -75,7 +66,7 @@ func TestAdd(t *testing.T) {
 		if list, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			test.AssertErr(t, list.Add("d", "e"))
-			test.AssertExpect(t, "a b c d e", list.ToString_())
+			test.AssertExpect(t, "a b c d e", list.ToString())
 
 		}
 	}
@@ -93,7 +84,7 @@ func TestRemove(t *testing.T) {
 		if list, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			test.AssertErr(t, list.Remove("b", "c"))
-			test.AssertExpect(t, "a", list.ToString_())
+			test.AssertExpect(t, "a", list.ToString())
 
 		}
 	}
@@ -111,7 +102,7 @@ func TestReplace(t *testing.T) {
 		if list, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			test.AssertErr(t, list.Replace("b", "k"))
-			test.AssertExpect(t, "a k c", list.ToString_())
+			test.AssertExpect(t, "a k c", list.ToString())
 
 		}
 	}
@@ -128,11 +119,8 @@ func TestToggle(t *testing.T) {
 	if obj := js.Global().Get("listt"); test.AssertErr(t, obj.Error()) {
 		if list, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if b, err := list.Toggle("b"); test.AssertErr(t, err) {
-				test.AssertExpect(t, false, b)
-				test.AssertExpect(t, "a c", list.ToString_())
-
-			}
+			test.AssertExpect(t, false, list.Toggle("b"))
+			test.AssertExpect(t, "a c", list.ToString())
 
 		}
 	}
@@ -149,10 +137,7 @@ func TestSupports(t *testing.T) {
 	if obj := js.Global().Get("lists"); test.AssertErr(t, obj.Error()) {
 		if list, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if b, err := list.Supports(""); test.AssertErr(t, err) {
-				test.AssertExpect(t, false, b)
-
-			}
+			test.AssertExpect(t, false, list.Supports(""))
 
 		}
 	}

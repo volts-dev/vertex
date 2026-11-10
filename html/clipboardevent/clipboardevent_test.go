@@ -25,7 +25,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("event"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object ClipboardEvent]", d.ToString_())
+			test.AssertExpect(t, "[object ClipboardEvent]", d.ToString())
 
 		}
 	}
@@ -37,7 +37,7 @@ func TestNew(t *testing.T) {
 	if dt, err := datatransfer.New(); test.AssertErr(t, err) {
 		if d, err := New(dt); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object ClipboardEvent]", d.ToString_())
+			test.AssertExpect(t, "[object ClipboardEvent]", d.ToString())
 
 		}
 	}
@@ -51,7 +51,7 @@ func TestClipboardData(t *testing.T) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			if data, err := d.ClipboardData(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object ClipboardEvent]", data.ToString_())
+				test.AssertExpect(t, "[object ClipboardEvent]", data.ToString())
 			}
 
 		}

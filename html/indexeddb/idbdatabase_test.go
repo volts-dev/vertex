@@ -27,7 +27,7 @@ func TestIDBDatabaseNewFromJSObject(t *testing.T) {
 
 						if db, ok := result.(IDBDatabaseFrom); test.AssertExpect(t, true, ok) {
 
-							test.AssertExpect(t, "[object IDBDatabase]", db.IDBDatabase_().ToString_())
+							test.AssertExpect(t, "[object IDBDatabase]", db.IDBDatabase_().ToString())
 							io <- true
 
 						}

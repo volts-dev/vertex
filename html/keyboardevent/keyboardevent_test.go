@@ -18,10 +18,8 @@ func TestNew(t *testing.T) {
 
 	if k, err := New("keypress", map[string]interface{}{"code": "KeyA"}); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object KeyboardEvent]", k.ToString_())
-		if v, err := k.Code(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "KeyA", v)
-		}
+		test.AssertExpect(t, "[object KeyboardEvent]", k.ToString())
+		test.AssertExpect(t, "KeyA", k.Code())
 	}
 }
 
@@ -32,7 +30,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object KeyboardEvent]", k.ToString_())
+			test.AssertExpect(t, "[object KeyboardEvent]", k.ToString())
 
 		}
 	}
@@ -46,7 +44,7 @@ func TestAltKey(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.AltKey(); test.AssertErr(t, err) {
+			if v := k.AltKey(); v != true {
 				test.AssertExpect(t, true, v)
 			}
 
@@ -62,9 +60,7 @@ func TestCtrlKey(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.CtrlKey(); test.AssertErr(t, err) {
-				test.AssertExpect(t, true, v)
-			}
+			test.AssertExpect(t, true, k.CtrlKey())
 
 		}
 	}
@@ -78,9 +74,7 @@ func TestKey(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.Key(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "Enter", v)
-			}
+			test.AssertExpect(t, "Enter", k.Key())
 
 		}
 	}
@@ -96,9 +90,7 @@ func TestCode(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.Code(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "KeyA", v)
-			}
+			test.AssertExpect(t, "KeyA", k.Code())
 
 		}
 	}
@@ -112,9 +104,7 @@ func TestIsComposing(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.IsComposing(); test.AssertErr(t, err) {
-				test.AssertExpect(t, true, v)
-			}
+			test.AssertExpect(t, true, k.IsComposing())
 
 		}
 	}
@@ -128,9 +118,7 @@ func TestLocation(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.Location(); test.AssertErr(t, err) {
-				test.AssertExpect(t, int64(1), v)
-			}
+			test.AssertExpect(t, int64(1), k.Location())
 
 		}
 	}
@@ -144,9 +132,7 @@ func TestMetaKey(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.MetaKey(); test.AssertErr(t, err) {
-				test.AssertExpect(t, true, v)
-			}
+			test.AssertExpect(t, true, k.MetaKey())
 
 		}
 	}
@@ -160,9 +146,7 @@ func TestRepeat(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.Repeat(); test.AssertErr(t, err) {
-				test.AssertExpect(t, true, v)
-			}
+			test.AssertExpect(t, true, k.Repeat())
 
 		}
 	}
@@ -176,9 +160,7 @@ func TestShiftKey(t *testing.T) {
 	if obj := js.Global().Get("keypress"); test.AssertErr(t, obj.Error()) {
 		if k, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := k.ShiftKey(); test.AssertErr(t, err) {
-				test.AssertExpect(t, true, v)
-			}
+			test.AssertExpect(t, true, k.ShiftKey())
 
 		}
 	}

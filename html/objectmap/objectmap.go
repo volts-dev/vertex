@@ -99,19 +99,19 @@ func (o ObjectMap) Clear() error {
 	return err
 }
 
-func (o ObjectMap) Delete(key interface{}) (bool, error) {
-	var err error
+func (o ObjectMap) Delete(key interface{}) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 	if obj = o.Call("delete", js.ValueOf(key)); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 }
 
 func (o ObjectMap) Entries() (js.Iterator, error) {
@@ -131,7 +131,7 @@ func (o ObjectMap) ForEach(f func(value, index interface{})) error {
 
 	jsfunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
-		f(js.GoValue_(args[0]), js.GoValue_(args[1]))
+		f(js.GoValue(args[0]), js.GoValue(args[1]))
 		return nil
 	})
 
@@ -145,24 +145,24 @@ func (o ObjectMap) Get(key interface{}) (interface{}, error) {
 	var obj js.Value
 	var result interface{}
 	if obj = o.Call("get", js.ValueOf(key)); obj.Error() == nil {
-		result, err = js.GoValue(obj)
+		result = js.GoValue(obj)
 	}
 	return result, err
 }
 
-func (o ObjectMap) Has(key interface{}) (bool, error) {
-	var err error
+func (o ObjectMap) Has(key interface{}) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 	if obj = o.Call("has", js.ValueOf(key)); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 }
 
 func (o ObjectMap) Keys() (js.Iterator, error) {
@@ -195,6 +195,6 @@ func (o ObjectMap) Values() (js.Iterator, error) {
 	return iter, err
 }
 
-func (o ObjectMap) Size() (int, error) {
+func (o ObjectMap) Size() int {
 	return o.GetAttributeInt("size")
 }

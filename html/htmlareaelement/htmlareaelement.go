@@ -101,7 +101,7 @@ func NewFromJSObject(obj js.Value) (HtmlAreaElement, error) {
 	return h, err
 }
 
-func (h HtmlAreaElement) Alt() (string, error) {
+func (h HtmlAreaElement) Alt() string {
 	return h.GetAttributeString("alt")
 }
 
@@ -109,7 +109,7 @@ func (h HtmlAreaElement) SetAlt(value string) error {
 	return h.SetAttributeString("alt", value)
 }
 
-func (h HtmlAreaElement) Coords() (string, error) {
+func (h HtmlAreaElement) Coords() string {
 	return h.GetAttributeString("coords")
 }
 
@@ -117,7 +117,7 @@ func (h HtmlAreaElement) SetCoords(value string) error {
 	return h.SetAttributeString("coords", value)
 }
 
-func (h HtmlAreaElement) Download() (string, error) {
+func (h HtmlAreaElement) Download() string {
 	return h.GetAttributeString("download")
 }
 
@@ -125,7 +125,7 @@ func (h HtmlAreaElement) SetDownload(value string) error {
 	return h.SetAttributeString("download", value)
 }
 
-func (h HtmlAreaElement) Hash() (string, error) {
+func (h HtmlAreaElement) Hash() string {
 	return h.GetAttributeString("hash")
 }
 
@@ -133,7 +133,7 @@ func (h HtmlAreaElement) SetHash(value string) error {
 	return h.SetAttributeString("hash", value)
 }
 
-func (h HtmlAreaElement) Host() (string, error) {
+func (h HtmlAreaElement) Host() string {
 	return h.GetAttributeString("host")
 }
 
@@ -141,7 +141,7 @@ func (h HtmlAreaElement) SetHost(value string) error {
 	return h.SetAttributeString("host", value)
 }
 
-func (h HtmlAreaElement) Hostname() (string, error) {
+func (h HtmlAreaElement) Hostname() string {
 	return h.GetAttributeString("hostname")
 }
 
@@ -149,7 +149,7 @@ func (h HtmlAreaElement) SetHostname(value string) error {
 	return h.SetAttributeString("hostname", value)
 }
 
-func (h HtmlAreaElement) Href() (string, error) {
+func (h HtmlAreaElement) Href() string {
 	return h.GetAttributeString("href")
 }
 
@@ -157,11 +157,11 @@ func (h HtmlAreaElement) SetHref(value string) error {
 	return h.SetAttributeString("href", value)
 }
 
-func (h HtmlAreaElement) Origin() (string, error) {
+func (h HtmlAreaElement) Origin() string {
 	return h.GetAttributeString("origin")
 }
 
-func (h HtmlAreaElement) Password() (string, error) {
+func (h HtmlAreaElement) Password() string {
 	return h.GetAttributeString("password")
 }
 
@@ -169,7 +169,7 @@ func (h HtmlAreaElement) SetPassword(value string) error {
 	return h.SetAttributeString("password", value)
 }
 
-func (h HtmlAreaElement) Pathname() (string, error) {
+func (h HtmlAreaElement) Pathname() string {
 	return h.GetAttributeString("pathname")
 }
 
@@ -177,7 +177,7 @@ func (h HtmlAreaElement) SetPathname(value string) error {
 	return h.SetAttributeString("pathname", value)
 }
 
-func (h HtmlAreaElement) Port() (string, error) {
+func (h HtmlAreaElement) Port() string {
 	return h.GetAttributeString("port")
 }
 
@@ -185,7 +185,7 @@ func (h HtmlAreaElement) SetPort(value string) error {
 	return h.SetAttributeString("port", value)
 }
 
-func (h HtmlAreaElement) Protocol() (string, error) {
+func (h HtmlAreaElement) Protocol() string {
 	return h.GetAttributeString("protocol")
 }
 
@@ -193,7 +193,7 @@ func (h HtmlAreaElement) SetProtocol(value string) error {
 	return h.SetAttributeString("protocol", value)
 }
 
-func (h HtmlAreaElement) ReferrerPolicy() (string, error) {
+func (h HtmlAreaElement) ReferrerPolicy() string {
 	return h.GetAttributeString("referrerPolicy")
 }
 
@@ -201,7 +201,7 @@ func (h HtmlAreaElement) SetReferrerPolicy(value string) error {
 	return h.SetAttributeString("referrerPolicy", value)
 }
 
-func (h HtmlAreaElement) Rel() (string, error) {
+func (h HtmlAreaElement) Rel() string {
 	return h.GetAttributeString("rel")
 }
 
@@ -222,7 +222,7 @@ func (h HtmlAreaElement) RelList() (domtokenlist.DOMTokenList, error) {
 	return dlist, err
 }
 
-func (h HtmlAreaElement) Search() (string, error) {
+func (h HtmlAreaElement) Search() string {
 	return h.GetAttributeString("search")
 }
 
@@ -230,7 +230,7 @@ func (h HtmlAreaElement) SetSearch(value string) error {
 	return h.SetAttributeString("search", value)
 }
 
-func (h HtmlAreaElement) TabIndex() (int, error) {
+func (h HtmlAreaElement) TabIndex() int {
 	return h.GetAttributeInt("tabIndex")
 }
 
@@ -238,7 +238,7 @@ func (h HtmlAreaElement) SetTabIndex(value int) error {
 	return h.SetAttributeInt("tabIndex", value)
 }
 
-func (h HtmlAreaElement) Target() (string, error) {
+func (h HtmlAreaElement) Target() string {
 	return h.GetAttributeString("target")
 }
 
@@ -246,7 +246,7 @@ func (h HtmlAreaElement) SetTarget(value string) error {
 	return h.SetAttributeString("target", value)
 }
 
-func (h HtmlAreaElement) Shape() (string, error) {
+func (h HtmlAreaElement) Shape() string {
 	return h.GetAttributeString("shape")
 }
 
@@ -254,7 +254,7 @@ func (h HtmlAreaElement) SetShape(value string) error {
 	return h.SetAttributeString("shape", value)
 }
 
-func (h HtmlAreaElement) Username() (string, error) {
+func (h HtmlAreaElement) Username() string {
 	return h.GetAttributeString("username")
 }
 

@@ -143,26 +143,26 @@ func (e Event) StopPropagation() error {
 	return err
 }
 
-func (e Event) Bubbles() (bool, error) {
+func (e Event) Bubbles() bool {
 	return e.GetAttributeBool("bubbles")
 }
 
-func (e Event) Cancelable() (bool, error) {
+func (e Event) Cancelable() bool {
 	return e.GetAttributeBool("cancelable")
 }
 
-func (e Event) Composed() (bool, error) {
+func (e Event) Composed() bool {
 	return e.GetAttributeBool("composed")
 }
 
-func (e Event) EventPhase() (int, error) {
+func (e Event) EventPhase() int {
 	return e.GetAttributeInt("eventPhase")
 }
 
-func (e Event) Type() (string, error) {
+func (e Event) Type() string {
 	return e.GetAttributeString("type")
 }
 
-func (e Event) IsTrusted() (bool, error) {
+func (e Event) IsTrusted() bool {
 	return e.GetAttributeBool("isTrusted")
 }

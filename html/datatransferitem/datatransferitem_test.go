@@ -29,7 +29,7 @@ func TestNewFromJSObject(t *testing.T) {
 
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object DataTransferItem]", d.ToString_())
+			test.AssertExpect(t, "[object DataTransferItem]", d.ToString())
 
 		}
 	}
@@ -46,9 +46,7 @@ func TestKind(t *testing.T) {
 
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if kind, err := d.Kind(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "file", kind)
-			}
+			test.AssertExpect(t, "file", d.Kind())
 
 		}
 	}
@@ -65,9 +63,7 @@ func TestType(t *testing.T) {
 
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if typed, err := d.Type(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "image/png", typed)
-			}
+			test.AssertExpect(t, "image/png", d.Type())
 
 		}
 	}
@@ -84,7 +80,7 @@ func TestGetAsFile(t *testing.T) {
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			if file, err := d.GetAsFile(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object File]", file.ToString_())
+				test.AssertExpect(t, "[object File]", file.ToString())
 			}
 
 		}

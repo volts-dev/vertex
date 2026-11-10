@@ -67,29 +67,29 @@ func NewFromJSObject(obj js.Value) (DOMTokenList, error) {
 	return d, err
 }
 
-func (d DOMTokenList) Item(index int) (interface{}, error) {
+func (d DOMTokenList) Item(index int) interface{} {
 	var obj js.Value
 	obj = d.GetObjectValue().Index(index)
 	return js.GoValue(obj)
 
 }
 
-func (d DOMTokenList) methodGetValue(method string, value string) (bool, error) {
-	var err error
+func (d DOMTokenList) methodGetValue(method string, value string) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 	if obj = d.Call(method, js.ValueOf(value)); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 }
 
-func (d DOMTokenList) Contains(search string) (bool, error) {
+func (d DOMTokenList) Contains(search string) bool {
 
 	return d.methodGetValue("contains", search)
 }
@@ -120,8 +120,8 @@ func (d DOMTokenList) Replace(oldtoken, newtoken string) error {
 	return d.method("replace", oldtoken, newtoken)
 }
 
-func (d DOMTokenList) Toggle(token string, force ...bool) (bool, error) {
-	var err error
+func (d DOMTokenList) Toggle(token string, force ...bool) bool {
+	//var err error
 	var arrayJS []interface{}
 	var result bool
 	var obj js.Value
@@ -135,15 +135,15 @@ func (d DOMTokenList) Toggle(token string, force ...bool) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 
 }
 
-func (d DOMTokenList) Supports(token string) (bool, error) {
+func (d DOMTokenList) Supports(token string) bool {
 	return d.methodGetValue("supports", token)
 }
 
@@ -163,7 +163,7 @@ func (d DOMTokenList) ForEach(f func(string)) error {
 	var err error
 
 	jsfunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		f(js.ValueToString(args[0]))
+		f(args[0].String())
 		return nil
 	})
 

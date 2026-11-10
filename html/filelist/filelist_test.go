@@ -28,7 +28,7 @@ func TestNewFromJSObject(t *testing.T) {
 
 		if f, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object FileList]", f.ToString_())
+			test.AssertExpect(t, "[object FileList]", f.ToString())
 
 		}
 	}
@@ -42,9 +42,7 @@ func TestLength(t *testing.T) {
 	if obj = js.Global().Get("inputfiles"); test.AssertErr(t, err) {
 
 		if f, err = NewFromJSObject(obj); test.AssertErr(t, err) {
-			if l, err := f.Length(); test.AssertErr(t, err) {
-				test.AssertExpect(t, 2, l)
-			}
+			test.AssertExpect(t, 2, f.Length())
 
 		}
 	}
@@ -59,7 +57,7 @@ func TestItem(t *testing.T) {
 
 		if f, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 			if file, err := f.Item(0); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object File]", file.ToString_())
+				test.AssertExpect(t, "[object File]", file.ToString())
 			}
 
 		}

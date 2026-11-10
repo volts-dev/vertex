@@ -73,18 +73,18 @@ func (d DOMStringList) Item(index int) js.Value {
 	return obj
 }
 
-func (d DOMStringList) Contains(search string) (bool, error) {
+func (d DOMStringList) Contains(search string) bool {
 
-	var err error
+	//var err error
 	var obj js.Value
 	var result bool
 	if obj = d.Call("contains", js.ValueOf(search)); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 }

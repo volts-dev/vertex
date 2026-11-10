@@ -97,21 +97,21 @@ func (e Element) getAnimations() {
 	//TODO IMPLEMENT
 }
 
-func (e Element) GetAttribute(attributename string) (string, error) {
+func (e Element) GetAttribute(attributename string) string {
 
-	var err error
+	//var err error
 	var obj js.Value
 	var newstr string
 
 	if obj = e.Call("getAttribute", js.ValueOf(attributename)); obj.Error() == nil {
 		if obj.IsNull() {
-			err = ErrAttributeEmpty
+			//	err = ErrAttributeEmpty
 		} else {
 			return obj.String()
 		}
 
 	}
-	return newstr, err
+	return newstr //, err
 }
 
 func (e Element) GetAttributeNames() (js.Array, error) {
@@ -227,8 +227,8 @@ func (e Element) GetElementsByTagNameNS(namespace, tagname string) (htmlcollecti
 	return collection, err
 }
 
-func (e Element) HasAttribute(attributename string) (bool, error) {
-	var err error
+func (e Element) HasAttribute(attributename string) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 
@@ -236,16 +236,16 @@ func (e Element) HasAttribute(attributename string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//	err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 
 }
 
-func (e Element) HasPointerCapture(pointerid int) (bool, error) {
-	var err error
+func (e Element) HasPointerCapture(pointerid int) bool {
+	//	var err error
 	var obj js.Value
 	var result bool
 
@@ -253,10 +253,10 @@ func (e Element) HasPointerCapture(pointerid int) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//	err = js.ErrObjectNotBool
 		}
 	}
-	return result, err
+	return result //, err
 }
 
 func (e Element) InsertAdjacentElement(position string, elem Element) (Element, error) {
@@ -293,8 +293,8 @@ func (e Element) InsertAdjacentText(position string, text string) error {
 	return err
 }
 
-func (e Element) Matches(selector string) (bool, error) {
-	var err error
+func (e Element) Matches(selector string) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 
@@ -302,10 +302,10 @@ func (e Element) Matches(selector string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
-	return result, err
+	return result //, err
 }
 func (e Element) pseudo() {
 	//TODO IMPLEMENT
@@ -452,8 +452,8 @@ func (e Element) SetPointerCapture(pointerid int) error {
 	return err
 }
 
-func (e Element) ToggleAttribute(name string, opts ...interface{}) (bool, error) {
-	var err error
+func (e Element) ToggleAttribute(name string, opts ...interface{}) bool {
+	//var err error
 	var optJSValue []interface{}
 	var obj js.Value
 	var result bool
@@ -467,8 +467,8 @@ func (e Element) ToggleAttribute(name string, opts ...interface{}) (bool, error)
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
-	return result, err
+	return result //, err
 }

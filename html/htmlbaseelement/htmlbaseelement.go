@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlBaseElement, error) {
 	return h, err
 }
 
-func (h HtmlBaseElement) Href() (string, error) {
+func (h HtmlBaseElement) Href() string {
 	return h.GetAttributeString("href")
 }
 
@@ -108,7 +108,7 @@ func (h HtmlBaseElement) SetHref(value string) error {
 	return h.SetAttributeString("href", value)
 }
 
-func (h HtmlBaseElement) Target() (string, error) {
+func (h HtmlBaseElement) Target() string {
 	return h.GetAttributeString("target")
 }
 

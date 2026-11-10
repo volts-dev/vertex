@@ -62,7 +62,7 @@ func IDBCursorNewFromJSObject(obj js.Value) (IDBCursor, error) {
 	return i, err
 }
 
-func (i IDBCursor) Direction() (string, error) {
+func (i IDBCursor) Direction() string {
 	return i.GetAttributeString("direction")
 }
 

@@ -112,7 +112,7 @@ func (c ClipboardItem) Types() (js.Array, error) {
 }
 
 // support safari only
-func (c ClipboardItem) PresentationStyle() (string, error) {
+func (c ClipboardItem) PresentationStyle() string {
 
 	return c.GetAttributeString("presentationStyle")
 }

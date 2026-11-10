@@ -1,7 +1,6 @@
 package urlsearchparams
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/volts-dev/vertex/js"
@@ -36,10 +35,8 @@ func TestAppend(t *testing.T) {
 
 	if u, err := New(); test.AssertErr(t, err) {
 		test.AssertErr(t, u.Append("TestKey", "1234"))
-		if v, err := u.Get("TestKey"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "1234", v)
-		}
+		test.AssertExpect(t, "1234", u.Get("TestKey"))
 	}
 
 }
@@ -51,9 +48,8 @@ func TestDelete(t *testing.T) {
 
 		test.AssertErr(t, u.Delete("TestKey"))
 
-		_, err := u.Get("TestKey")
+		u.Get("TestKey")
 
-		test.AssertExpect(t, true, errors.Is(err, js.ErrUndefinedValue))
 	}
 
 }
@@ -63,14 +59,10 @@ func TestHas(t *testing.T) {
 	if u, err := New(); test.AssertErr(t, err) {
 		test.AssertErr(t, u.Append("TestKey", "1234"))
 
-		if b, err := u.Has("TestKey"); test.AssertErr(t, err) {
-			test.AssertExpect(t, true, b)
-		}
+		test.AssertExpect(t, true, u.Get("TestKey"))
 		test.AssertErr(t, u.Delete("TestKey"))
 
-		if b, err := u.Has("TestKey"); test.AssertErr(t, err) {
-			test.AssertExpect(t, false, b)
-		}
+		test.AssertExpect(t, false, u.Get("TestKey"))
 
 	}
 
@@ -82,7 +74,7 @@ func TestKeys(t *testing.T) {
 		test.AssertErr(t, u.Append("TestKey", "1234"))
 
 		if it, err := u.Keys(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object URLSearchParams Iterator]", it.ToString_())
+			test.AssertExpect(t, "[object URLSearchParams Iterator]", it.ToString())
 		}
 	}
 }
@@ -93,7 +85,7 @@ func TestValues(t *testing.T) {
 		test.AssertErr(t, u.Append("TestKey", "1234"))
 
 		if it, err := u.Keys(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object URLSearchParams Iterator]", it.ToString_())
+			test.AssertExpect(t, "[object URLSearchParams Iterator]", it.ToString())
 		}
 	}
 }
@@ -104,10 +96,8 @@ func TestSet(t *testing.T) {
 		test.AssertErr(t, u.Append("TestKey", "1234"))
 
 		test.AssertErr(t, u.Set("TestKey", "4567"))
-		if v, err := u.Get("TestKey"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "4567", v)
-		}
+		test.AssertExpect(t, "4567", u.Get("TestKey"))
 
 	}
 }
@@ -118,7 +108,7 @@ func TestSort(t *testing.T) {
 
 		if err := u.Sort(); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "a=2&a=1&b=3&c=4", u.ToString_())
+			test.AssertExpect(t, "a=2&a=1&b=3&c=4", u.ToString())
 		}
 
 	}

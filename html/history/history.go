@@ -92,7 +92,7 @@ func (h History) Go(position int) error {
 	return h.Call("go", js.ValueOf(position)).Error()
 }
 
-func (h History) Length() (int, error) {
+func (h History) Length() int {
 	return h.GetValueByKey("length").Int()
 }
 

@@ -115,7 +115,7 @@ func TestSetRangeText(t *testing.T) {
 		if ta, err := New(doc); test.AssertErr(t, err) {
 			ta.SetValue("hello tiny world")
 			test.AssertErr(t, ta.SetRangeText("big", 6, 10))
-			v, _ := ta.Value()
+			v := ta.Value()
 			test.AssertExpect(t, "hello big world", v)
 		}
 

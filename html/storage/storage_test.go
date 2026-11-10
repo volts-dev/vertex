@@ -20,7 +20,7 @@ func TestNewStorage(t *testing.T) {
 
 			if storageobj := obj.Get("sessionStorage"); test.AssertErr(t, storageobj.Error()) {
 				if stor, err := NewFromJSObject(storageobj); test.AssertErr(t, err) {
-					test.AssertExpect(t, "[object Storage]", stor.ToString_())
+					test.AssertExpect(t, "[object Storage]", stor.ToString())
 				}
 
 			}
@@ -33,7 +33,7 @@ func TestNewStorage(t *testing.T) {
 
 			if storageobj := obj.Get("localStorage"); test.AssertErr(t, storageobj.Error()) {
 				if stor, err := NewFromJSObject(storageobj); test.AssertErr(t, err) {
-					test.AssertExpect(t, "[object Storage]", stor.ToString_())
+					test.AssertExpect(t, "[object Storage]", stor.ToString())
 				}
 
 			}
@@ -53,13 +53,8 @@ func TestGetItem(t *testing.T) {
 			if storageobj := obj.Get("sessionStorage"); test.AssertErr(t, storageobj.Error()) {
 				if stor, err := NewFromJSObject(storageobj); test.AssertErr(t, err) {
 
-					if str, err := stor.GetItem("hello"); test.AssertErr(t, err) {
-						test.AssertExpect(t, "world", str)
-					}
-					if str, err := stor.GetItem("hello2"); test.AssertErr(t, err) {
-
-						test.AssertExpect(t, nil, str)
-					}
+					test.AssertExpect(t, "world", stor.GetItem("hello"))
+					test.AssertExpect(t, nil, stor.GetItem("hello2"))
 				}
 
 			}
@@ -74,15 +69,8 @@ func TestGetItem(t *testing.T) {
 			if storageobj := obj.Get("localStorage"); test.AssertErr(t, storageobj.Error()) {
 				if stor, err := NewFromJSObject(storageobj); test.AssertErr(t, err) {
 
-					if str, err := stor.GetItem("hello"); test.AssertErr(t, err) {
-
-						test.AssertExpect(t, "world", str)
-					}
-
-					if str, err := stor.GetItem("hello2"); test.AssertErr(t, err) {
-
-						test.AssertExpect(t, nil, str)
-					}
+					test.AssertExpect(t, "world", stor.GetItem("hello"))
+					test.AssertExpect(t, nil, stor.GetItem("hello2"))
 				}
 
 			}
@@ -103,10 +91,7 @@ func TestSetItem(t *testing.T) {
 				if stor, err := NewFromJSObject(storageobj); test.AssertErr(t, err) {
 
 					if err := stor.SetItem("hello", "you"); test.AssertErr(t, err) {
-						if str, err := stor.GetItem("hello"); test.AssertErr(t, err) {
-
-							test.AssertExpect(t, "you", str)
-						}
+						test.AssertExpect(t, "you", stor.GetItem("hello"))
 					}
 				}
 
@@ -123,10 +108,7 @@ func TestSetItem(t *testing.T) {
 				if stor, err := NewFromJSObject(storageobj); test.AssertErr(t, err) {
 
 					if err := stor.SetItem("hello", "you"); test.AssertErr(t, err) {
-						if str, err := stor.GetItem("hello"); test.AssertErr(t, err) {
-
-							test.AssertExpect(t, "you", str)
-						}
+						test.AssertExpect(t, "you", stor.GetItem("hello"))
 					}
 				}
 
@@ -149,11 +131,8 @@ func TestRemoveItem(t *testing.T) {
 
 					if err := stor.SetItem("objrmv", "yes"); test.AssertErr(t, err) {
 						if err := stor.RemoveItem("objrmv"); test.AssertErr(t, err) {
-							if str, err := stor.GetItem("objrmv"); test.AssertErr(t, err) {
 
-								test.AssertExpect(t, nil, str)
-							}
-
+							test.AssertExpect(t, nil, stor.GetItem("objrmv"))
 						}
 					}
 
@@ -174,10 +153,7 @@ func TestRemoveItem(t *testing.T) {
 
 					if err := stor.SetItem("objrmv", "yes"); test.AssertErr(t, err) {
 						if err := stor.RemoveItem("objrmv"); test.AssertErr(t, err) {
-							if str, err := stor.GetItem("objrmv"); test.AssertErr(t, err) {
-
-								test.AssertExpect(t, nil, str)
-							}
+							test.AssertExpect(t, nil, stor.GetItem("objrmv"))
 
 						}
 					}
@@ -202,10 +178,7 @@ func TestClear(t *testing.T) {
 
 					if err := stor.SetItem("objclear", "yes"); test.AssertErr(t, err) {
 						if err := stor.Clear(); test.AssertErr(t, err) {
-							if str, err := stor.GetItem("objclear"); test.AssertErr(t, err) {
-
-								test.AssertExpect(t, nil, str)
-							}
+							test.AssertExpect(t, nil, stor.GetItem("objclear"))
 
 						}
 					}
@@ -226,10 +199,7 @@ func TestClear(t *testing.T) {
 
 					if err := stor.SetItem("objclear", "yes"); test.AssertErr(t, err) {
 						if err := stor.Clear(); test.AssertErr(t, err) {
-							if str, err := stor.GetItem("objclear"); test.AssertErr(t, err) {
-
-								test.AssertExpect(t, nil, str)
-							}
+							test.AssertExpect(t, nil, stor.GetItem("objclear"))
 
 						}
 					}
@@ -255,9 +225,8 @@ func TestKey(t *testing.T) {
 
 					if err := stor.SetItem("objkey", "yes"); test.AssertErr(t, err) {
 
-						if str, err := stor.Key(0); test.AssertErr(t, err) {
-							test.AssertExpect(t, "objkey", str)
-						}
+						str := stor.Key(0)
+						test.AssertExpect(t, "objkey", str)
 
 					}
 
@@ -278,9 +247,8 @@ func TestKey(t *testing.T) {
 
 					if err := stor.SetItem("objkey", "yes"); test.AssertErr(t, err) {
 
-						if str, err := stor.Key(0); test.AssertErr(t, err) {
-							test.AssertExpect(t, "objkey", str)
-						}
+						str := stor.Key(0)
+						test.AssertExpect(t, "objkey", str)
 
 					}
 

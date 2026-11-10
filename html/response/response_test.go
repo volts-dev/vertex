@@ -33,7 +33,7 @@ func TestNew(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object Response]", d.ToString_())
+		test.AssertExpect(t, "[object Response]", d.ToString())
 
 	}
 }
@@ -45,7 +45,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("r"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object Response]", d.ToString_())
+			test.AssertExpect(t, "[object Response]", d.ToString())
 
 		}
 	}
@@ -57,10 +57,8 @@ func TestStatus(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
-			if s, err := response.Status(); test.AssertErr(t, err) {
-				test.AssertExpect(t, 200, s)
-			}
+			test.AssertExpect(t, "[object Response]", response.ToString())
+			test.AssertExpect(t, 200, response.Status())
 		}
 	}
 
@@ -71,11 +69,9 @@ func TestStatusText(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
-			if s, err := response.StatusText(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "", s)
-			}
+			test.AssertExpect(t, "", response.StatusText())
 		}
 	}
 
@@ -86,11 +82,9 @@ func TestRedirected(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
-			if b, err := response.Redirected(); test.AssertErr(t, err) {
-				test.AssertExpect(t, false, b)
-			}
+			test.AssertExpect(t, false, response.Redirected())
 
 		}
 	}
@@ -102,11 +96,9 @@ func TestOk(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
-			if b, err := response.Ok(); test.AssertErr(t, err) {
-				test.AssertExpect(t, true, b)
-			}
+			test.AssertExpect(t, true, response.Ok())
 
 		}
 	}
@@ -118,11 +110,9 @@ func TestType(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
-			if typef, err := response.Type(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "cors", typef)
-			}
+			test.AssertExpect(t, "cors", response.Type())
 
 		}
 	}
@@ -134,11 +124,9 @@ func TestUrl(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
-			if url, err := response.Url(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "http://localhost/get", url)
-			}
+			test.AssertExpect(t, "http://localhost/get", response.Url())
 
 		}
 	}
@@ -150,10 +138,10 @@ func TestBody(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
 			if stream, err := response.Body(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object ReadableStream]", stream.ToString_())
+				test.AssertExpect(t, "[object ReadableStream]", stream.ToString())
 			}
 
 		}
@@ -166,11 +154,9 @@ func TestBodyUsed(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
-			if b, err := response.BodyUsed(); test.AssertErr(t, err) {
-				test.AssertExpect(t, false, b)
-			}
+			test.AssertExpect(t, false, response.BodyUsed())
 
 		}
 	}
@@ -182,10 +168,10 @@ func TestClone(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
 			if clone, err := response.Clone(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object Response]", clone.ToString_())
+				test.AssertExpect(t, "[object Response]", clone.ToString())
 			}
 
 		}
@@ -196,12 +182,9 @@ func TestClone(t *testing.T) {
 func TestError(t *testing.T) {
 
 	if response, err := Error(); test.AssertErr(t, err) {
-		test.AssertExpect(t, "[object Response]", response.ToString_())
+		test.AssertExpect(t, "[object Response]", response.ToString())
 
-		if resptype, err := response.Type(); test.AssertErr(t, err) {
-
-			test.AssertExpect(t, "error", resptype)
-		}
+		test.AssertExpect(t, "error", response.Type())
 
 	}
 
@@ -212,10 +195,10 @@ func TestArrayBuffer(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
 			if p, err := response.ArrayBuffer(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object Promise]", p.ToString_())
+				test.AssertExpect(t, "[object Promise]", p.ToString())
 			}
 
 		}
@@ -228,10 +211,10 @@ func TestBlob(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
 			if p, err := response.Blob(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object Promise]", p.ToString_())
+				test.AssertExpect(t, "[object Promise]", p.ToString())
 			}
 
 		}
@@ -244,10 +227,10 @@ func TestJson(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
 			if p, err := response.Json(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object Promise]", p.ToString_())
+				test.AssertExpect(t, "[object Promise]", p.ToString())
 			}
 
 		}
@@ -260,10 +243,10 @@ func TestText(t *testing.T) {
 	if obj := js.Global().Get("resp"); test.AssertErr(t, obj.Error()) {
 
 		if response, err := NewFromJSObject(obj); test.AssertErr(t, err) {
-			test.AssertExpect(t, "[object Response]", response.ToString_())
+			test.AssertExpect(t, "[object Response]", response.ToString())
 
 			if p, err := response.Text(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object Promise]", p.ToString_())
+				test.AssertExpect(t, "[object Promise]", p.ToString())
 			}
 
 		}

@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlStyleElement, error) {
 	return h, err
 }
 
-func (h HtmlStyleElement) Media() (string, error) {
+func (h HtmlStyleElement) Media() string {
 	return h.GetAttributeString("media")
 }
 
@@ -108,7 +108,7 @@ func (h HtmlStyleElement) SetMedia(value string) error {
 	return h.SetAttributeString("media", value)
 }
 
-func (h HtmlStyleElement) Type() (string, error) {
+func (h HtmlStyleElement) Type() string {
 	return h.GetAttributeString("type")
 }
 
@@ -116,7 +116,7 @@ func (h HtmlStyleElement) SetType(value string) error {
 	return h.SetAttributeString("type", value)
 }
 
-func (h HtmlStyleElement) Disabled() (bool, error) {
+func (h HtmlStyleElement) Disabled() bool {
 	return h.GetAttributeBool("disabled")
 }
 

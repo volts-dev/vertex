@@ -93,27 +93,27 @@ func Only(value interface{}) (IDBKeyRange, error) {
 	return newKeyRange("only", value)
 }
 
-func (i IDBKeyRange) Includes(value interface{}) (bool, error) {
+func (i IDBKeyRange) Includes(value interface{}) bool {
 	var obj js.Value
-	var err error
+	//var err error
 	var ret bool
 
 	if obj = i.Call("includes", value); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return ret, err
+	return ret //, err
 }
 
-func (i IDBKeyRange) lowerOpen() (bool, error) {
+func (i IDBKeyRange) lowerOpen() bool {
 	return i.GetAttributeBool("lowerOpen")
 }
 
-func (i IDBKeyRange) upperOpen() (bool, error) {
+func (i IDBKeyRange) upperOpen() bool {
 	return i.GetAttributeBool("upperOpen")
 }
 

@@ -126,15 +126,15 @@ func (v *value) New(args ...any) Value {
 	panic(errNotImpl)
 }
 
-func (v *value) Float() (float64, error) {
+func (v *value) Float() float64 {
 	panic(errNotImpl)
 }
 
-func (v *value) Int() (int, error) {
+func (v *value) Int() int {
 	panic(errNotImpl)
 }
 
-func (v *value) Bool() (bool, error) {
+func (v *value) Bool() bool {
 	panic(errNotImpl)
 }
 
@@ -142,11 +142,11 @@ func (v *value) Truthy() bool {
 	panic(errNotImpl)
 }
 
-func (v *value) String() (string, error) {
+func (v *value) String() string {
 	panic(errNotImpl)
 }
 
-func (v *value) Bytes() ([]byte, error) {
+func (v *value) Bytes() []byte {
 	panic(errNotImpl)
 }
 func (v *value) InstanceOf(t Value) bool {

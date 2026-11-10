@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlDataElement, error) {
 	return h, err
 }
 
-func (h HtmlDataElement) Value() (string, error) {
+func (h HtmlDataElement) Value() string {
 	return h.GetAttributeString("value")
 }
 

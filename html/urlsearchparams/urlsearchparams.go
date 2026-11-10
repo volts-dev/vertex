@@ -111,9 +111,9 @@ func (u URLSearchParams) Entries() (js.Iterator, error) {
 	return iter, err
 }
 
-func (u URLSearchParams) Get(name string) (string, error) {
+func (u URLSearchParams) Get(name string) string {
 
-	var err error
+	//var err error
 	var obj js.Value
 	var result string
 
@@ -122,27 +122,27 @@ func (u URLSearchParams) Get(name string) (string, error) {
 		if obj.Type() == js.TypeString {
 			return obj.String()
 		} else {
-			err = js.ErrUndefinedValue
+			//err = js.ErrUndefinedValue
 		}
 
 	}
 
-	return result, err
+	return result //, err
 }
 
-func (u URLSearchParams) Has(name string) (bool, error) {
-	var err error
+func (u URLSearchParams) Has(name string) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 	if obj = u.Call("has", js.ValueOf(name)); obj.Error() == nil {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 }
 
 func (u URLSearchParams) Keys() (js.Iterator, error) {

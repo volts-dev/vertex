@@ -34,48 +34,31 @@ func (t TypedArray) TypedArray_() TypedArray {
 	return t
 }
 
-func (t TypedArray) Bytes() ([]byte, error) {
+func (t TypedArray) Bytes() []byte {
 	var err error
 	var buffer []byte
-	var l int
-	if l, err = t.Length(); err == nil {
-		buffer = make([]byte, l)
-		if _, err = js.CopyBytesToGo(buffer, t.GetObjectValue()); err == nil {
-			return buffer, nil
-		}
+	buffer = make([]byte, t.Length())
+	if _, err = js.CopyBytesToGo(buffer, t.GetObjectValue()); err == nil {
+		return buffer
 	}
 
-	return buffer, err
+	return buffer
 }
 
 func (t TypedArray) CopyBytes(buffer []byte) (int, error) {
-
-	var err error
 	var l int
-	if l, err = t.Length(); err == nil {
-		if len(buffer) < l {
-			return 0, errors.New("Increase your buffer size")
-		}
-
-	} else {
-		return 0, err
+	l = t.Length()
+	if len(buffer) < l {
+		return 0, errors.New("Increase your buffer size")
 	}
 
 	return js.CopyBytesToGo(buffer, t.GetObjectValue())
-
 }
 
 func (t TypedArray) CopyFromBytes(buffer []byte) (int, error) {
 
-	var err error
-	var l int
-	if l, err = t.Length(); err == nil {
-		if len(buffer) < l {
-			return 0, errors.New("Increase your buffer size")
-		}
-
-	} else {
-		return 0, err
+	if len(buffer) < t.Length() {
+		return 0, errors.New("Increase your buffer size")
 	}
 
 	return js.CopyBytesToJS(t.GetObjectValue(), buffer)
@@ -94,17 +77,17 @@ func (t TypedArray) Buffer() (arraybuffer.ArrayBuffer, error) {
 	return arraybuffer.ArrayBuffer{}, err
 }
 
-func (t TypedArray) ByteLength() (int64, error) {
+func (t TypedArray) ByteLength() int64 {
 
 	return t.GetAttributeInt64("byteLength")
 }
 
-func (t TypedArray) ByteOffset() (int64, error) {
+func (t TypedArray) ByteOffset() int64 {
 
 	return t.GetAttributeInt64("byteOffset")
 }
 
-func (t TypedArray) BYTES_PER_ELEMENT() (int, error) {
+func (t TypedArray) BYTES_PER_ELEMENT() int {
 
 	return t.GetAttributeInt("BYTES_PER_ELEMENT")
 }

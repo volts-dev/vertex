@@ -95,46 +95,46 @@ func (c CSSStyleDeclaration) SetProperty(propertyName string, opts ...string) er
 
 }
 
-func (c CSSStyleDeclaration) Item(index int) (string, error) {
-	var err error
+func (c CSSStyleDeclaration) Item(index int) string {
+	//var err error
 	var obj js.Value
 	var ret string
 
 	if obj = c.Call("item", js.ValueOf(index)); obj.Error() == nil {
 		return obj.String()
 	}
-	return ret, err
+	return ret //, err
 }
 
-func (c CSSStyleDeclaration) GetPropertyPriority(property string) (string, error) {
-	var err error
+func (c CSSStyleDeclaration) GetPropertyPriority(property string) string {
+	//var err error
 	var obj js.Value
 	var ret string
 
 	if obj = c.Call("getPropertyPriority", js.ValueOf(property)); obj.Error() == nil {
 		return obj.String()
 	}
-	return ret, err
+	return ret //, err
 }
 
-func (c CSSStyleDeclaration) GetPropertyValue(property string) (string, error) {
-	var err error
+func (c CSSStyleDeclaration) GetPropertyValue(property string) string {
+	//var err error
 	var obj js.Value
 	var ret string
 
 	if obj = c.Call("getPropertyValue", js.ValueOf(property)); obj.Error() == nil {
 		return obj.String()
 	}
-	return ret, err
+	return ret //, err
 }
 
-func (c CSSStyleDeclaration) RemoveProperty(property string) (string, error) {
-	var err error
+func (c CSSStyleDeclaration) RemoveProperty(property string) string {
+	//var err error
 	var obj js.Value
 	var ret string
 
 	if obj = c.Call("removeProperty", js.ValueOf(property)); obj.Error() == nil {
 		return obj.String()
 	}
-	return ret, err
+	return ret //, err
 }

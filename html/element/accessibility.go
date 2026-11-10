@@ -1,6 +1,6 @@
 package element
 
-func (e Element) AriaAtomic() (string, error) {
+func (e Element) AriaAtomic() string {
 
 	return e.GetAttributeString("ariaAtomic")
 }
@@ -11,7 +11,7 @@ func (e Element) SetAriaAtomic(value string) error {
 
 }
 
-func (e Element) AriaAutoComplete() (string, error) {
+func (e Element) AriaAutoComplete() string {
 
 	return e.GetAttributeString("ariaAutoComplete")
 }
@@ -22,7 +22,7 @@ func (e Element) SetAriaAutoComplete(value string) error {
 
 }
 
-func (e Element) AriaBusy() (string, error) {
+func (e Element) AriaBusy() string {
 
 	return e.GetAttributeString("ariaBusy")
 }
@@ -33,7 +33,7 @@ func (e Element) SetAriaBusy(value string) error {
 
 }
 
-func (e Element) AriaChecked() (string, error) {
+func (e Element) AriaChecked() string {
 
 	return e.GetAttributeString("ariaChecked")
 }
@@ -44,7 +44,7 @@ func (e Element) SetAriaChecked(value string) error {
 
 }
 
-func (e Element) AriaColCount() (string, error) {
+func (e Element) AriaColCount() string {
 
 	return e.GetAttributeString("ariaColCount")
 }
@@ -55,7 +55,7 @@ func (e Element) SetAriaColCount(value string) error {
 
 }
 
-func (e Element) AriaColIndex() (string, error) {
+func (e Element) AriaColIndex() string {
 
 	return e.GetAttributeString("ariaColIndex")
 }
@@ -66,7 +66,7 @@ func (e Element) SetAriaColIndex(value string) error {
 
 }
 
-func (e Element) AriaColIndexText() (string, error) {
+func (e Element) AriaColIndexText() string {
 
 	return e.GetAttributeString("ariaColIndexText")
 }
@@ -77,7 +77,7 @@ func (e Element) SetAriaColIndexText(value string) error {
 
 }
 
-func (e Element) AriaColSpan() (string, error) {
+func (e Element) AriaColSpan() string {
 
 	return e.GetAttributeString("ariaColSpan")
 }
@@ -88,7 +88,7 @@ func (e Element) SetAriaColSpan(value string) error {
 
 }
 
-func (e Element) AriaCurrent() (string, error) {
+func (e Element) AriaCurrent() string {
 
 	return e.GetAttributeString("ariaCurrent")
 }
@@ -99,7 +99,7 @@ func (e Element) SetAriaCurrent(value string) error {
 
 }
 
-func (e Element) AriaDescription() (string, error) {
+func (e Element) AriaDescription() string {
 
 	return e.GetAttributeString("ariaDescription")
 }
@@ -110,7 +110,7 @@ func (e Element) SetAriaDescription(value string) error {
 
 }
 
-func (e Element) AriaDisabled() (string, error) {
+func (e Element) AriaDisabled() string {
 
 	return e.GetAttributeString("ariaDisabled")
 }
@@ -121,7 +121,7 @@ func (e Element) SetAriaDisabled(value string) error {
 
 }
 
-func (e Element) AriaExpanded() (string, error) {
+func (e Element) AriaExpanded() string {
 
 	return e.GetAttributeString("ariaExpanded")
 }
@@ -132,7 +132,7 @@ func (e Element) SetAriaExpanded(value string) error {
 
 }
 
-func (e Element) AriaHasPopup() (string, error) {
+func (e Element) AriaHasPopup() string {
 
 	return e.GetAttributeString("ariaHasPopup")
 }
@@ -142,7 +142,7 @@ func (e Element) SetAriaHasPopup(value string) error {
 	return e.SetAttributeString("ariaHasPopup", value)
 
 }
-func (e Element) AriaHidden() (string, error) {
+func (e Element) AriaHidden() string {
 
 	return e.GetAttributeString("ariaHidden")
 }
@@ -153,7 +153,7 @@ func (e Element) SetAriaHidden(value string) error {
 
 }
 
-func (e Element) AriaKeyShortcuts() (string, error) {
+func (e Element) AriaKeyShortcuts() string {
 
 	return e.GetAttributeString("ariaKeyShortcuts")
 }
@@ -164,7 +164,7 @@ func (e Element) SetAriaKeyShortcuts(value string) error {
 
 }
 
-func (e Element) AriaLabel() (string, error) {
+func (e Element) AriaLabel() string {
 
 	return e.GetAttributeString("ariaLabel")
 }
@@ -175,7 +175,7 @@ func (e Element) SetAriaLabel(value string) error {
 
 }
 
-func (e Element) AriaLevel() (string, error) {
+func (e Element) AriaLevel() string {
 
 	return e.GetAttributeString("ariaLevel")
 }
@@ -186,7 +186,7 @@ func (e Element) SetAriaLevel(value string) error {
 
 }
 
-func (e Element) AriaLive() (string, error) {
+func (e Element) AriaLive() string {
 
 	return e.GetAttributeString("ariaLive")
 }
@@ -197,7 +197,7 @@ func (e Element) SetAriaLive(value string) error {
 
 }
 
-func (e Element) AriaModal() (string, error) {
+func (e Element) AriaModal() string {
 
 	return e.GetAttributeString("ariaModal")
 }
@@ -207,7 +207,7 @@ func (e Element) SetAriaModal(value string) error {
 	return e.SetAttributeString("ariaModal", value)
 
 }
-func (e Element) AriaMultiline() (string, error) {
+func (e Element) AriaMultiline() string {
 
 	return e.GetAttributeString("ariaMultiline")
 }
@@ -217,7 +217,7 @@ func (e Element) SetAriaMultiline(value string) error {
 	return e.SetAttributeString("ariaMultiline", value)
 
 }
-func (e Element) AriaMultiSelectable() (string, error) {
+func (e Element) AriaMultiSelectable() string {
 
 	return e.GetAttributeString("ariaMultiSelectable")
 }
@@ -227,7 +227,7 @@ func (e Element) SetAriaMultiSelectable(value string) error {
 	return e.SetAttributeString("ariaMultiSelectable", value)
 
 }
-func (e Element) AriaOrientation() (string, error) {
+func (e Element) AriaOrientation() string {
 
 	return e.GetAttributeString("ariaOrientation")
 }
@@ -238,7 +238,7 @@ func (e Element) SetAriaOrientation(value string) error {
 
 }
 
-func (e Element) AriaPlaceholder() (string, error) {
+func (e Element) AriaPlaceholder() string {
 
 	return e.GetAttributeString("ariaPlaceholder")
 }
@@ -248,7 +248,7 @@ func (e Element) SetAriaPlaceholder(value string) error {
 	return e.SetAttributeString("ariaPlaceholder", value)
 
 }
-func (e Element) AriaPosInSet() (string, error) {
+func (e Element) AriaPosInSet() string {
 
 	return e.GetAttributeString("ariaPosInSet")
 }
@@ -258,7 +258,7 @@ func (e Element) SetAriaPosInSet(value string) error {
 	return e.SetAttributeString("ariaPosInSet", value)
 
 }
-func (e Element) AriaPressed() (string, error) {
+func (e Element) AriaPressed() string {
 
 	return e.GetAttributeString("ariaPressed")
 }
@@ -268,7 +268,7 @@ func (e Element) SetAriaPressed(value string) error {
 	return e.SetAttributeString("ariaPressed", value)
 
 }
-func (e Element) AriaReadOnly() (string, error) {
+func (e Element) AriaReadOnly() string {
 
 	return e.GetAttributeString("ariaReadOnly")
 }
@@ -278,7 +278,7 @@ func (e Element) SetAriaReadOnly(value string) error {
 	return e.SetAttributeString("ariaReadOnly", value)
 
 }
-func (e Element) AriaRelevant() (string, error) {
+func (e Element) AriaRelevant() string {
 
 	return e.GetAttributeString("ariaRelevant")
 }
@@ -288,7 +288,7 @@ func (e Element) SetAriaRelevant(value string) error {
 	return e.SetAttributeString("ariaRelevant", value)
 
 }
-func (e Element) AriaRequired() (string, error) {
+func (e Element) AriaRequired() string {
 
 	return e.GetAttributeString("ariaRequired")
 }
@@ -298,7 +298,7 @@ func (e Element) SetAriaRequired(value string) error {
 	return e.SetAttributeString("ariaRequired", value)
 
 }
-func (e Element) AriaRoleDescription() (string, error) {
+func (e Element) AriaRoleDescription() string {
 
 	return e.GetAttributeString("ariaRoleDescription")
 }
@@ -309,7 +309,7 @@ func (e Element) SetAriaRoleDescription(value string) error {
 
 }
 
-func (e Element) AriaRowCount() (string, error) {
+func (e Element) AriaRowCount() string {
 
 	return e.GetAttributeString("ariaRowCount")
 }
@@ -319,7 +319,7 @@ func (e Element) SetAriaRowCount(value string) error {
 	return e.SetAttributeString("ariaRowCount", value)
 
 }
-func (e Element) AriaRowIndex() (string, error) {
+func (e Element) AriaRowIndex() string {
 
 	return e.GetAttributeString("ariaRowIndex")
 }
@@ -329,7 +329,7 @@ func (e Element) SetAriaRowIndex(value string) error {
 	return e.SetAttributeString("ariaRowIndex", value)
 
 }
-func (e Element) AriaRowIndexText() (string, error) {
+func (e Element) AriaRowIndexText() string {
 
 	return e.GetAttributeString("ariaRowIndexText")
 }
@@ -339,7 +339,7 @@ func (e Element) SetAriaRowIndexText(value string) error {
 	return e.SetAttributeString("ariaRowIndexText", value)
 
 }
-func (e Element) AriaRowSpan() (string, error) {
+func (e Element) AriaRowSpan() string {
 
 	return e.GetAttributeString("ariaRowSpan")
 }
@@ -349,7 +349,7 @@ func (e Element) SetAriaRowSpan(value string) error {
 	return e.SetAttributeString("ariaRowSpan", value)
 
 }
-func (e Element) AriaSelected() (string, error) {
+func (e Element) AriaSelected() string {
 
 	return e.GetAttributeString("ariaSelected")
 }
@@ -360,7 +360,7 @@ func (e Element) SetAriaSelected(value string) error {
 
 }
 
-func (e Element) AriaSetSize() (string, error) {
+func (e Element) AriaSetSize() string {
 
 	return e.GetAttributeString("ariaSetSize")
 }
@@ -370,7 +370,7 @@ func (e Element) SetAriaSetSize(value string) error {
 	return e.SetAttributeString("ariaSetSize", value)
 
 }
-func (e Element) AriaSort() (string, error) {
+func (e Element) AriaSort() string {
 
 	return e.GetAttributeString("ariaSort")
 }
@@ -381,7 +381,7 @@ func (e Element) SetAriaSort(value string) error {
 
 }
 
-func (e Element) AriaValueMax() (string, error) {
+func (e Element) AriaValueMax() string {
 
 	return e.GetAttributeString("ariaValueMax")
 }
@@ -392,7 +392,7 @@ func (e Element) SetAriaValueMax(value string) error {
 
 }
 
-func (e Element) AriaValueMin() (string, error) {
+func (e Element) AriaValueMin() string {
 
 	return e.GetAttributeString("ariaValueMin")
 }
@@ -403,7 +403,7 @@ func (e Element) SetAriaValueMin(value string) error {
 
 }
 
-func (e Element) AriaValueNow() (string, error) {
+func (e Element) AriaValueNow() string {
 
 	return e.GetAttributeString("ariaValueNow")
 }
@@ -414,7 +414,7 @@ func (e Element) SetAriaValueNow(value string) error {
 
 }
 
-func (e Element) AriaValueText() (string, error) {
+func (e Element) AriaValueText() string {
 
 	return e.GetAttributeString("ariaValueText")
 }

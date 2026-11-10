@@ -77,7 +77,7 @@ func NewFromJSObject(obj js.Value) (URL, error) {
 	return u, ErrNotImplemented
 }
 
-func (u URL) Hash() (string, error) {
+func (u URL) Hash() string {
 
 	return u.GetAttributeString("hash")
 }
@@ -87,7 +87,7 @@ func (u URL) SetHash(hash string) error {
 	return u.SetAttributeString("hash", hash)
 }
 
-func (u URL) Host() (string, error) {
+func (u URL) Host() string {
 
 	return u.GetAttributeString("host")
 }
@@ -97,7 +97,7 @@ func (u URL) SetHost(host string) error {
 	return u.SetAttributeString("host", host)
 }
 
-func (u URL) Hostname() (string, error) {
+func (u URL) Hostname() string {
 
 	return u.GetAttributeString("hostname")
 }
@@ -107,7 +107,7 @@ func (u URL) SetHostname(hostname string) error {
 	return u.SetAttributeString("hostname", hostname)
 }
 
-func (u URL) Href() (string, error) {
+func (u URL) Href() string {
 
 	return u.GetAttributeString("href")
 }
@@ -117,12 +117,12 @@ func (u URL) SetHref(href string) error {
 	return u.SetAttributeString("href", href)
 }
 
-func (u URL) Origin() (string, error) {
+func (u URL) Origin() string {
 
 	return u.GetAttributeString("origin")
 }
 
-func (u URL) Pathname() (string, error) {
+func (u URL) Pathname() string {
 
 	return u.GetAttributeString("pathname")
 }
@@ -132,7 +132,7 @@ func (u URL) SetPathname(pathname string) error {
 	return u.SetAttributeString("pathname", pathname)
 }
 
-func (u URL) Port() (string, error) {
+func (u URL) Port() string {
 
 	return u.GetAttributeString("port")
 }
@@ -142,7 +142,7 @@ func (u URL) SetPort(port string) error {
 	return u.SetAttributeString("port", port)
 }
 
-func (u URL) Protocol() (string, error) {
+func (u URL) Protocol() string {
 
 	return u.GetAttributeString("protocol")
 }
@@ -152,7 +152,7 @@ func (u URL) SetProtocol(protocol string) error {
 	return u.SetAttributeString("protocol", protocol)
 }
 
-func (u URL) Username() (string, error) {
+func (u URL) Username() string {
 
 	return u.GetAttributeString("username")
 }
@@ -162,7 +162,7 @@ func (u URL) SetUsername(username string) error {
 	return u.SetAttributeString("username", username)
 }
 
-func (u URL) Password() (string, error) {
+func (u URL) Password() string {
 
 	return u.GetAttributeString("password")
 }
@@ -172,7 +172,7 @@ func (u URL) SetPassword(password string) error {
 	return u.SetAttributeString("password", password)
 }
 
-func (u URL) Search() (string, error) {
+func (u URL) Search() string {
 
 	return u.GetAttributeString("search")
 }
@@ -201,8 +201,8 @@ func (u URL) SearchParams() (urlsearchparams.URLSearchParams, error) {
 	return params, err
 }
 
-func CreateObjectURL(ob interface{}) (string, error) {
-	var err error
+func CreateObjectURL(ob interface{}) string {
+	//var err error
 	var obj js.Value
 	var ret string
 	if ui := GetInterface(); !ui.IsUndefined() {
@@ -212,17 +212,17 @@ func CreateObjectURL(ob interface{}) (string, error) {
 				if obj.Type() == js.TypeString {
 					return obj.String()
 				} else {
-					err = js.ErrObjectNotString
+					//err = js.ErrObjectNotString
 				}
 
 			}
 
 		}
 	} else {
-		err = ErrNotImplemented
+		//err = ErrNotImplemented
 	}
 
-	return ret, err
+	return ret //, err
 }
 
 func RevokeObjectURL(objecturl string) error {
@@ -237,9 +237,8 @@ func RevokeObjectURL(objecturl string) error {
 	return err
 }
 
-func (u URL) ToJSON() (string, error) {
-
-	var err error
+func (u URL) ToJSON() string {
+	//var err error
 	var obj js.Value
 	var ret string
 
@@ -247,9 +246,9 @@ func (u URL) ToJSON() (string, error) {
 		if obj.Type() == js.TypeString {
 			return obj.String()
 		} else {
-			err = js.ErrObjectNotString
+			//err = js.ErrObjectNotString
 		}
 
 	}
-	return ret, err
+	return ret //, err
 }

@@ -101,7 +101,7 @@ func NewFromJSObject(obj js.Value) (HtmlFieldSetElement, error) {
 	return h, err
 }
 
-func (h HtmlFieldSetElement) Disabled() (bool, error) {
+func (h HtmlFieldSetElement) Disabled() bool {
 	return h.GetAttributeBool("disabled")
 }
 
@@ -140,7 +140,7 @@ func (h HtmlFieldSetElement) Form() (htmlcollection.HtmlCollection, error) {
 	return collection, err
 }
 
-func (h HtmlFieldSetElement) Name() (string, error) {
+func (h HtmlFieldSetElement) Name() string {
 
 	return h.GetAttributeString("name")
 }
@@ -149,12 +149,12 @@ func (h HtmlFieldSetElement) SetName(name string) error {
 	return h.SetAttributeString("name", name)
 }
 
-func (h HtmlFieldSetElement) Type() (string, error) {
+func (h HtmlFieldSetElement) Type() string {
 
 	return h.GetAttributeString("type")
 }
 
-func (h HtmlFieldSetElement) ValidationMessage() (string, error) {
+func (h HtmlFieldSetElement) ValidationMessage() string {
 	return h.GetAttributeString("validationMessage")
 }
 
@@ -171,16 +171,16 @@ func (h HtmlFieldSetElement) Validity() (validitystate.ValidityState, error) {
 
 }
 
-func (h HtmlFieldSetElement) WillValidate() (bool, error) {
+func (h HtmlFieldSetElement) WillValidate() bool {
 	return h.GetAttributeBool("willValidate")
 }
 
-func (h HtmlFieldSetElement) CheckValidity() (bool, error) {
+func (h HtmlFieldSetElement) CheckValidity() bool {
 
 	return h.CallBool("checkValidity")
 }
 
-func (h HtmlFieldSetElement) ReportValidity() (bool, error) {
+func (h HtmlFieldSetElement) ReportValidity() bool {
 
 	return h.CallBool("reportValidity")
 }

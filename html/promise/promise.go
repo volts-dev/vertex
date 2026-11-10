@@ -125,7 +125,7 @@ func (p Promise) Then(resolve func(interface{}) *Promise, reject func(error)) (P
 	resolveFunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 
 		if len(args) > 0 {
-			obj, err = js.GoValue(args[0])
+			obj = js.GoValue(args[0])
 			if resolve != nil {
 				if retp := resolve(obj); retp != nil {
 					return retp.GetObjectValue()
@@ -142,7 +142,7 @@ func (p Promise) Then(resolve func(interface{}) *Promise, reject func(error)) (P
 		var errRejected error
 		var exception domexception.DomException
 		if exception, errRejected = domexception.NewFromJSObject(args[0]); errRejected == nil {
-			message, _ := exception.Message()
+			message := exception.Message()
 			errRejected = errors.New(message)
 		} else {
 
@@ -152,7 +152,7 @@ func (p Promise) Then(resolve func(interface{}) *Promise, reject func(error)) (P
 				t, _ := js.ToObject(target)
 				if targeterror := t.GetValueByKey("error"); targeterror.Error() == nil {
 					if exception, errRejected = domexception.NewFromJSObject(targeterror); errRejected == nil {
-						message, _ := exception.Message()
+						message := exception.Message()
 						errRejected = errors.New(message)
 					}
 
@@ -164,9 +164,8 @@ func (p Promise) Then(resolve func(interface{}) *Promise, reject func(error)) (P
 				}
 			}
 
-			if strerr, errRejected = reflect.ToStringWithErr(args[0]); errRejected == nil {
-				errRejected = errors.New(strerr)
-			}
+			strerr = reflect.ToStringWithErr(args[0])
+			errRejected = errors.New(strerr)
 
 		}
 
@@ -230,10 +229,10 @@ func (p Promise) Catch(reject func(error)) (Promise, error) {
 
 		var exception domexception.DomException
 		if exception, err = domexception.NewFromJSObject(args[0]); err == nil {
-			message, _ := exception.Message()
+			message := exception.Message()
 			err = errors.New(message)
 		} else {
-			err = errors.New(js.ValueToString(args[0]))
+			err = errors.New(args[0].String())
 		}
 
 		if reject != nil {

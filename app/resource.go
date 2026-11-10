@@ -32,7 +32,7 @@ func Getenv(k string) (string, error) {
 		return "", nil
 	}
 	fmt.Println(env.String())
-	return env.String()
+	return env.String(), nil
 }
 
 // ResourceResolver is an interface that defines the method to resolve

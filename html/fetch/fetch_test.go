@@ -26,12 +26,11 @@ func TestNew(t *testing.T) {
 		if f, err := New("http://localhost/get"); test.AssertErr(t, err) {
 			f.Then(func(r response.Response) *promise.Promise {
 
-				if status, err := r.Status(); test.AssertErr(t, err) {
-					if status != 200 {
-						t.Errorf("Status must be 200 , give %d", status)
-					}
-					io <- true
+				status := r.Status()
+				if status != 200 {
+					t.Errorf("Status must be 200 , give %d", status)
 				}
+				io <- true
 				return nil
 			}, func(e error) {
 
@@ -55,17 +54,17 @@ func TestNew(t *testing.T) {
 		//Start promise and wait result
 		if f, err := New("http://localhost/get", fetchOpts); test.AssertErr(t, err) {
 			textpromise, _ := f.Then(func(r response.Response) *promise.Promise {
-				if status, err := r.Status(); test.AssertErr(t, err) {
-					if status != 200 {
-						t.Errorf("Status must be 200 , give %d", status)
-					} else {
+				status := r.Status()
+				if status != 200 {
+					t.Errorf("Status must be 200 , give %d", status)
+				} else {
 
-						if promise, err := r.Text(); test.AssertErr(t, err) {
-							return &promise
-						}
-
+					if promise, err := r.Text(); test.AssertErr(t, err) {
+						return &promise
 					}
+
 				}
+
 				return nil
 			}, func(e error) {
 
@@ -122,16 +121,15 @@ func TestNew(t *testing.T) {
 		//Start promise and wait result
 		if f, err := New("http://localhost/post", fetchOpts); test.AssertErr(t, err) {
 			textpromise, _ := f.Then(func(r response.Response) *promise.Promise {
-				if status, err := r.Status(); test.AssertErr(t, err) {
-					if status != 200 {
-						t.Errorf("Status must be 200 , give %d", status)
-					} else {
+				status := r.Status()
+				if status != 200 {
+					t.Errorf("Status must be 200 , give %d", status)
+				} else {
 
-						if promise, err := r.Text(); test.AssertErr(t, err) {
-							return &promise
-						}
-
+					if promise, err := r.Text(); test.AssertErr(t, err) {
+						return &promise
 					}
+
 				}
 				return nil
 			}, func(e error) {
@@ -191,17 +189,17 @@ func TestNew(t *testing.T) {
 		//Start promise and wait result
 		if f, err := New("http://localhost/post", fetchOpts); test.AssertErr(t, err) {
 			jsonpromise, _ := f.Then(func(r response.Response) *promise.Promise {
-				if status, err := r.Status(); test.AssertErr(t, err) {
-					if status != 200 {
-						t.Errorf("Status must be 200 , give %d", status)
-					} else {
+				status := r.Status()
+				if status != 200 {
+					t.Errorf("Status must be 200 , give %d", status)
+				} else {
 
-						if promise, err := r.Json(); test.AssertErr(t, err) {
-							return &promise
-						}
-
+					if promise, err := r.Json(); test.AssertErr(t, err) {
+						return &promise
 					}
+
 				}
+
 				return nil
 			}, func(e error) {
 

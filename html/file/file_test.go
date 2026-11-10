@@ -22,7 +22,7 @@ func TestNew(t *testing.T) {
 
 	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object File]", f.ToString_())
+		test.AssertExpect(t, "[object File]", f.ToString())
 
 	}
 
@@ -35,7 +35,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("file"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object File]", d.ToString_())
+			test.AssertExpect(t, "[object File]", d.ToString())
 
 		}
 	}
@@ -46,10 +46,7 @@ func TestName(t *testing.T) {
 
 	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
-		if name, err := f.Name(); test.AssertErr(t, err) {
-
-			test.AssertExpect(t, "chucknorris.png", name)
-		}
+		test.AssertExpect(t, "chucknorris.png", f.Name())
 
 	}
 
@@ -59,19 +56,13 @@ func TestType(t *testing.T) {
 
 	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
-		if typefile, err := f.Type(); test.AssertErr(t, err) {
-
-			test.AssertExpect(t, "image/png", typefile)
-		}
+		test.AssertExpect(t, "image/png", f.Type())
 
 	}
 
 	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png"); test.AssertErr(t, err) {
 
-		if typefile, err := f.Type(); test.AssertErr(t, err) {
-
-			test.AssertExpect(t, "", typefile)
-		}
+		test.AssertExpect(t, "", f.Type())
 
 	}
 
@@ -94,10 +85,7 @@ func TestLastModified(t *testing.T) {
 
 	if f, err := New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
-		if lastmodified, err := f.LastModified(); test.AssertErr(t, err) {
-
-			test.AssertExpect(t, true, lastmodified > 0)
-		}
+		test.AssertExpect(t, true, f.LastModified() > 0)
 
 	}
 

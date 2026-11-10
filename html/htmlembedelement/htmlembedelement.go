@@ -99,7 +99,7 @@ func NewFromJSObject(obj js.Value) (HtmlEmbedElement, error) {
 	return h, err
 }
 
-func (h HtmlEmbedElement) Height() (string, error) {
+func (h HtmlEmbedElement) Height() string {
 	return h.GetAttributeString("height")
 }
 
@@ -107,7 +107,7 @@ func (h HtmlEmbedElement) SetHeight(value string) error {
 	return h.SetAttributeString("height", value)
 }
 
-func (h HtmlEmbedElement) Src() (string, error) {
+func (h HtmlEmbedElement) Src() string {
 	return h.GetAttributeString("src")
 }
 
@@ -115,7 +115,7 @@ func (h HtmlEmbedElement) SetSrc(value string) error {
 	return h.SetAttributeString("src", value)
 }
 
-func (h HtmlEmbedElement) Type() (string, error) {
+func (h HtmlEmbedElement) Type() string {
 	return h.GetAttributeString("type")
 }
 
@@ -123,7 +123,7 @@ func (h HtmlEmbedElement) SetType(value string) error {
 	return h.SetAttributeString("type", value)
 }
 
-func (h HtmlEmbedElement) Width() (string, error) {
+func (h HtmlEmbedElement) Width() string {
 	return h.GetAttributeString("width")
 }
 

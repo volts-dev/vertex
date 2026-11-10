@@ -27,7 +27,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("prule"); test.AssertErr(t, obj.Error()) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object CSSStyleRule]", o.ToString_())
+			test.AssertExpect(t, "[object CSSStyleRule]", o.ToString())
 
 		}
 	}
@@ -47,10 +47,7 @@ func TestCssText(t *testing.T) {
 	if obj := js.Global().Get("prule"); test.AssertErr(t, obj.Error()) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := o.CssText(); test.AssertErr(t, err) {
-
-				test.AssertExpect(t, "h1 { color: red; font-size: 50px; }", v)
-			}
+			test.AssertExpect(t, "h1 { color: red; font-size: 50px; }", o.CssText())
 
 		}
 	}
@@ -71,7 +68,7 @@ func TestParentRule(t *testing.T) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			if p, err := o.ParentRule(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object CSSSupportsRule]", p.ToString_())
+				test.AssertExpect(t, "[object CSSSupportsRule]", p.ToString())
 
 			}
 
@@ -94,7 +91,7 @@ func TestParentStyleSheet(t *testing.T) {
 		if o, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
 			if p, err := o.ParentStyleSheet(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object CSSStyleSheet]", p.ToString_())
+				test.AssertExpect(t, "[object CSSStyleSheet]", p.ToString())
 
 			}
 

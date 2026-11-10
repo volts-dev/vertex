@@ -19,7 +19,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("r"); test.AssertErr(t, obj.Error()) {
 		if rect, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object DOMRect]", rect.ToString_())
+			test.AssertExpect(t, "[object DOMRect]", rect.ToString())
 
 		}
 	}
@@ -29,7 +29,7 @@ func TestNewFromJSObject(t *testing.T) {
 func TestNew(t *testing.T) {
 
 	if rect, err := New(); test.AssertErr(t, err) {
-		test.AssertExpect(t, "[object DOMRect]", rect.ToString_())
+		test.AssertExpect(t, "[object DOMRect]", rect.ToString())
 
 	}
 }

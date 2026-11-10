@@ -99,7 +99,7 @@ func NewFromJSObject(obj js.Value) (HtmlLIElement, error) {
 	return h, err
 }
 
-func (h HtmlLIElement) Value() (int, error) {
+func (h HtmlLIElement) Value() int {
 	return h.GetAttributeInt("value")
 }
 

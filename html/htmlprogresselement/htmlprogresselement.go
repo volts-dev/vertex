@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlProgressElement, error) {
 	return h, err
 }
 
-func (h HtmlProgressElement) Max() (float64, error) {
+func (h HtmlProgressElement) Max() float64 {
 	return h.GetAttributeDouble("max")
 }
 
@@ -108,11 +108,11 @@ func (h HtmlProgressElement) SetMax(value float64) error {
 	return h.SetAttributeDouble("max", value)
 }
 
-func (h HtmlProgressElement) Position() (float64, error) {
+func (h HtmlProgressElement) Position() float64 {
 	return h.GetAttributeDouble("position")
 }
 
-func (h HtmlProgressElement) Value() (float64, error) {
+func (h HtmlProgressElement) Value() float64 {
 	return h.GetAttributeDouble("value")
 }
 

@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/volts-dev/vertex/js"
+	"github.com/volts-dev/vertex/js/reflect"
+	"github.com/volts-dev/vertex/test"
 
 	"github.com/volts-dev/vertex/html/event"
 	"github.com/volts-dev/vertex/html/messageevent"
@@ -27,7 +29,7 @@ func TestNew(t *testing.T) {
 
 	if sse, err := New(sseurl); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object EventSource]", sse.ToString_())
+		test.AssertExpect(t, "[object EventSource]", sse.ToString())
 	}
 }
 
@@ -36,7 +38,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("sse"); test.AssertErr(t, obj.Error()) {
 		if sse, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object EventSource]", sse.ToString_())
+			test.AssertExpect(t, "[object EventSource]", sse.ToString())
 
 		}
 	}
@@ -46,7 +48,7 @@ func TestNewFromJSObject(t *testing.T) {
 func TestOnError(t *testing.T) {
 	var success chan bool = make(chan bool)
 	if sse, err := New("htt://error.com"); test.AssertErr(t, err) {
-		test.AssertExpect(t, "[object EventSource]", sse.ToString_())
+		test.AssertExpect(t, "[object EventSource]", sse.ToString())
 		sse.SetOnError(func(e event.Event) {
 
 			success <- false

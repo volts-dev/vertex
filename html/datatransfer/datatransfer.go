@@ -135,7 +135,7 @@ func (dt DataTransfer) Types() (js.Array, error) {
 	return types, err
 }
 
-func (dt DataTransfer) DropEffect() (string, error) {
+func (dt DataTransfer) DropEffect() string {
 	return dt.GetAttributeString("dropEffect")
 }
 
@@ -143,7 +143,7 @@ func (dt DataTransfer) SetDropEffect(value string) error {
 	return dt.SetAttributeString("dropEffect", value)
 }
 
-func (dt DataTransfer) EffectAllowed() (string, error) {
+func (dt DataTransfer) EffectAllowed() string {
 	return dt.GetAttributeString("effectAllowed")
 }
 

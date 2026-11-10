@@ -27,7 +27,7 @@ func TestNewFromJSObject(t *testing.T) {
 
 		if d, err = NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object DataTransferItemList]", d.ToString_())
+			test.AssertExpect(t, "[object DataTransferItemList]", d.ToString())
 
 		}
 	}
@@ -47,9 +47,7 @@ func TestAdd(t *testing.T) {
 			if f, err := file.New(js.ArrayFrom_("(⌐□_□)"), "chucknorris.png", map[string]interface{}{"type": "image/png"}); test.AssertErr(t, err) {
 
 				test.AssertErr(t, d.Add(f))
-				if l, err := d.Length(); test.AssertErr(t, err) {
-					test.AssertExpect(t, 1, l)
-				}
+				test.AssertExpect(t, 1, d.Length())
 
 			}
 
@@ -72,9 +70,7 @@ func TestClear(t *testing.T) {
 
 				test.AssertErr(t, d.Add(f))
 				test.AssertErr(t, d.Clear())
-				if l, err := d.Length(); test.AssertErr(t, err) {
-					test.AssertExpect(t, 0, l)
-				}
+				test.AssertExpect(t, 0, d.Length())
 
 			}
 
@@ -99,9 +95,7 @@ func TestRemove(t *testing.T) {
 				test.AssertErr(t, d.Add(f))
 
 				test.AssertErr(t, d.Remove(0))
-				if l, err := d.Length(); test.AssertErr(t, err) {
-					test.AssertExpect(t, 0, l)
-				}
+				test.AssertExpect(t, 0, d.Length())
 
 			}
 
@@ -125,7 +119,7 @@ func TestDataTransferItem(t *testing.T) {
 				test.AssertErr(t, d.Add(f))
 
 				if item, err := d.DataTransferItem(0); test.AssertErr(t, err) {
-					test.AssertExpect(t, "[object DataTransferItem]", item.ToString_())
+					test.AssertExpect(t, "[object DataTransferItem]", item.ToString())
 				}
 
 				_, err := d.DataTransferItem(1)

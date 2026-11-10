@@ -115,11 +115,11 @@ func (h HtmlTableRowElement) Cells() (htmlcollection.HtmlCollection, error) {
 	return collection, err
 }
 
-func (h HtmlTableRowElement) RowIndex() (int, error) {
+func (h HtmlTableRowElement) RowIndex() int {
 	return h.GetAttributeInt("rowIndex")
 }
 
-func (h HtmlTableRowElement) SectionRowIndex() (int, error) {
+func (h HtmlTableRowElement) SectionRowIndex() int {
 	return h.GetAttributeInt("sectionRowIndex")
 }
 

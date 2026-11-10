@@ -21,7 +21,7 @@ func TestNew(t *testing.T) {
 
 	if d, err := New(); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object DataTransfer]", d.ToString_())
+		test.AssertExpect(t, "[object DataTransfer]", d.ToString())
 
 	}
 }
@@ -32,7 +32,7 @@ func TestFiles(t *testing.T) {
 
 		if dt, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if files, err := dt.Files(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object FileList]", files.ToString_())
+				test.AssertExpect(t, "[object FileList]", files.ToString())
 			}
 		}
 	}
@@ -44,7 +44,7 @@ func TestItems(t *testing.T) {
 
 		if dt, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if items, err := dt.Items(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "[object DataTransferItemList]", items.ToString_())
+				test.AssertExpect(t, "[object DataTransferItemList]", items.ToString())
 			}
 		}
 	}
@@ -56,7 +56,7 @@ func TestTypes(t *testing.T) {
 
 		if dt, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 			if types, err := dt.Types(); test.AssertErr(t, err) {
-				test.AssertExpect(t, "Files", types.ToString_())
+				test.AssertExpect(t, "Files", types.ToString())
 			}
 		}
 	}

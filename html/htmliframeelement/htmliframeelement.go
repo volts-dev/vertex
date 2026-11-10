@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlIFrameElement, error) {
 	return h, err
 }
 
-func (h HtmlIFrameElement) AllowPaymentRequest() (bool, error) {
+func (h HtmlIFrameElement) AllowPaymentRequest() bool {
 	return h.GetAttributeBool("allowPaymentRequest")
 }
 
@@ -125,7 +125,7 @@ func (h HtmlIFrameElement) ContentDocument() (document.Document, error) {
 	return doc, err
 }
 
-func (h HtmlIFrameElement) Height() (string, error) {
+func (h HtmlIFrameElement) Height() string {
 	return h.GetAttributeString("height")
 }
 
@@ -133,7 +133,7 @@ func (h HtmlIFrameElement) SetHeight(value string) error {
 	return h.SetAttributeString("height", value)
 }
 
-func (h HtmlIFrameElement) Src() (string, error) {
+func (h HtmlIFrameElement) Src() string {
 	return h.GetAttributeString("src")
 }
 
@@ -141,7 +141,7 @@ func (h HtmlIFrameElement) SetSrc(value string) error {
 	return h.SetAttributeString("src", value)
 }
 
-func (h HtmlIFrameElement) Name() (string, error) {
+func (h HtmlIFrameElement) Name() string {
 
 	return h.GetAttributeString("name")
 }
@@ -150,7 +150,7 @@ func (h HtmlIFrameElement) SetName(name string) error {
 	return h.SetAttributeString("name", name)
 }
 
-func (h HtmlIFrameElement) Srcdoc() (string, error) {
+func (h HtmlIFrameElement) Srcdoc() string {
 	return h.GetAttributeString("srcdoc")
 }
 
@@ -158,7 +158,7 @@ func (h HtmlIFrameElement) SetSrcdoc(value string) error {
 	return h.SetAttributeString("srcdoc", value)
 }
 
-func (h HtmlIFrameElement) Width() (string, error) {
+func (h HtmlIFrameElement) Width() string {
 	return h.GetAttributeString("width")
 }
 

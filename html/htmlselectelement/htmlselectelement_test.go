@@ -98,19 +98,14 @@ func TestAdd(t *testing.T) {
 
 		if sadd, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if l, err := sadd.Length(); test.AssertErr(t, err) {
-				test.AssertExpect(t, 0, l)
+			test.AssertExpect(t, 0, sadd.Length())
 
-				if option, err := htmloptionelement.Option("test"); test.AssertErr(t, err) {
+			if option, err := htmloptionelement.Option("test"); test.AssertErr(t, err) {
 
-					test.AssertErr(t, sadd.Add(option))
+				test.AssertErr(t, sadd.Add(option))
 
-					if l2, err := sadd.Length(); test.AssertErr(t, err) {
-						test.AssertExpect(t, 1, l2)
+				test.AssertExpect(t, 1, sadd.Length())
 
-					}
-
-				}
 			}
 
 		}
@@ -178,16 +173,10 @@ func TestRemove(t *testing.T) {
 
 		if sitemr, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if l, err := sitemr.Length(); test.AssertErr(t, err) {
-				test.AssertExpect(t, 1, l)
+			test.AssertExpect(t, 1, sitemr.Length())
 
-				test.AssertErr(t, sitemr.Remove(0))
-				if l2, err := sitemr.Length(); test.AssertErr(t, err) {
-					test.AssertExpect(t, 0, l2)
-
-				}
-
-			}
+			test.AssertErr(t, sitemr.Remove(0))
+			test.AssertExpect(t, 0, sitemr.Length())
 
 		}
 

@@ -22,7 +22,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("p"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object Promise]", d.ToString_())
+			test.AssertExpect(t, "[object Promise]", d.ToString())
 
 		}
 	}
@@ -165,13 +165,13 @@ func TestAll(t *testing.T) {
 		allp.Then(func(i interface{}) *Promise {
 
 			if a, ok := i.(js.ArrayFrom); ok {
-				if str, err := a.Array_().ToString(); test.AssertErr(t, err) {
-					if str == "Hello,World" {
-						io <- true
-					} else {
-						t.Errorf("Mistmatch %s", str)
-					}
+				str := a.Array_().ToString()
+				if str == "Hello,World" {
+					io <- true
+				} else {
+					t.Errorf("Mistmatch %s", str)
 				}
+
 			} else {
 				t.Error("Must be an array")
 			}
@@ -247,18 +247,18 @@ func TestAllSettled(t *testing.T) {
 							if i, ok := index.(int); ok {
 								switch i {
 								case 0:
-									if obj.BaseObject_().GetAttributeString_("status") != "fulfilled" {
-										t.Errorf("Status invalid %s", obj.BaseObject_().GetAttributeString_("status"))
+									if obj.BaseObject_().GetAttributeString("status") != "fulfilled" {
+										t.Errorf("Status invalid %s", obj.BaseObject_().GetAttributeString("status"))
 									}
-									if obj.BaseObject_().GetAttributeString_("value") != "Hello" {
-										t.Errorf("Value invalid %s", obj.BaseObject_().GetAttributeString_("value"))
+									if obj.BaseObject_().GetAttributeString("value") != "Hello" {
+										t.Errorf("Value invalid %s", obj.BaseObject_().GetAttributeString("value"))
 									}
 								case 1:
-									if obj.BaseObject_().GetAttributeString_("status") != "rejected" {
-										t.Errorf("Status invalid %s", obj.BaseObject_().GetAttributeString_("status"))
+									if obj.BaseObject_().GetAttributeString("status") != "rejected" {
+										t.Errorf("Status invalid %s", obj.BaseObject_().GetAttributeString("status"))
 									}
-									if obj.BaseObject_().GetAttributeString_("reason") != "unknown error" {
-										t.Errorf("Reason invalid %s", obj.BaseObject_().GetAttributeString_("reason"))
+									if obj.BaseObject_().GetAttributeString("reason") != "unknown error" {
+										t.Errorf("Reason invalid %s", obj.BaseObject_().GetAttributeString("reason"))
 									}
 								}
 

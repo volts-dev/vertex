@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlAnchorElement, error) {
 	return h, err
 }
 
-func (h HtmlAnchorElement) Download() (string, error) {
+func (h HtmlAnchorElement) Download() string {
 	return h.GetAttributeString("download")
 }
 
@@ -108,11 +108,11 @@ func (h HtmlAnchorElement) SetDownload(value string) error {
 	return h.SetAttributeString("download", value)
 }
 
-func (h HtmlAnchorElement) Hash() (string, error) {
+func (h HtmlAnchorElement) Hash() string {
 	return h.GetAttributeString("hash")
 }
 
-func (h HtmlAnchorElement) Host() (string, error) {
+func (h HtmlAnchorElement) Host() string {
 	return h.GetAttributeString("host")
 }
 
@@ -120,7 +120,7 @@ func (h HtmlAnchorElement) SetHost(value string) error {
 	return h.SetAttributeString("host", value)
 }
 
-func (h HtmlAnchorElement) Hostname() (string, error) {
+func (h HtmlAnchorElement) Hostname() string {
 	return h.GetAttributeString("hostname")
 }
 
@@ -128,7 +128,7 @@ func (h HtmlAnchorElement) SetHostname(value string) error {
 	return h.SetAttributeString("hostname", value)
 }
 
-func (h HtmlAnchorElement) Href() (string, error) {
+func (h HtmlAnchorElement) Href() string {
 	return h.GetAttributeString("href")
 }
 
@@ -136,7 +136,7 @@ func (h HtmlAnchorElement) SetHref(value string) error {
 	return h.SetAttributeString("href", value)
 }
 
-func (h HtmlAnchorElement) Hreflang() (string, error) {
+func (h HtmlAnchorElement) Hreflang() string {
 	return h.GetAttributeString("hreflang")
 }
 
@@ -144,11 +144,11 @@ func (h HtmlAnchorElement) SetHreflang(value string) error {
 	return h.SetAttributeString("hreflang", value)
 }
 
-func (h HtmlAnchorElement) Origin() (string, error) {
+func (h HtmlAnchorElement) Origin() string {
 	return h.GetAttributeString("origin")
 }
 
-func (h HtmlAnchorElement) Password() (string, error) {
+func (h HtmlAnchorElement) Password() string {
 	return h.GetAttributeString("password")
 }
 
@@ -156,7 +156,7 @@ func (h HtmlAnchorElement) SetPassword(value string) error {
 	return h.SetAttributeString("password", value)
 }
 
-func (h HtmlAnchorElement) Pathname() (string, error) {
+func (h HtmlAnchorElement) Pathname() string {
 	return h.GetAttributeString("pathname")
 }
 
@@ -164,7 +164,7 @@ func (h HtmlAnchorElement) SetPathname(value string) error {
 	return h.SetAttributeString("pathname", value)
 }
 
-func (h HtmlAnchorElement) Port() (string, error) {
+func (h HtmlAnchorElement) Port() string {
 	return h.GetAttributeString("port")
 }
 
@@ -172,7 +172,7 @@ func (h HtmlAnchorElement) SetPort(value string) error {
 	return h.SetAttributeString("port", value)
 }
 
-func (h HtmlAnchorElement) Protocol() (string, error) {
+func (h HtmlAnchorElement) Protocol() string {
 	return h.GetAttributeString("protocol")
 }
 
@@ -180,7 +180,7 @@ func (h HtmlAnchorElement) SetProtocol(value string) error {
 	return h.SetAttributeString("protocol", value)
 }
 
-func (h HtmlAnchorElement) ReferrerPolicy() (string, error) {
+func (h HtmlAnchorElement) ReferrerPolicy() string {
 	return h.GetAttributeString("referrerPolicy")
 }
 
@@ -188,7 +188,7 @@ func (h HtmlAnchorElement) SetReferrerPolicy(value string) error {
 	return h.SetAttributeString("referrerPolicy", value)
 }
 
-func (h HtmlAnchorElement) Rel() (string, error) {
+func (h HtmlAnchorElement) Rel() string {
 	return h.GetAttributeString("rel")
 }
 
@@ -209,7 +209,7 @@ func (h HtmlAnchorElement) RelList() (domtokenlist.DOMTokenList, error) {
 	return dlist, err
 }
 
-func (h HtmlAnchorElement) Search() (string, error) {
+func (h HtmlAnchorElement) Search() string {
 	return h.GetAttributeString("search")
 }
 
@@ -217,7 +217,7 @@ func (h HtmlAnchorElement) SetSearch(value string) error {
 	return h.SetAttributeString("search", value)
 }
 
-func (h HtmlAnchorElement) TabIndex() (int, error) {
+func (h HtmlAnchorElement) TabIndex() int {
 	return h.GetAttributeInt("tabIndex")
 }
 
@@ -225,7 +225,7 @@ func (h HtmlAnchorElement) SetTabIndex(value int) error {
 	return h.SetAttributeInt("tabIndex", value)
 }
 
-func (h HtmlAnchorElement) Target() (string, error) {
+func (h HtmlAnchorElement) Target() string {
 	return h.GetAttributeString("target")
 }
 
@@ -233,7 +233,7 @@ func (h HtmlAnchorElement) SetTarget(value string) error {
 	return h.SetAttributeString("target", value)
 }
 
-func (h HtmlAnchorElement) Text() (string, error) {
+func (h HtmlAnchorElement) Text() string {
 	return h.GetAttributeString("text")
 }
 
@@ -241,7 +241,7 @@ func (h HtmlAnchorElement) SetText(value string) error {
 	return h.SetAttributeString("text", value)
 }
 
-func (h HtmlAnchorElement) Type() (string, error) {
+func (h HtmlAnchorElement) Type() string {
 	return h.GetAttributeString("type")
 }
 
@@ -249,7 +249,7 @@ func (h HtmlAnchorElement) SetType(value string) error {
 	return h.SetAttributeString("type", value)
 }
 
-func (h HtmlAnchorElement) Username() (string, error) {
+func (h HtmlAnchorElement) Username() string {
 	return h.GetAttributeString("username")
 }
 

@@ -27,7 +27,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("listattr"); test.AssertErr(t, obj.Error()) {
 		if namednodemap, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object NamedNodeMap]", namednodemap.ToString_())
+			test.AssertExpect(t, "[object NamedNodeMap]", namednodemap.ToString())
 
 		}
 	}
@@ -73,7 +73,7 @@ func TestSetNamedItem(t *testing.T) {
 					test.AssertErr(t, namednodemap1.SetNamedItem(attr))
 					if item, err := namednodemap1.Item(0); test.AssertErr(t, err) {
 
-						test.AssertExpect(t, "[object Attr]", item.ToString_())
+						test.AssertExpect(t, "[object Attr]", item.ToString())
 					}
 
 				}
@@ -120,7 +120,7 @@ func TestSetNamedItemNS(t *testing.T) {
 					test.AssertErr(t, namednodemap.SetNamedItemNS(attr))
 					if item, err := namednodemap.Item(0); test.AssertErr(t, err) {
 
-						test.AssertExpect(t, "[object Attr]", item.ToString_())
+						test.AssertExpect(t, "[object Attr]", item.ToString())
 					}
 
 				}

@@ -182,7 +182,9 @@ func (self *TemplateParser) parseExpr(parent *TemplatePart, parser *Parser, part
 			*parts = append(*parts, part)
 
 		case "end":
-			parser.Next()
+			if !parser.IsEnd() && parser.Token().Type != lexer.RBRACE {
+				parser.Next()
+			}
 			parser.Next()
 			return true, nil
 

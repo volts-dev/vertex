@@ -165,20 +165,16 @@ func (w WebSocket) OnError(handler func(e event.Event) error) (js.Func, error) {
 	return w.AddEventListener("error", handler)
 }
 
-func (w WebSocket) BinaryType() (string, error) {
-
-	var err error
+func (w WebSocket) BinaryType() string {
+	//var err error
 	var obj js.Value
 	if obj = w.GetValueByKey("binaryType"); obj.Error() == nil {
-
 		return obj.String()
 	}
-	return "", err
-
+	return "" //, err
 }
 
 func (w WebSocket) SetBinaryType(binaryType string) error {
-
 	switch binaryType {
 	case BlobType:
 	case ArrayBufferType:
@@ -189,7 +185,6 @@ func (w WebSocket) SetBinaryType(binaryType string) error {
 	w.GetObjectValue().Set("binaryType", js.ValueOf(binaryType))
 
 	return nil
-
 }
 
 // OnError Set onError Handler
@@ -233,46 +228,45 @@ func (w WebSocket) Close() error {
 	return err
 }
 
-func (w WebSocket) Protocol() (string, error) {
-
-	var err error
+func (w WebSocket) Protocol() string {
+	//var err error
 	var obj js.Value
 	if obj = w.GetValueByKey("protocol"); obj.Error() == nil {
 
 		return obj.String()
 	}
-	return "", err
+	return "" //, err
 
 }
 
-func (w WebSocket) BufferedAmount() (int, error) {
-	var err error
+func (w WebSocket) BufferedAmount() int {
+	//var err error
 	var obj js.Value
 	if obj = w.GetValueByKey("bufferedAmount"); obj.Error() == nil {
 
 		return obj.Int()
 	}
-	return 0, err
+	return 0 //, err
 }
 
-func (w WebSocket) ReadyState() (int, error) {
-	var err error
+func (w WebSocket) ReadyState() int {
+	//var err error
 	var obj js.Value
 	if obj = w.GetValueByKey("readyState"); obj.Error() == nil {
 
 		return obj.Int()
 	}
-	return 0, err
+	return 0 //, err
 }
 
-func (w WebSocket) Url() (string, error) {
+func (w WebSocket) Url() string {
 
-	var err error
+	//var err error
 	var obj js.Value
 	if obj = w.GetValueByKey("url"); obj.Error() == nil {
 
 		return obj.String()
 	}
-	return "", err
+	return "" //, err
 
 }

@@ -85,10 +85,10 @@ func (j Json) Map() interface{} {
 
 }
 
-func Stringify(opts ...interface{}) (string, error) {
+func Stringify(opts ...interface{}) string {
 
 	var arrayJS []interface{}
-	var err error
+	//var err error
 	var stringObject js.Value
 
 	for _, opt := range opts {
@@ -97,38 +97,38 @@ func Stringify(opts ...interface{}) (string, error) {
 	if jsoni := GetInterface(); !jsoni.IsUndefined() {
 
 		if stringObject = jsoni.Call("stringify", arrayJS); stringObject.Error() != nil {
-			return "", err
+			return "" //, err
 		} else {
 
 			return stringObject.String()
 		}
 
 	} else {
-		err = ErrNotImplemented
+		//err = ErrNotImplemented
 	}
 
-	return "", err
+	return "" //, err
 
 }
 
-func StringifyObject(object interface{}) (string, error) {
+func StringifyObject(object interface{}) string {
 
-	var err error
+	//var err error
 	var stringObject js.Value
 
 	if jsoni := GetInterface(); !jsoni.IsUndefined() {
 
 		if stringObject = jsoni.Call("stringify", js.ValueOf(object)); stringObject.Error() != nil {
-			return "", err
+			return "" //, err
 		} else {
 
 			return stringObject.String()
 		}
 
 	} else {
-		err = ErrNotImplemented
+		//err = ErrNotImplemented
 	}
 
-	return "", err
+	return "" //, err
 
 }

@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlScriptElement, error) {
 	return h, err
 }
 
-func (h HtmlScriptElement) Type() (string, error) {
+func (h HtmlScriptElement) Type() string {
 	return h.GetAttributeString("type")
 }
 
@@ -108,7 +108,7 @@ func (h HtmlScriptElement) SetType(value string) error {
 	return h.SetAttributeString("type", value)
 }
 
-func (h HtmlScriptElement) Src() (string, error) {
+func (h HtmlScriptElement) Src() string {
 	return h.GetAttributeString("src")
 }
 
@@ -116,7 +116,7 @@ func (h HtmlScriptElement) SetSrc(value string) error {
 	return h.SetAttributeString("src", value)
 }
 
-func (h HtmlScriptElement) Async() (bool, error) {
+func (h HtmlScriptElement) Async() bool {
 	return h.GetAttributeBool("async")
 }
 
@@ -124,7 +124,7 @@ func (h HtmlScriptElement) SetAsync(value bool) error {
 	return h.SetAttributeBool("async", value)
 }
 
-func (h HtmlScriptElement) Defer() (bool, error) {
+func (h HtmlScriptElement) Defer() bool {
 	return h.GetAttributeBool("defer")
 }
 
@@ -132,7 +132,7 @@ func (h HtmlScriptElement) SetDefer(value bool) error {
 	return h.SetAttributeBool("defer", value)
 }
 
-func (h HtmlScriptElement) Text() (string, error) {
+func (h HtmlScriptElement) Text() string {
 
 	return h.GetAttributeString("text")
 }
@@ -141,7 +141,7 @@ func (h HtmlScriptElement) SetText(value string) error {
 	return h.SetAttributeString("text", value)
 }
 
-func (h HtmlScriptElement) NoModule() (bool, error) {
+func (h HtmlScriptElement) NoModule() bool {
 	return h.GetAttributeBool("noModule")
 }
 
@@ -149,7 +149,7 @@ func (h HtmlScriptElement) SetNoModule(value bool) error {
 	return h.SetAttributeBool("noModule", value)
 }
 
-func (h HtmlScriptElement) ReferrerPolicy() (string, error) {
+func (h HtmlScriptElement) ReferrerPolicy() string {
 	return h.GetAttributeString("referrerPolicy")
 }
 

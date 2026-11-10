@@ -104,7 +104,7 @@ func NewFromJSObject(obj js.Value) (HtmlSelectElement, error) {
 	return h, err
 }
 
-func (h HtmlSelectElement) Autofocus() (bool, error) {
+func (h HtmlSelectElement) Autofocus() bool {
 	return h.GetAttributeBool("autofocus")
 }
 
@@ -112,7 +112,7 @@ func (h HtmlSelectElement) SetAutofocus(value bool) error {
 	return h.SetAttributeBool("autofocus", value)
 }
 
-func (h HtmlSelectElement) Disabled() (bool, error) {
+func (h HtmlSelectElement) Disabled() bool {
 	return h.GetAttributeBool("disabled")
 }
 
@@ -136,11 +136,11 @@ func (h HtmlSelectElement) Form() (htmlformelement.HtmlFormElement, error) {
 	return f, err
 }
 
-func (h HtmlSelectElement) Length() (int, error) {
+func (h HtmlSelectElement) Length() int {
 	return h.GetAttributeInt("length")
 }
 
-func (h HtmlSelectElement) Name() (string, error) {
+func (h HtmlSelectElement) Name() string {
 
 	return h.GetAttributeString("name")
 }
@@ -163,7 +163,7 @@ func (h HtmlSelectElement) Options() (htmloptionscollection.HtmlOptionsCollectio
 	return optioncollection, err
 }
 
-func (h HtmlSelectElement) Multiple() (bool, error) {
+func (h HtmlSelectElement) Multiple() bool {
 	return h.GetAttributeBool("multiple")
 }
 
@@ -171,7 +171,7 @@ func (h HtmlSelectElement) SetMultiple(value bool) error {
 	return h.SetAttributeBool("multiple", value)
 }
 
-func (h HtmlSelectElement) Required() (bool, error) {
+func (h HtmlSelectElement) Required() bool {
 	return h.GetAttributeBool("required")
 }
 
@@ -179,7 +179,7 @@ func (h HtmlSelectElement) SetRequired(value bool) error {
 	return h.SetAttributeBool("required", value)
 }
 
-func (h HtmlSelectElement) SelectedIndex() (int, error) {
+func (h HtmlSelectElement) SelectedIndex() int {
 	return h.GetAttributeInt("selectedIndex")
 }
 
@@ -201,7 +201,7 @@ func (h HtmlSelectElement) SelectedOptions() (htmlcollection.HtmlCollection, err
 	return collection, err
 }
 
-func (h HtmlSelectElement) Size() (int, error) {
+func (h HtmlSelectElement) Size() int {
 	return h.GetAttributeInt("size")
 }
 
@@ -209,7 +209,7 @@ func (h HtmlSelectElement) SetSize(value int) error {
 	return h.SetAttributeInt("size", value)
 }
 
-func (h HtmlSelectElement) Type() (string, error) {
+func (h HtmlSelectElement) Type() string {
 	return h.GetAttributeString("type")
 }
 
@@ -226,7 +226,7 @@ func (h HtmlSelectElement) Validity() (validitystate.ValidityState, error) {
 
 }
 
-func (h HtmlSelectElement) Value() (string, error) {
+func (h HtmlSelectElement) Value() string {
 	return h.GetAttributeString("value")
 }
 
@@ -234,20 +234,20 @@ func (h HtmlSelectElement) SetValue(value string) error {
 	return h.SetAttributeString("value", value)
 }
 
-func (h HtmlSelectElement) ValidationMessage() (string, error) {
+func (h HtmlSelectElement) ValidationMessage() string {
 	return h.GetAttributeString("validationMessage")
 }
 
-func (h HtmlSelectElement) WillValidate() (bool, error) {
+func (h HtmlSelectElement) WillValidate() bool {
 	return h.GetAttributeBool("willValidate")
 }
 
-func (h HtmlSelectElement) CheckValidity() (bool, error) {
+func (h HtmlSelectElement) CheckValidity() bool {
 
 	return h.CallBool("checkValidity")
 }
 
-func (h HtmlSelectElement) ReportValidity() (bool, error) {
+func (h HtmlSelectElement) ReportValidity() bool {
 
 	return h.CallBool("reportValidity")
 }

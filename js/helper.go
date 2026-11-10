@@ -1,24 +1,12 @@
 package js
 
-func GoValue_(object Value) interface{} {
-	var i interface{}
-	var err error
-
-	if i, err = GoValue(object); err != nil {
-		Debug(err.Error())
-	}
-
-	return i
-}
-
-func GoValue(value Value) (interface{}, error) {
-	var err error
+func GoValue(value Value) any {
 	switch value.Type() {
 	case TypeNumber:
 
-		if v, err := IsInteger(value); err == nil && v {
-			v, _ := value.Float()
-			return int64(v), nil
+		if IsInteger(value) {
+			v := value.Float()
+			return int64(v)
 		}
 		return value.Float()
 	case TypeString:
@@ -26,61 +14,11 @@ func GoValue(value Value) (interface{}, error) {
 	case TypeBoolean:
 		return value.Bool()
 	case TypeNull:
-		return nil, nil
+		return nil
 	}
+	obj, _ := Discover(value)
 
-	obj, err := Discover(value)
-
-	return obj, err
-}
-
-func GoValueExt(object Value) interface{} {
-	var i interface{}
-	var err error
-
-	if i, err = GoValue(object); err != nil {
-		//debug(err.Error())
-	}
-
-	return i
-}
-
-func ValueToInt(v Value) int {
-	if v == nil {
-		return 0
-	}
-
-	value, err := v.Int()
-	if err != nil {
-		return 0
-	}
-
-	return value
-}
-func ValueToBool(v Value) bool {
-	if v == nil {
-		return false
-	}
-
-	value, err := v.Bool()
-	if err != nil {
-		return false
-	}
-
-	return value
-}
-
-func ValueToString(v Value) string {
-	if v == nil {
-		return ""
-	}
-
-	value, err := v.String()
-	if err != nil {
-		return ""
-	}
-
-	return value
+	return obj
 }
 
 // IsPrimitive 检查值是否为原始类型（不是对象或函数）

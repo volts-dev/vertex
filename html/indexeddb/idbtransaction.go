@@ -99,7 +99,7 @@ func (i IDBTransaction) DB() (IDBDatabase, error) {
 	return t, err
 }
 
-func (i IDBTransaction) Mode() (string, error) {
+func (i IDBTransaction) Mode() string {
 	return i.GetAttributeString("mode")
 }
 
@@ -115,7 +115,7 @@ func (i IDBTransaction) ObjectStoreNames() (domstringlist.DOMStringList, error) 
 	return list, err
 }
 
-func (i IDBTransaction) Error() (string, error) {
+func (i IDBTransaction) Error() string {
 	return i.GetAttributeString("error")
 }
 

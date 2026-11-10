@@ -40,8 +40,7 @@ func (n Number) Number_() Number {
 	return n
 }
 
-func IsInteger(obj Value) (bool, error) {
-	var err error
+func IsInteger(obj Value) bool {
 	var result bool
 	if ni := GetNumberInterface(); !ni.IsUndefined() {
 
@@ -50,10 +49,10 @@ func IsInteger(obj Value) (bool, error) {
 			if obj.Type() == TypeBoolean {
 				return obj.Bool()
 			} else {
-				err = ErrObjectNotBool
+				//err = ErrObjectNotBool
 			}
 		}
 
 	}
-	return result, err
+	return result
 }

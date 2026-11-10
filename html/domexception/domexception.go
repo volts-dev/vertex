@@ -90,10 +90,10 @@ func NewFromJSObject(obj js.Value) (DomException, error) {
 	return d, err
 }
 
-func (d DomException) Message() (string, error) {
+func (d DomException) Message() string {
 	return d.GetAttributeString("message")
 }
 
-func (d DomException) Name() (string, error) {
+func (d DomException) Name() string {
 	return d.GetAttributeString("name")
 }

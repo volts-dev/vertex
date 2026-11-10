@@ -64,7 +64,7 @@ func (w WritableStreamDefaultWriter) Closed() (promise.Promise, error) {
 	return p, err
 }
 
-func (w WritableStreamDefaultWriter) DesiredSize() (int, error) {
+func (w WritableStreamDefaultWriter) DesiredSize() int {
 	return w.GetAttributeInt("desiredSize")
 }
 

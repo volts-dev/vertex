@@ -76,15 +76,15 @@ func IDBDIndexNewFromJSObject(obj js.Value) (IDBIndex, error) {
 	return i, err
 }
 
-func (i IDBIndex) KeyPath() (string, error) {
+func (i IDBIndex) KeyPath() string {
 	return i.GetAttributeString("keyPath")
 }
 
-func (i IDBIndex) Name() (string, error) {
+func (i IDBIndex) Name() string {
 	return i.GetAttributeString("name")
 }
 
-func (i IDBIndex) MultiEntry() (bool, error) {
+func (i IDBIndex) MultiEntry() bool {
 	return i.GetAttributeBool("multiEntry")
 }
 
@@ -108,7 +108,7 @@ func (i IDBIndex) ObjectStore() (IDBObjectStore, error) {
 	return store, err
 }
 
-func (i IDBIndex) Unique() (bool, error) {
+func (i IDBIndex) Unique() bool {
 	return i.GetAttributeBool("unique")
 }
 

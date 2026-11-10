@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlMapElement, error) {
 	return h, err
 }
 
-func (h HtmlMapElement) Name() (string, error) {
+func (h HtmlMapElement) Name() string {
 	return h.GetAttributeString("name")
 }
 

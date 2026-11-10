@@ -74,7 +74,7 @@ func From(iterable interface{}, f ...func(interface{}) interface{}) (Array, erro
 		opts = append(opts, ValueOf(iterable))
 		if f != nil && len(f) == 1 {
 			jsfunc = FuncOf(func(this Value, args []Value) interface{} {
-				b := f[0](GoValue_(args[0]))
+				b := f[0](GoValue(args[0]))
 				return ValueOf(b)
 			})
 			opts = append(opts, jsfunc)
@@ -150,7 +150,7 @@ func NewArrayFromJSObject(obj Value) (Array, error) {
 	return a, err
 }
 
-func (a Array) Length() (int, error) {
+func (a Array) Length() int {
 
 	return a.GetAttributeInt("length")
 
@@ -205,13 +205,13 @@ func (a Array) Entries() (Iterator, error) {
 	return iter, err
 }
 
-func (a Array) Every(f func(interface{}) bool) (bool, error) {
-	var err error
+func (a Array) Every(f func(interface{}) bool) bool {
+	//var err error
 	var obj Value
 	var result bool
 
 	jsfunc := FuncOf(func(this Value, args []Value) interface{} {
-		b := f(GoValue_(args[0]))
+		b := f(GoValue(args[0]))
 		return ValueOf(b)
 	})
 
@@ -219,11 +219,11 @@ func (a Array) Every(f func(interface{}) bool) (bool, error) {
 		if obj.Type() == TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = ErrObjectNotBool
+			//err = ErrObjectNotBool
 		}
 	}
 	jsfunc.Release()
-	return result, err
+	return result //, err
 }
 
 // Fill (value, begin, end)
@@ -244,7 +244,7 @@ func (a Array) Filter(f func(interface{}) bool) (Array, error) {
 	var newArr Array
 
 	jsfunc := FuncOf(func(this Value, args []Value) interface{} {
-		b := f(GoValue_(args[0]))
+		b := f(GoValue(args[0]))
 		return ValueOf(b)
 	})
 
@@ -261,13 +261,13 @@ func (a Array) Find(f func(interface{}) bool) (interface{}, error) {
 	var i interface{}
 
 	jsfunc := FuncOf(func(this Value, args []Value) interface{} {
-		b := f(GoValue_(args[0]))
+		b := f(GoValue(args[0]))
 		return ValueOf(b)
 	})
 
 	if obj = a.Call("find", jsfunc); obj.Error() == nil {
 		if obj.Type() != TypeUndefined {
-			i = GoValue_(obj)
+			i = GoValue(obj)
 		}
 
 	}
@@ -275,13 +275,13 @@ func (a Array) Find(f func(interface{}) bool) (interface{}, error) {
 	return i, err
 }
 
-func (a Array) FindIndex(f func(interface{}) bool) (int, error) {
-	var err error
+func (a Array) FindIndex(f func(interface{}) bool) int {
+	//var err error
 	var obj Value
 	var index int = -1
 
 	jsfunc := FuncOf(func(this Value, args []Value) interface{} {
-		b := f(GoValue_(args[0]))
+		b := f(GoValue(args[0]))
 		return ValueOf(b)
 	})
 
@@ -291,7 +291,7 @@ func (a Array) FindIndex(f func(interface{}) bool) (int, error) {
 		}
 	}
 	jsfunc.Release()
-	return index, err
+	return index //, err
 }
 
 func (a Array) Flat(opts ...int) (Array, error) {
@@ -318,7 +318,7 @@ func (a Array) FlatMap(f func(interface{}, int) interface{}) (Array, error) {
 	var newArr Array
 
 	jsfunc := FuncOf(func(this Value, args []Value) interface{} {
-		b := f(GoValue_(args[0]), ValueToInt(args[1]))
+		b := f(GoValue(args[0]), args[1].Int())
 		return b
 	})
 
@@ -333,7 +333,7 @@ func (a Array) ForEach(f func(interface{})) error {
 	var err error
 
 	jsfunc := FuncOf(func(this Value, args []Value) interface{} {
-		f(GoValue_(args[0]))
+		f(GoValue(args[0]))
 		return nil
 	})
 
@@ -342,8 +342,8 @@ func (a Array) ForEach(f func(interface{})) error {
 	return err
 }
 
-func (a Array) Includes(i interface{}) (bool, error) {
-	var err error
+func (a Array) Includes(i interface{}) bool {
+	//var err error
 	var obj Value
 	var result bool
 
@@ -351,15 +351,15 @@ func (a Array) Includes(i interface{}) (bool, error) {
 		if obj.Type() == TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = ErrObjectNotBool
+			//	err = ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 }
 
-func (a Array) IndexOf(i interface{}) (int, error) {
-	var err error
+func (a Array) IndexOf(i interface{}) int {
+	//var err error
 	var obj Value
 	var index int = -1
 
@@ -369,12 +369,12 @@ func (a Array) IndexOf(i interface{}) (int, error) {
 		}
 	}
 
-	return index, err
+	return index //, err
 }
 
-func IsArray(bobj Object) (bool, error) {
+func IsArray(bobj Object) bool {
 
-	var err error
+	//var err error
 	var result bool
 	var obj Value
 
@@ -384,18 +384,18 @@ func IsArray(bobj Object) (bool, error) {
 			if obj.Type() == TypeBoolean {
 				return obj.Bool()
 			} else {
-				err = ErrObjectNotBool
+				//err = ErrObjectNotBool
 			}
 		}
 
 	} else {
-		err = ErrNotImplemented
+		//err = ErrNotImplemented
 	}
-	return result, err
+	return result //, err
 }
 
-func (a Array) Join(separator string) (string, error) {
-	var err error
+func (a Array) Join(separator string) string {
+	//var err error
 	var result string
 	var obj Value
 
@@ -403,10 +403,10 @@ func (a Array) Join(separator string) (string, error) {
 		if obj.Type() == TypeString {
 			return obj.String()
 		} else {
-			err = ErrObjectNotString
+			//∂err = ErrObjectNotString
 		}
 	}
-	return result, err
+	return result //, err
 }
 
 func (a Array) Keys() (Iterator, error) {
@@ -421,8 +421,8 @@ func (a Array) Keys() (Iterator, error) {
 	return iter, err
 }
 
-func (a Array) LastIndexOf(i interface{}) (int, error) {
-	var err error
+func (a Array) LastIndexOf(i interface{}) int {
+	//var err error
 	var obj Value
 	var index int = -1
 
@@ -432,7 +432,7 @@ func (a Array) LastIndexOf(i interface{}) (int, error) {
 		}
 	}
 
-	return index, err
+	return index //, err
 }
 
 func (a Array) Map(f func(interface{}) interface{}) (Array, error) {
@@ -441,7 +441,7 @@ func (a Array) Map(f func(interface{}) interface{}) (Array, error) {
 	var newArr Array
 
 	jsfunc := FuncOf(func(this Value, args []Value) interface{} {
-		b := f(GoValue_(args[0]))
+		b := f(GoValue(args[0]))
 		return ValueOf(b)
 	})
 
@@ -456,8 +456,8 @@ func (a Array) Pop() error {
 	return a.Call("pop").Error()
 }
 
-func (a Array) Push(i interface{}) (int, error) {
-	var err error
+func (a Array) Push(i interface{}) int {
+	//∂var err error
 	var obj Value
 	var index int = -1
 
@@ -467,7 +467,7 @@ func (a Array) Push(i interface{}) (int, error) {
 		}
 	}
 
-	return index, err
+	return index //, err
 }
 
 func (a Array) Reduce(f func(accumulateur interface{}, value interface{}, opts ...interface{}) interface{}, initialValue ...interface{}) (interface{}, error) {
@@ -482,7 +482,7 @@ func (a Array) Reduce(f func(accumulateur interface{}, value interface{}, opts .
 			arrayJS = append(arrayJS, ValueOf(args[i]))
 		}
 
-		b := f(GoValue_(args[0]), GoValue_(args[1]), arrayJS...)
+		b := f(GoValue(args[0]), GoValue(args[1]), arrayJS...)
 		return ValueOf(b)
 	})
 
@@ -491,7 +491,7 @@ func (a Array) Reduce(f func(accumulateur interface{}, value interface{}, opts .
 		argCall = append(argCall, ValueOf(initialValue[0]))
 	}
 	if obj = a.Call("reduce", argCall...); obj.Error() == nil {
-		newValue = GoValue_(obj)
+		newValue = GoValue(obj)
 	}
 	jsfunc.Release()
 	return newValue, err
@@ -509,7 +509,7 @@ func (a Array) ReduceRight(f func(accumulateur interface{}, value interface{}, o
 			arrayJS = append(arrayJS, ValueOf(args[i]))
 		}
 
-		b := f(GoValue_(args[0]), GoValue_(args[1]), arrayJS...)
+		b := f(GoValue(args[0]), GoValue(args[1]), arrayJS...)
 		return ValueOf(b)
 	})
 
@@ -518,7 +518,7 @@ func (a Array) ReduceRight(f func(accumulateur interface{}, value interface{}, o
 		argCall = append(argCall, ValueOf(initialValue[0]))
 	}
 	if obj = a.Call("reduceRight", argCall...); obj.Error() == nil {
-		newValue = GoValue_(obj)
+		newValue = GoValue(obj)
 	}
 	jsfunc.Release()
 	return newValue, err
@@ -533,7 +533,7 @@ func (a Array) Shift() (interface{}, error) {
 	var obj Value
 	var i interface{}
 	if obj = a.Call("shift"); obj.Error() == nil {
-		i = GoValue_(obj)
+		i = GoValue(obj)
 	}
 	return i, err
 }
@@ -557,13 +557,13 @@ func (a Array) Slice(opts ...int) (Array, error) {
 
 }
 
-func (a Array) Some(f func(interface{}) bool) (bool, error) {
-	var err error
+func (a Array) Some(f func(interface{}) bool) bool {
+	//var err error
 	var obj Value
 	var result bool
 
 	jsfunc := FuncOf(func(this Value, args []Value) interface{} {
-		b := f(GoValue_(args[0]))
+		b := f(GoValue(args[0]))
 		return ValueOf(b)
 	})
 
@@ -571,11 +571,11 @@ func (a Array) Some(f func(interface{}) bool) (bool, error) {
 		if obj.Type() == TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = ErrObjectNotBool
+			//err = ErrObjectNotBool
 		}
 	}
 	jsfunc.Release()
-	return result, err
+	return result //, err
 }
 
 func (a Array) Sort() error {
@@ -593,14 +593,13 @@ func (a Array) Splice(begin, suppress int, values ...interface{}) error {
 	return a.Call("splice", arrayJS...).Error()
 }
 
-func (a Array) ToLocaleString() (string, error) {
-
+func (a Array) ToLocaleString() string {
 	return a.GetAttributeString("toLocaleString")
 }
 
-func (a Array) Unshift(values ...interface{}) (int, error) {
+func (a Array) Unshift(values ...interface{}) int {
 
-	var err error
+	//var err error
 	var arrayJS []interface{}
 	var obj Value
 	var index int = -1
@@ -613,7 +612,7 @@ func (a Array) Unshift(values ...interface{}) (int, error) {
 			return obj.Int()
 		}
 	}
-	return index, err
+	return index //, err
 }
 
 func (a Array) Values() (Iterator, error) {
@@ -645,7 +644,7 @@ func (a Array) SetValue(index int, i interface{}) error {
 func (a Array) GetValue(index int) (interface{}, error) {
 
 	obj := a.GetObjectValue().Index(index)
-	return GoValue_(obj), nil
+	return GoValue(obj), nil
 }
 
 func NewArray_(values ...interface{}) Array {

@@ -122,29 +122,29 @@ func (i IDBDatabase) Transaction(store interface{}, mode ...string) (IDBTransact
 	return t, err
 }
 
-func (i IDBDatabase) getAttributeInt(attribute string) (int64, error) {
+func (i IDBDatabase) getAttributeInt(attribute string) int64 {
 
-	var err error
+	//var err error
 	var obj js.Value
 	var ret int64
 
 	if obj = i.GetValueByKey(attribute); obj.Error() == nil {
 
 		if obj.Type() == js.TypeNumber {
-			v, _ := obj.Float()
+			v := obj.Float()
 			ret = int64(v)
 		} else {
-			err = js.ErrObjectNotNumber
+			//err = js.ErrObjectNotNumber
 		}
 	}
-	return ret, err
+	return ret //, err
 }
 
-func (i IDBDatabase) Name() (string, error) {
+func (i IDBDatabase) Name() string {
 	return i.GetAttributeString("name")
 }
 
-func (i IDBDatabase) Version() (int64, error) {
+func (i IDBDatabase) Version() int64 {
 	return i.getAttributeInt("version")
 }
 

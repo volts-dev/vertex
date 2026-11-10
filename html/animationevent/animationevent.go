@@ -70,14 +70,14 @@ func NewFromJSObject(obj js.Value) (AnimationEvent, error) {
 	return a, err
 }
 
-func (a AnimationEvent) AnimationName() (string, error) {
+func (a AnimationEvent) AnimationName() string {
 	return a.GetAttributeString("animationName")
 }
 
-func (a AnimationEvent) ElapsedTime() (float64, error) {
+func (a AnimationEvent) ElapsedTime() float64 {
 	return a.GetAttributeDouble("elapsedTime")
 }
 
-func (a AnimationEvent) PseudoElement() (string, error) {
+func (a AnimationEvent) PseudoElement() string {
 	return a.GetAttributeString("pseudoElement")
 }

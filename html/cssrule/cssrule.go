@@ -65,7 +65,7 @@ func NewFromJSObject(obj js.Value) (CSSRule, error) {
 	return c, err
 }
 
-func (c CSSRule) CssText() (string, error) {
+func (c CSSRule) CssText() string {
 
 	return c.GetAttributeString("cssText")
 }

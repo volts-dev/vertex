@@ -90,7 +90,7 @@ func (i IDBRequest) Error() (domexception.DomException, error) {
 	return e, err
 }
 
-func (i IDBRequest) ReadyState() (string, error) {
+func (i IDBRequest) ReadyState() string {
 	return i.GetAttributeString("readyState")
 }
 

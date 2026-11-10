@@ -67,11 +67,11 @@ func NewFromJSObject(obj js.Value) (DataTransferItem, error) {
 	return d, err
 }
 
-func (d DataTransferItem) Kind() (string, error) {
+func (d DataTransferItem) Kind() string {
 	return d.GetAttributeString("kind")
 }
 
-func (d DataTransferItem) Type() (string, error) {
+func (d DataTransferItem) Type() string {
 	return d.GetAttributeString("type")
 }
 

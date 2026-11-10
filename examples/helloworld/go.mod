@@ -45,7 +45,7 @@ require (
 	github.com/volts-dev/dataset v0.0.0-20251225093026-6d6fb8739587 // indirect
 	github.com/volts-dev/lexer v0.0.0-20251110194144-a67bf55d1b63 // indirect
 	github.com/volts-dev/template v0.0.0-20240613070915-3d2783a5c479 // indirect
-	github.com/volts-dev/utils v0.0.0-20241206111447-ee54d4e2c42c // indirect
+	github.com/vectors-project/vectors/utils v0.0.0-20241206111447-ee54d4e2c42c // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/arch v0.22.0 // indirect

@@ -93,72 +93,72 @@ func NewFromJSObject(obj js.Value) (MouseEvent, error) {
 	return m, err
 }
 
-func (m MouseEvent) AltKey() (bool, error) {
+func (m MouseEvent) AltKey() bool {
 
 	return m.GetAttributeBool("altKey")
 }
 
-func (m MouseEvent) Button() (int, error) {
+func (m MouseEvent) Button() (int) {
 
 	return m.GetAttributeInt("button")
 }
 
-func (m MouseEvent) Buttons() (int, error) {
+func (m MouseEvent) Buttons() (int) {
 
 	return m.GetAttributeInt("buttons")
 }
 
-func (m MouseEvent) ClientX() (float64, error) {
+func (m MouseEvent) ClientX() float64 {
 
 	return m.GetAttributeDouble("clientX")
 }
 
-func (m MouseEvent) ClientY() (float64, error) {
+func (m MouseEvent) ClientY() float64 {
 
 	return m.GetAttributeDouble("clientY")
 }
 
-func (m MouseEvent) CtrlKey() (bool, error) {
+func (m MouseEvent) CtrlKey() bool {
 
 	return m.GetAttributeBool("ctrlKey")
 }
 
-func (m MouseEvent) MetaKey() (bool, error) {
+func (m MouseEvent) MetaKey() bool {
 
 	return m.GetAttributeBool("metaKey")
 }
 
-func (m MouseEvent) MovementX() (int, error) {
+func (m MouseEvent) MovementX() (int) {
 
 	return m.GetAttributeInt("movementX")
 }
 
-func (m MouseEvent) MovementY() (int, error) {
+func (m MouseEvent) MovementY() (int) {
 
 	return m.GetAttributeInt("movementY")
 }
 
-func (m MouseEvent) OffsetX() (float64, error) {
+func (m MouseEvent) OffsetX() float64 {
 
 	return m.GetAttributeDouble("offsetX")
 }
 
-func (m MouseEvent) OffsetY() (float64, error) {
+func (m MouseEvent) OffsetY() float64 {
 
 	return m.GetAttributeDouble("offsetY")
 }
 
-func (m MouseEvent) PageX() (int, error) {
+func (m MouseEvent) PageX() (int) {
 
 	return m.GetAttributeInt("pageX")
 }
 
-func (m MouseEvent) PageY() (int, error) {
+func (m MouseEvent) PageY() (int) {
 
 	return m.GetAttributeInt("pageY")
 }
 
-func (m MouseEvent) Region() (string, error) {
+func (m MouseEvent) Region() (string) {
 
 	return m.GetAttributeString("region")
 }
@@ -183,33 +183,33 @@ func (m MouseEvent) RelatedTarget() (eventtarget.EventTarget, error) {
 	return e, err
 }
 
-func (m MouseEvent) ScreenX() (float64, error) {
+func (m MouseEvent) ScreenX() float64 {
 
 	return m.GetAttributeDouble("screenX")
 }
 
-func (m MouseEvent) ScreenY() (float64, error) {
+func (m MouseEvent) ScreenY() float64 {
 
 	return m.GetAttributeDouble("screenY")
 }
 
-func (m MouseEvent) ShiftKey() (bool, error) {
+func (m MouseEvent) ShiftKey() bool {
 
 	return m.GetAttributeBool("shiftKey")
 }
 
-func (m MouseEvent) X() (float64, error) {
+func (m MouseEvent) X() float64 {
 
 	return m.GetAttributeDouble("x")
 }
 
-func (m MouseEvent) Y() (float64, error) {
+func (m MouseEvent) Y() float64 {
 
 	return m.GetAttributeDouble("y")
 }
 
-func (m MouseEvent) GetModifierState(args string) (bool, error) {
-	var err error
+func (m MouseEvent) GetModifierState(args string) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 
@@ -217,9 +217,9 @@ func (m MouseEvent) GetModifierState(args string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 }

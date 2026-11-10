@@ -65,7 +65,7 @@ func NewFromJSObject(obj js.Value) (StyleSheet, error) {
 	return s, err
 }
 
-func (s StyleSheet) Disabled() (bool, error) {
+func (s StyleSheet) Disabled() bool {
 	return s.GetAttributeBool("disabled")
 }
 
@@ -73,7 +73,7 @@ func (s StyleSheet) SetDisabled(value bool) error {
 	return s.SetAttributeBool("disabled", value)
 }
 
-func (s StyleSheet) Href() (string, error) {
+func (s StyleSheet) Href() string {
 	return s.GetAttributeString("href")
 }
 
@@ -114,10 +114,10 @@ func (s StyleSheet) Media() {
 //TODO IMPLEMENT
 }*/
 
-func (s StyleSheet) Title() (string, error) {
+func (s StyleSheet) Title() string {
 	return s.GetAttributeString("title")
 }
 
-func (s StyleSheet) Type() (string, error) {
+func (s StyleSheet) Type() string {
 	return s.GetAttributeString("type")
 }

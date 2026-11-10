@@ -20,7 +20,7 @@ func TestNewFromJSObject(t *testing.T) {
 
 		if h, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object History]", h.ToString_())
+			test.AssertExpect(t, "[object History]", h.ToString())
 		}
 
 	}
@@ -41,7 +41,7 @@ func TestState(t *testing.T) {
 			o, _ := objectmap.New(js.NewArray_(js.NewArray_("title", "teststate")))
 			h.PushState(o, "hello")
 			state, err := h.State()
-			test.AssertExpect(t, "[object Map]", state.(objectmap.ObjectMap).ObjectMap_().ToString_())
+			test.AssertExpect(t, "[object Map]", state.(objectmap.ObjectMap).ObjectMap_().ToString())
 		}
 
 	}
@@ -57,16 +57,14 @@ func TestLength(t *testing.T) {
 
 		if h, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if l, err := h.Length(); test.AssertErr(t, err) {
+			l := h.Length()
 
-				test.AssertExpect(t, true, l >= 1)
-				o, _ := objectmap.New(js.NewArray_(js.NewArray_("title", "testLength1")))
-				h.PushState(o, "hello")
-				if l2, err := h.Length(); test.AssertErr(t, err) {
+			test.AssertExpect(t, true, l >= 1)
+			o, _ := objectmap.New(js.NewArray_(js.NewArray_("title", "testLength1")))
+			h.PushState(o, "hello")
+			l2 := h.Length()
+			test.AssertExpect(t, 1, l2-l)
 
-					test.AssertExpect(t, 1, l2-l)
-				}
-			}
 		}
 
 	}

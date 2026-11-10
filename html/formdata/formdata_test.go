@@ -1,7 +1,6 @@
 package formdata
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/volts-dev/vertex/js"
@@ -20,7 +19,7 @@ func TestMain(m *testing.M) {
 func TestNew(t *testing.T) {
 
 	if f, err := New(); test.AssertErr(t, err) {
-		test.AssertExpect(t, "[object FormData]", f.ToString_())
+		test.AssertExpect(t, "[object FormData]", f.ToString())
 	}
 	js.Eval(`f= document.createElement("form")
 	intext=document.createElement("input")
@@ -36,13 +35,9 @@ func TestNew(t *testing.T) {
 
 			if f, err := New(form); test.AssertErr(t, err) {
 
-				if v, err := f.Get("hello"); test.AssertErr(t, err) {
+				test.AssertExpect(t, "world", f.Get("hello"))
 
-					test.AssertExpect(t, "world", v)
-				}
-
-				_, err := f.Get("hell")
-				test.AssertExpect(t, true, errors.Is(ErrNotAFormValueNotFound, err))
+				f.Get("hell")
 
 			}
 		}
@@ -59,7 +54,7 @@ func TestNewFromJSObject(t *testing.T) {
 
 		if f, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object FormData]", f.ToString_())
+			test.AssertExpect(t, "[object FormData]", f.ToString())
 		}
 
 	}
@@ -75,13 +70,9 @@ func TestGet(t *testing.T) {
 
 		if f, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if v, err := f.Get("hello"); test.AssertErr(t, err) {
+			test.AssertExpect(t, "world", f.Get("hello"))
 
-				test.AssertExpect(t, "world", v)
-			}
-
-			_, err := f.Get("hell")
-			test.AssertExpect(t, true, errors.Is(ErrNotAFormValueNotFound, err))
+			f.Get("hell")
 
 		}
 
@@ -93,10 +84,8 @@ func TestAppend(t *testing.T) {
 
 	if f, err := New(); test.AssertErr(t, err) {
 		test.AssertErr(t, f.Append("data", "test"))
-		if v, err := f.Get("data"); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "test", v)
-		}
+		test.AssertExpect(t, "test", f.Get("data"))
 
 	}
 }
@@ -108,8 +97,7 @@ func TestDelete(t *testing.T) {
 
 		test.AssertErr(t, f.Delete("data"))
 
-		_, err := f.Get("data")
-		test.AssertExpect(t, true, errors.Is(ErrNotAFormValueNotFound, err))
+		f.Get("data")
 
 	}
 }
@@ -140,15 +128,9 @@ func TestHas(t *testing.T) {
 	if f, err := New(); test.AssertErr(t, err) {
 		test.AssertErr(t, f.Append("data", "test"))
 
-		if ok, err := f.Has("data"); test.AssertErr(t, err) {
-			test.AssertExpect(t, true, ok)
+		test.AssertExpect(t, true, f.Has("data"))
 
-		}
-
-		if ok, err := f.Has("c"); test.AssertErr(t, err) {
-			test.AssertExpect(t, false, ok)
-
-		}
+		test.AssertExpect(t, false, f.Has("c"))
 
 	}
 
@@ -182,10 +164,7 @@ func TestSet(t *testing.T) {
 		test.AssertErr(t, f.Append("hello", "world"))
 		test.AssertErr(t, f.Set("hello", "you"))
 
-		if v, err := f.Get("hello"); test.AssertErr(t, err) {
-
-			test.AssertExpect(t, "you", v)
-		}
+		test.AssertExpect(t, "you", f.Get("hello"))
 
 	}
 

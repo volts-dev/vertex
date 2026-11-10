@@ -6,7 +6,9 @@ import (
 
 	"github.com/volts-dev/vertex/core/console"
 	"github.com/volts-dev/vertex/core/context"
-	"github.com/volts-dev/vertex/core/router"
+	"github.com/volts-dev/vertex/router"
+
+	//"github.com/volts-dev/vertex/core/router"
 	"github.com/volts-dev/vertex/html/htmlelement"
 	"github.com/volts-dev/vertex/html/storage"
 	"github.com/volts-dev/vertex/html/window"
@@ -73,7 +75,6 @@ func Default() *application {
 	}
 
 	return defaultApplication
-
 }
 
 func New() *application {

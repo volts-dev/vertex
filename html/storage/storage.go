@@ -82,8 +82,8 @@ func (l Storage) SetItem(key, value string) error {
 	return err
 }
 
-func (l Storage) GetItem(key string) (interface{}, error) {
-	var err error
+func (l Storage) GetItem(key string) interface{} {
+	//var err error
 	var itemObject js.Value
 	var ret interface{}
 
@@ -95,7 +95,7 @@ func (l Storage) GetItem(key string) (interface{}, error) {
 		}
 
 	}
-	return ret, err
+	return ret //, err
 }
 
 func (l Storage) RemoveItem(key string) error {
@@ -109,8 +109,8 @@ func (l Storage) Clear() error {
 	err = l.Call("clear").Error()
 	return err
 }
-func (l Storage) Key(index int) (interface{}, error) {
-	var err error
+func (l Storage) Key(index int) interface{} {
+	//var err error
 	var itemObject js.Value
 	var ret interface{}
 
@@ -121,5 +121,5 @@ func (l Storage) Key(index int) (interface{}, error) {
 			}
 		}
 	}
-	return ret, err
+	return ret //, err
 }

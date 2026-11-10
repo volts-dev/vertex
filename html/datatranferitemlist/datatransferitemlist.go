@@ -68,7 +68,7 @@ func NewFromJSObject(obj js.Value) (DataTransferItemList, error) {
 	return d, err
 }
 
-func (d DataTransferItemList) Length() (int, error) {
+func (d DataTransferItemList) Length() int {
 
 	return d.GetAttributeInt("length")
 

@@ -81,7 +81,7 @@ func (d DedicatedWorkerGlobalScope) PostMessage(message string, transfer ...js.A
 
 }
 
-func (d DedicatedWorkerGlobalScope) Name() (string, error) {
+func (d DedicatedWorkerGlobalScope) Name() string {
 
 	return d.GetAttributeString("name")
 }

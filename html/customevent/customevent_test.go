@@ -18,7 +18,7 @@ func TestNew(t *testing.T) {
 
 	if d, err := New("hello", "world"); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object CustomEvent]", d.ToString_())
+		test.AssertExpect(t, "[object CustomEvent]", d.ToString())
 
 	}
 }
@@ -30,7 +30,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("customevent"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object CustomEvent]", d.ToString_())
+			test.AssertExpect(t, "[object CustomEvent]", d.ToString())
 
 		}
 	}
@@ -41,9 +41,7 @@ func TestDetail(t *testing.T) {
 
 	if d, err := New("hello", "world"); test.AssertErr(t, err) {
 
-		if detail, err := d.Detail(); test.AssertErr(t, err) {
-			test.AssertExpect(t, "world", detail)
-		}
+		test.AssertExpect(t, "world", d.Detail())
 
 	}
 }

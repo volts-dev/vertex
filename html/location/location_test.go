@@ -58,12 +58,10 @@ func TestPort(t *testing.T) {
 
 		if location, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			if str, err := location.Port(); test.AssertErr(t, err) {
-				if i, err := strconv.Atoi(str); test.AssertErr(t, err) {
+			str := location.Port()
+			if i, err := strconv.Atoi(str); test.AssertErr(t, err) {
 
-					test.AssertExpect(t, true, i > 0)
-
-				}
+				test.AssertExpect(t, true, i > 0)
 
 			}
 

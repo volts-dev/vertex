@@ -83,32 +83,32 @@ func NewFromJSObject(obj js.Value) (DOMRectReadOnly, error) {
 	return d, err
 }
 
-func (d DOMRectReadOnly) Bottom() (float64, error) {
+func (d DOMRectReadOnly) Bottom() float64 {
 	return d.GetAttributeDouble("bottom")
 }
 
-func (d DOMRectReadOnly) Height() (float64, error) {
+func (d DOMRectReadOnly) Height() float64 {
 	return d.GetAttributeDouble("height")
 }
 
-func (d DOMRectReadOnly) Left() (float64, error) {
+func (d DOMRectReadOnly) Left() float64 {
 	return d.GetAttributeDouble("left")
 }
-func (d DOMRectReadOnly) Right() (float64, error) {
+func (d DOMRectReadOnly) Right() float64 {
 	return d.GetAttributeDouble("right")
 }
-func (d DOMRectReadOnly) Top() (float64, error) {
+func (d DOMRectReadOnly) Top() float64 {
 	return d.GetAttributeDouble("top")
 }
-func (d DOMRectReadOnly) Width() (float64, error) {
+func (d DOMRectReadOnly) Width() float64 {
 	return d.GetAttributeDouble("width")
 }
 
-func (d DOMRectReadOnly) X() (float64, error) {
+func (d DOMRectReadOnly) X() float64 {
 	return d.GetAttributeDouble("x")
 }
 
-func (d DOMRectReadOnly) Y() (float64, error) {
+func (d DOMRectReadOnly) Y() float64 {
 	return d.GetAttributeDouble("y")
 }
 
@@ -117,7 +117,7 @@ func (d DOMRectReadOnly) FromRect() {
 	//TODO IMPLEMENT
 }
 
-func (d DOMRectReadOnly) ToJSON() (string, error) {
+func (d DOMRectReadOnly) ToJSON() string {
 
 	return d.GetAttributeString("toJSON")
 }

@@ -102,7 +102,7 @@ func NewFromJSObject(obj js.Value) (HtmlButtonElement, error) {
 	return h, err
 }
 
-func (h HtmlButtonElement) Autofocus() (bool, error) {
+func (h HtmlButtonElement) Autofocus() bool {
 	return h.GetAttributeBool("autofocus")
 }
 
@@ -110,7 +110,7 @@ func (h HtmlButtonElement) SetAutofocus(value bool) error {
 	return h.SetAttributeBool("autofocus", value)
 }
 
-func (h HtmlButtonElement) Disabled() (bool, error) {
+func (h HtmlButtonElement) Disabled() bool {
 	return h.GetAttributeBool("disabled")
 }
 
@@ -140,7 +140,7 @@ func (h HtmlButtonElement) Form() (htmlformelement.HtmlFormElement, error) {
 	return f, err
 }
 
-func (h HtmlButtonElement) FormAction() (string, error) {
+func (h HtmlButtonElement) FormAction() string {
 	return h.GetAttributeString("formAction")
 }
 
@@ -148,7 +148,7 @@ func (h HtmlButtonElement) SetFormAction(value string) error {
 	return h.SetAttributeString("formAction", value)
 }
 
-func (h HtmlButtonElement) FormEncType() (string, error) {
+func (h HtmlButtonElement) FormEncType() string {
 	return h.GetAttributeString("formEnctype")
 }
 
@@ -156,7 +156,7 @@ func (h HtmlButtonElement) SetFormEncType(value string) error {
 	return h.SetAttributeString("formEnctype", value)
 }
 
-func (h HtmlButtonElement) FormMethod() (string, error) {
+func (h HtmlButtonElement) FormMethod() string {
 	return h.GetAttributeString("formMethod")
 }
 
@@ -164,7 +164,7 @@ func (h HtmlButtonElement) SetFormMethod(value string) error {
 	return h.SetAttributeString("formMethod", value)
 }
 
-func (h HtmlButtonElement) FormNoValidate() (bool, error) {
+func (h HtmlButtonElement) FormNoValidate() bool {
 	return h.GetAttributeBool("formNoValidate")
 }
 
@@ -172,7 +172,7 @@ func (h HtmlButtonElement) SetFormNoValidate(value bool) error {
 	return h.SetAttributeBool("formNoValidate", value)
 }
 
-func (h HtmlButtonElement) FormTarget() (string, error) {
+func (h HtmlButtonElement) FormTarget() string {
 	return h.GetAttributeString("formTarget")
 }
 
@@ -193,7 +193,7 @@ func (h HtmlButtonElement) Labels() (nodelist.NodeList, error) {
 	return nlist, err
 }
 
-func (h HtmlButtonElement) Name() (string, error) {
+func (h HtmlButtonElement) Name() string {
 	return h.GetAttributeString("name")
 }
 
@@ -201,7 +201,7 @@ func (h HtmlButtonElement) SetName(value string) error {
 	return h.SetAttributeString("name", value)
 }
 
-func (h HtmlButtonElement) TabIndex() (int, error) {
+func (h HtmlButtonElement) TabIndex() int {
 	return h.GetAttributeInt("tabIndex")
 }
 
@@ -209,7 +209,7 @@ func (h HtmlButtonElement) SetTabIndex(value int) error {
 	return h.SetAttributeInt("tabIndex", value)
 }
 
-func (h HtmlButtonElement) Type() (string, error) {
+func (h HtmlButtonElement) Type() string {
 	return h.GetAttributeString("type")
 }
 
@@ -230,15 +230,15 @@ func (h HtmlButtonElement) Validity() (validitystate.ValidityState, error) {
 
 }
 
-func (h HtmlButtonElement) ValidationMessage() (string, error) {
+func (h HtmlButtonElement) ValidationMessage() string {
 	return h.GetAttributeString("validationMessage")
 }
 
-func (h HtmlButtonElement) WillValidate() (bool, error) {
+func (h HtmlButtonElement) WillValidate() bool {
 	return h.GetAttributeBool("willValidate")
 }
 
-func (h HtmlButtonElement) Value() (string, error) {
+func (h HtmlButtonElement) Value() string {
 	return h.GetAttributeString("value")
 }
 

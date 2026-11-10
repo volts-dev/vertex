@@ -48,7 +48,7 @@ func TestIDBObjectStoreMethods(t *testing.T) {
 
 						if store, err := db.IDBDatabase_().CreateObjectStore("utilisateur", map[string]interface{}{"keyPath": "id", "autoIncrement": true}); err == nil {
 
-							test.AssertExpect(t, "[object IDBObjectStore]", store.ToString_())
+							test.AssertExpect(t, "[object IDBObjectStore]", store.ToString())
 
 							for _, result := range methodsIDBObjectStoreAttempt {
 								test.InvokeCheck(t, store, result)

@@ -22,7 +22,7 @@ func TestNew(t *testing.T) {
 
 	if xhr, err := New(); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object XMLHttpRequest]", xhr.ToString_())
+		test.AssertExpect(t, "[object XMLHttpRequest]", xhr.ToString())
 
 	}
 }
@@ -34,7 +34,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("xhr"); test.AssertErr(t, obj.Error()) {
 		if d, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object XMLHttpRequest]", d.ToString_())
+			test.AssertExpect(t, "[object XMLHttpRequest]", d.ToString())
 
 		}
 	}
@@ -52,29 +52,25 @@ func TestGetRequest(t *testing.T) {
 
 		xhr.SetOnload(func(i interface{}) {
 
-			if status, err := xhr.Status(); test.AssertErr(t, err) {
-				test.AssertExpect(t, status, 200)
-			}
+			status := xhr.Status()
+			test.AssertExpect(t, status, 200)
 
-			if header, err := xhr.GetResponseHeader("Content-Type"); test.AssertErr(t, err) {
+			header := xhr.GetResponseHeader("Content-Type")
 
-				test.AssertExpect(t, "application/json", header)
+			test.AssertExpect(t, "application/json", header)
 
-			}
-			if text, err := xhr.ResponseText(); test.AssertErr(t, err) {
+			text := xhr.ResponseText()
 
-				if j, err := json.Parse(text); test.AssertErr(t, err) {
-					goValue := j.Map()
+			if j, err := json.Parse(text); test.AssertErr(t, err) {
+				goValue := j.Map()
 
-					url := goValue.(map[string]interface{})["url"]
+				url := goValue.(map[string]interface{})["url"]
 
-					if url != nil {
-						test.AssertExpect(t, url, "http://localhost/get")
-						io <- true
-					} else {
-						t.Error("No url present")
-					}
-
+				if url != nil {
+					test.AssertExpect(t, url, "http://localhost/get")
+					io <- true
+				} else {
+					t.Error("No url present")
 				}
 
 			}
@@ -102,34 +98,30 @@ func TestPostRequest(t *testing.T) {
 
 		xhr.SetOnload(func(i interface{}) {
 			progressevent.GetInterface()
-			test.AssertExpect(t, "[object ProgressEvent]", i.(js.Object).ToString_())
+			test.AssertExpect(t, "[object ProgressEvent]", i.(js.Object).ToString())
 
-			if status, err := xhr.Status(); test.AssertErr(t, err) {
-				test.AssertExpect(t, status, 200)
-			}
+			status := xhr.Status()
+			test.AssertExpect(t, status, 200)
 
-			if header, err := xhr.GetResponseHeader("Content-Type"); test.AssertErr(t, err) {
+			header := xhr.GetResponseHeader("Content-Type")
 
-				test.AssertExpect(t, "application/json", header)
+			test.AssertExpect(t, "application/json", header)
 
-			}
-			if text, err := xhr.ResponseText(); test.AssertErr(t, err) {
+			text := xhr.ResponseText()
 
-				if j, err := json.Parse(text); test.AssertErr(t, err) {
-					goValue := j.Map()
+			if j, err := json.Parse(text); test.AssertErr(t, err) {
+				goValue := j.Map()
 
-					form := goValue.(map[string]interface{})["form"]
+				form := goValue.(map[string]interface{})["form"]
 
-					if form != nil {
-						customValue := form.(map[string]interface{})["data"]
+				if form != nil {
+					customValue := form.(map[string]interface{})["data"]
 
-						test.AssertExpect(t, customValue, "testing")
-						io <- true
+					test.AssertExpect(t, customValue, "testing")
+					io <- true
 
-					} else {
-						t.Error("No form present")
-					}
-
+				} else {
+					t.Error("No form present")
 				}
 
 			}
@@ -159,41 +151,37 @@ func TestSetRequestHeader(t *testing.T) {
 
 		xhr.SetOnload(func(i interface{}) {
 			progressevent.GetInterface()
-			test.AssertExpect(t, "[object ProgressEvent]", i.(progressevent.ProgressEvent).ToString_())
+			test.AssertExpect(t, "[object ProgressEvent]", i.(progressevent.ProgressEvent).ToString())
 
-			if status, err := xhr.Status(); test.AssertErr(t, err) {
-				test.AssertExpect(t, status, 200)
-			}
+			status := xhr.Status()
+			test.AssertExpect(t, status, 200)
 
-			if header, err := xhr.GetResponseHeader("Content-Type"); test.AssertErr(t, err) {
+			header := xhr.GetResponseHeader("Content-Type")
 
-				test.AssertExpect(t, "application/json", header)
+			test.AssertExpect(t, "application/json", header)
 
-			}
-			if text, err := xhr.ResponseText(); test.AssertErr(t, err) {
+			text := xhr.ResponseText()
 
-				if j, err := json.Parse(text); test.AssertErr(t, err) {
-					goValue := j.Map()
+			if j, err := json.Parse(text); test.AssertErr(t, err) {
+				goValue := j.Map()
 
-					headers := goValue.(map[string]interface{})["headers"]
+				headers := goValue.(map[string]interface{})["headers"]
 
-					if headers != nil {
-						customValue := headers.(map[string]interface{})["Xcustomvalue"]
+				if headers != nil {
+					customValue := headers.(map[string]interface{})["Xcustomvalue"]
 
-						if customValue != nil {
-							if customValue.(string) == "Test" {
-								io <- true
-							} else {
-								t.Errorf("Xcustomvalue not match %s", customValue.(string))
-							}
+					if customValue != nil {
+						if customValue.(string) == "Test" {
+							io <- true
 						} else {
-							t.Error("No Xcustomvalue headers present")
+							t.Errorf("Xcustomvalue not match %s", customValue.(string))
 						}
-
 					} else {
-						t.Error("No headers present")
+						t.Error("No Xcustomvalue headers present")
 					}
 
+				} else {
+					t.Error("No headers present")
 				}
 
 			}
@@ -220,7 +208,7 @@ func TestOnError(t *testing.T) {
 		err := xhr.Open("GET", "m://httpbin.org/get")
 		test.AssertErr(t, err)
 		xhr.SetOnError(func(i interface{}) {
-			test.AssertExpect(t, "[object ProgressEvent]", i.(progressevent.ProgressEvent).ToString_())
+			test.AssertExpect(t, "[object ProgressEvent]", i.(progressevent.ProgressEvent).ToString())
 
 			io <- true
 		})
@@ -245,7 +233,7 @@ func TestOnAbort(t *testing.T) {
 		test.AssertErr(t, err)
 
 		xhr.SetOnAbort(func(i interface{}) {
-			test.AssertExpect(t, "[object ProgressEvent]", i.(progressevent.ProgressEvent).ToString_())
+			test.AssertExpect(t, "[object ProgressEvent]", i.(progressevent.ProgressEvent).ToString())
 
 			go func() {
 				io <- true

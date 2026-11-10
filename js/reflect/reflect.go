@@ -34,7 +34,7 @@ func Set(obj js.Value, name string, val interface{}) error {
 	ret := setFunc.Invoke(obj, js.ValueOf(name), val)
 
 	if !ret.IsUndefined() {
-		msg, _ := ret.Get("message").String()
+		msg := ret.Get("message").String()
 		err = errors.New(msg)
 	}
 	return err
@@ -51,7 +51,7 @@ func Get(obj js.Value, i interface{}) (js.Value, error) {
 	}
 	ret := getFunc.Invoke(obj, invokvar)
 
-	if _, err := ret.Index(0).Bool(); err != nil {
+	if err := ret.Index(0).Error(); err != nil {
 		return ret.Index(1), err
 
 	} else {
@@ -62,7 +62,7 @@ func Get(obj js.Value, i interface{}) (js.Value, error) {
 func GetIndex(obj js.Value, index int) (js.Value, error) {
 
 	ret := getFunc.Invoke(obj, js.ValueOf(index))
-	if _, err := ret.Index(0).Bool(); err != nil {
+	if err := ret.Index(0).Error(); err != nil {
 		return ret.Index(1), err
 
 	} else {
@@ -78,7 +78,7 @@ func New(obj js.Value, args ...interface{}) (js.Value, error) {
 	}
 	ret := newFunc.Invoke(obj, jsargs)
 
-	if _, err := ret.Index(0).Bool(); err != nil {
+	if err := ret.Index(0).Error(); err != nil {
 		return ret.Index(1), err
 
 	} else {
@@ -95,7 +95,7 @@ func Call(obj js.Value, name string, args ...interface{}) (js.Value, error) {
 	}
 	ret := callFunc.Invoke(obj, js.ValueOf(name), jsargs)
 
-	if _, err := ret.Index(0).Bool(); err != nil {
+	if err := ret.Index(0).Error(); err != nil {
 		return ret.Index(1), err
 
 	} else {
@@ -112,7 +112,7 @@ func Invoke(f js.Value, args ...interface{}) (js.Value, error) {
 	}
 	ret := invokeFunc.Invoke(f, jsargs)
 
-	if _, err := ret.Index(0).Bool(); err != nil {
+	if err := ret.Index(0).Error(); err != nil {
 		return ret.Index(1), err
 
 	} else {
@@ -124,37 +124,21 @@ func eval_(str string) {
 	js.Global().Call("eval", str)
 }
 
-func GetFuncName(inter js.Value) (string, error) {
-	var obj js.Value
-	var err error
-	var name string
-
-	if obj, err = Get(inter, "name"); err == nil {
-		if !obj.IsUndefined() {
-			return obj.String()
-		} else {
-			err = js.ErrUnableGetFunctName
-		}
-	}
-
-	return name, err
-}
-
 // String return the string representation of the given Object
-func String(object js.Value) (string, error) {
+func String(object js.Value) string {
 	return object.String()
 }
 
 // ToStringWithErr return the ToString representation of the given Object
-func ToStringWithErr(obj js.Value) (string, error) {
+func ToStringWithErr(obj js.Value) string {
 	if obj.Type() == js.TypeObject {
 		if value, err := Call(obj, "toString"); err == nil {
 			return value.String()
 		} else {
-			return "", err
+			return "" //, err
 		}
 
 	}
 
-	return "", js.ErrNotAnObject
+	return "" //, js.ErrNotAnObject
 }

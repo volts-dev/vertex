@@ -8,5 +8,6 @@ import (
 )
 
 func main() {
-	app:=app.Default()
+	app := app.Default()
+	app.Start()
 }

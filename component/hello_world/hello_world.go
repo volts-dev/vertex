@@ -66,6 +66,17 @@ func (n *helloWorld) Styles() *vcss.CSSResult {
             color: var(--text-color);
             background-color: var(--bg-color);
         }
+    
+		/* 重点：修饰插槽内的元素 */
+		::slotted(span) {
+			background: yellow;
+		}
+		
+		/* 修饰具名插槽的内容 */
+		::slotted([slot="title"]) {
+			font-size: 0.8rem;
+			color: red;
+		}
 	`,
 		"")
 }
@@ -80,7 +91,10 @@ func (n *helloWorld) Render(ctx context.Context) *vhtml.TemplateResult {
 			<p class="greeting">{{if IsShowing}}Hello {{.Name}}!{{else}}Welcome to Vertex Framework!{{end}}</p>
 			<p class="count-display">当前计数: {{.Count}}</p>
 		</div>
-		
+		<slot>			<button class="btn-primary" {{@click OnClick}}>
+				<span class="btn-text">点击计数</span>
+				<span class="btn-count">{{.Count}}</span>
+			</button></slot>
 		<!-- 控制按钮区域 -->
 		<div class="button-group">
 			<button class="btn-primary" {{@click OnClick}}>
@@ -92,7 +106,7 @@ func (n *helloWorld) Render(ctx context.Context) *vhtml.TemplateResult {
 				切换显示状态
 			</button>
 		</div>
-		
+		<slot name="title">暂无标题</slot>
 		<!-- 状态指示器 -->
 		<div class="status-section">
 			<div class="status-item">
@@ -124,8 +138,9 @@ func (n *helloWorld) Render(ctx context.Context) *vhtml.TemplateResult {
 			<h3>🎉 恭喜！计数已超过10</h3>
 			<p>您已达到重要里程碑！</p>
 		</div>
-		{{end}}
-		{if Count < 5}}
+		{{end}}aa
+
+		{{if Count < 5}}
 		<div class="count-milestone progress">
 			<h3>⚡ 继续加油！计数已达到5</h3>
 			<p>即将达到下一个里程碑，继续努力！</p>
@@ -191,9 +206,15 @@ func (n *helloWorld) FirstUpdate() error {
 	return nil
 }
 
-func (n *helloWorld) ConnectedCallback() {
-	n.Name = n.Marker + " Vertex Framework"
+func (self *helloWorld) ConnectedCallback() {
+	self.Name = self.Marker + " Vertex Framework"
 
+	ele, err := self.ShadowRoot.QuerySelector("div.info-section")
+	if err != nil {
+		console.Error(err)
+	}
+
+	ele.SetAttribute("Framework", "VERTER")
 	/*
 		t := time.Tick(8 * time.Second)
 			go func() {

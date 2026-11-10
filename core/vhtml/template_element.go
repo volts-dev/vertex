@@ -104,12 +104,7 @@ func newTemplateElement(content string, parts []*TemplatePart, ctx context.Conte
 		}
 
 		nodeValue := node.GetObjectValue()
-		nodeType, err := node.NodeType()
-		if err != nil {
-			console.Error("element.NewFromJSObject", err)
-			return nil, err
-		}
-
+		nodeType := node.NodeType()
 		if nodeType == 1 {
 			// Element 节点：检查带 marker 的属性
 			element, err := element.NewFromJSObject(nodeValue)
@@ -125,17 +120,9 @@ func newTemplateElement(content string, parts []*TemplatePart, ctx context.Conte
 						console.Error("attrs.Item(i)", err)
 					}
 
-					name, err := attr.Name()
-					if err != nil {
-						console.Error("attrs.Name()", err)
-					}
-
+					name := attr.Name()
 					if strings.HasSuffix(name, vertexPrefix) {
-						value, err := element.GetAttribute(name)
-						if err != nil {
-							console.Error("GetAttribute()", err)
-						}
-
+						value := element.GetAttribute(name)
 						part := parts[partIndex]
 						part.Index = nodeIdex
 						part.Strings = strings.Split(value, vertexPrefix)
@@ -173,11 +160,7 @@ func newTemplateElement(content string, parts []*TemplatePart, ctx context.Conte
 					}
 				}
 
-				localName, err := element.LocalName()
-				if err != nil {
-					console.Error("localName error:", err)
-				}
-
+				localName := element.LocalName()
 				if utils.IndexOf(localName, "script", "style", "textarea", "title") != -1 {
 					// TODO:处理原始文本元素（script/style/textarea/title）
 				}
@@ -185,11 +168,7 @@ func newTemplateElement(content string, parts []*TemplatePart, ctx context.Conte
 
 		} else if nodeType == 8 {
 			// 获取 comment 节点内容
-			v, err := node.GetValueByKey("data").String()
-			if err != nil {
-				console.Error("GetValueByKey", err)
-			}
-
+			v := node.GetValueByKey("data").String()
 			if strings.HasSuffix(v, marker) {
 				part := parts[partIndex]
 				part.Ctor = NewContentPart

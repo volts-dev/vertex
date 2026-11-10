@@ -125,7 +125,7 @@ func NewFromJSObject(obj js.Value) (HtmlOptionElement, error) {
 	return h, err
 }
 
-func (h HtmlOptionElement) DefaultSelected() (bool, error) {
+func (h HtmlOptionElement) DefaultSelected() bool {
 	return h.GetAttributeBool("defaultSelected")
 }
 
@@ -133,7 +133,7 @@ func (h HtmlOptionElement) SetDefaultSelected(value bool) error {
 	return h.SetAttributeBool("defaultSelected", value)
 }
 
-func (h HtmlOptionElement) Disabled() (bool, error) {
+func (h HtmlOptionElement) Disabled() bool {
 	return h.GetAttributeBool("disabled")
 }
 
@@ -153,11 +153,11 @@ func (h HtmlOptionElement) Form() (element.Element, error) {
 	return elem, err
 }
 
-func (h HtmlOptionElement) Index() (int, error) {
+func (h HtmlOptionElement) Index() int {
 	return h.GetAttributeInt("index")
 }
 
-func (h HtmlOptionElement) Label() (string, error) {
+func (h HtmlOptionElement) Label() string {
 	return h.GetAttributeString("label")
 }
 
@@ -165,7 +165,7 @@ func (h HtmlOptionElement) SetLabel(value string) error {
 	return h.SetAttributeString("label", value)
 }
 
-func (h HtmlOptionElement) Selected() (bool, error) {
+func (h HtmlOptionElement) Selected() bool {
 	return h.GetAttributeBool("selected")
 }
 
@@ -173,7 +173,7 @@ func (h HtmlOptionElement) SetSelected(value bool) error {
 	return h.SetAttributeBool("selected", value)
 }
 
-func (h HtmlOptionElement) Text() (string, error) {
+func (h HtmlOptionElement) Text() string {
 
 	return h.GetAttributeString("text")
 }
@@ -182,7 +182,7 @@ func (h HtmlOptionElement) SetText(value string) error {
 	return h.SetAttributeString("text", value)
 }
 
-func (h HtmlOptionElement) Value() (string, error) {
+func (h HtmlOptionElement) Value() string {
 
 	return h.GetAttributeString("value")
 }

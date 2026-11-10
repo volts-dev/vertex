@@ -19,7 +19,7 @@ func TestNew(t *testing.T) {
 
 	if a, err := New("alpha"); test.AssertErr(t, err) {
 
-		test.AssertExpect(t, "[object BroadcastChannel]", a.ToString_())
+		test.AssertExpect(t, "[object BroadcastChannel]", a.ToString())
 
 	}
 }

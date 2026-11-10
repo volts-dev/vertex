@@ -111,7 +111,7 @@ func NewFromJSObject(obj js.Value) (HtmlQuoteElement, error) {
 	return h, err
 }
 
-func (h HtmlQuoteElement) Cite() (string, error) {
+func (h HtmlQuoteElement) Cite() string {
 
 	return h.GetAttributeString("cite")
 }

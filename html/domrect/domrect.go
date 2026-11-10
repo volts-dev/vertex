@@ -14,12 +14,10 @@ func init() {
 }
 
 var singleton sync.Once
-
 var domrectinterface js.Value
 
 // GetJSInterface get the JS interface
 func GetInterface() js.Value {
-
 	singleton.Do(func() {
 
 		if domrectinterface = js.Global().Get("DOMRect"); domrectinterface.Error() != nil {
@@ -47,7 +45,6 @@ func (d DOMRect) DOMRect_() DOMRect {
 }
 
 func New() (DOMRect, error) {
-
 	var d DOMRect
 	var obj js.Value
 	var err error
@@ -86,13 +83,13 @@ func NewFromJSObject(obj js.Value) (DOMRect, error) {
 }
 
 func (d DOMRect) SetHeight(value float64) error {
-
 	return d.SetAttributeDouble("height", value)
 }
-func (d DOMRect) SetLeft(value float64) error {
 
+func (d DOMRect) SetLeft(value float64) error {
 	return d.SetAttributeDouble("left", value)
 }
+
 func (d DOMRect) SetRight(value float64) error {
 
 	return d.SetAttributeDouble("right", value)

@@ -27,7 +27,7 @@ func TestNewFromJSObject(t *testing.T) {
 	if obj := js.Global().Get("list"); test.AssertErr(t, obj.Error()) {
 		if rect, err := NewFromJSObject(obj); test.AssertErr(t, err) {
 
-			test.AssertExpect(t, "[object NodeList]", rect.ToString_())
+			test.AssertExpect(t, "[object NodeList]", rect.ToString())
 
 		}
 	}

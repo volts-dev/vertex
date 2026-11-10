@@ -90,7 +90,7 @@ func NewFromElement(elem element.Element) (HtmlElement, error) {
 	return h, err
 }
 
-func (h HtmlElement) AccessKey() (string, error) {
+func (h HtmlElement) AccessKey() string {
 	return h.GetAttributeString("accessKey")
 }
 
@@ -98,7 +98,7 @@ func (h HtmlElement) SetAccessKey(value string) error {
 	return h.SetAttributeString("accessKey", value)
 }
 
-func (h HtmlElement) AccessKeyLabel() (string, error) {
+func (h HtmlElement) AccessKeyLabel() string {
 	return h.GetAttributeString("accessKeyLabel")
 }
 
@@ -106,7 +106,7 @@ func (h HtmlElement) SetAccessKeyLabel(value string) error {
 	return h.SetAttributeString("accessKeyLabel", value)
 }
 
-func (h HtmlElement) ClassName() (string, error) {
+func (h HtmlElement) ClassName() string {
 	return h.GetAttributeString("className")
 }
 
@@ -114,7 +114,7 @@ func (h HtmlElement) SetClassName(classname string) error {
 	return h.SetAttributeString("className", classname)
 }
 
-func (h HtmlElement) ContentEditable() (string, error) {
+func (h HtmlElement) ContentEditable() string {
 	return h.GetAttributeString("contentEditable")
 }
 
@@ -122,12 +122,12 @@ func (h HtmlElement) SetContentEditable(value string) error {
 	return h.SetAttributeString("contentEditable", value)
 }
 
-func (h HtmlElement) IsContentEditable() (bool, error) {
+func (h HtmlElement) IsContentEditable() bool {
 	return h.GetAttributeBool("isContentEditable")
 }
 
-func (h HtmlElement) Dataset(name string) (interface{}, error) {
-	var err error
+func (h HtmlElement) Dataset(name string) interface{} {
+	//var err error
 	var obj, objv js.Value
 	var ret interface{}
 
@@ -135,16 +135,16 @@ func (h HtmlElement) Dataset(name string) (interface{}, error) {
 
 		if objv = obj.Get(name); objv.Error() == nil {
 			if !objv.IsUndefined() {
-				ret, err = js.GoValue(objv)
+				ret = js.GoValue(objv)
 			} else {
-				err = ErrDatasetNotFound
+				//	err = ErrDatasetNotFound
 			}
 
 		}
 
 	}
 
-	return ret, err
+	return ret //, err
 
 }
 
@@ -159,11 +159,11 @@ func (h HtmlElement) SetDataset(name string, value interface{}) error {
 	return err
 }
 
-func (h HtmlElement) Dir() (string, error) {
+func (h HtmlElement) Dir() string {
 	return h.GetAttributeString("dir")
 }
 
-func (h HtmlElement) Hidden() (bool, error) {
+func (h HtmlElement) Hidden() bool {
 	return h.GetAttributeBool("hidden")
 }
 
@@ -175,11 +175,11 @@ func (h HtmlElement) SetDir(value string) error {
 	return h.SetAttributeString("dir", value)
 }
 
-func (h HtmlElement) Lang() (string, error) {
+func (h HtmlElement) Lang() string {
 	return h.GetAttributeString("lang")
 }
 
-func (h HtmlElement) InnerText() (string, error) {
+func (h HtmlElement) InnerText() string {
 
 	return h.GetAttributeString("innerText")
 }
@@ -193,11 +193,11 @@ func (h HtmlElement) SetLang(value string) error {
 	return h.SetAttributeString("lang", value)
 }
 
-func (h HtmlElement) OffsetHeight() (int, error) {
+func (h HtmlElement) OffsetHeight() int {
 	return h.GetAttributeInt("offsetHeight")
 }
 
-func (h HtmlElement) OffsetLeft() (int, error) {
+func (h HtmlElement) OffsetLeft() int {
 	return h.GetAttributeInt("offsetLeft")
 }
 
@@ -222,15 +222,15 @@ func (h HtmlElement) OffsetParent() (js.Object, error) {
 	return ret, err
 }
 
-func (h HtmlElement) OffsetTop() (int, error) {
+func (h HtmlElement) OffsetTop() int {
 	return h.GetAttributeInt("offsetTop")
 }
 
-func (h HtmlElement) OffsetWidth() (int, error) {
+func (h HtmlElement) OffsetWidth() int {
 	return h.GetAttributeInt("offsetWidth")
 }
 
-func (h HtmlElement) Title() (string, error) {
+func (h HtmlElement) Title() string {
 	return h.GetAttributeString("title")
 }
 

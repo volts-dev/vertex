@@ -126,7 +126,7 @@ func (h HtmlLabelElement) Form() (htmlformelement.HtmlFormElement, error) {
 	return formelem, err
 }
 
-func (h HtmlLabelElement) HtmlFor() (string, error) {
+func (h HtmlLabelElement) HtmlFor() string {
 	return h.GetAttributeString("htmlFor")
 }
 

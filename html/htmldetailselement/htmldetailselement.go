@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlDetailsElement, error) {
 	return h, err
 }
 
-func (h HtmlDetailsElement) Open() (bool, error) {
+func (h HtmlDetailsElement) Open() bool {
 	return h.GetAttributeBool("open")
 }
 

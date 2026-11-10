@@ -6,17 +6,27 @@ import (
 	"github.com/volts-dev/vertex/core/console"
 	"github.com/volts-dev/vertex/core/vcss"
 	"github.com/volts-dev/vertex/core/vhtml"
+	"github.com/volts-dev/vertex/html/documentfragment"
 	"github.com/volts-dev/vertex/html/node"
 )
 
 type ReactiveComponent struct {
-	shadowRoot        *node.Node
+	ShadowRoot        *documentfragment.DocumentFragment
 	ContentPart       *vhtml.ContentPart
 	StyleInjectionMgr *vcss.StyleInjectionManager
+	Disabled          bool
 }
 
-func (self *ReactiveComponent) init(rootNode *node.Node) {
-	self.shadowRoot = rootNode
+func (self *ReactiveComponent) init(rootNode *node.Node) error {
+	self.Disabled = true
+
+	var err error
+	self.ShadowRoot, err = documentfragment.NewFromJSObject(rootNode.GetObjectValue())
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (self *ReactiveComponent) initStyle(css *vcss.CSSResult) {
@@ -24,7 +34,7 @@ func (self *ReactiveComponent) initStyle(css *vcss.CSSResult) {
 	// 注入样式到 Shadow DOM
 	if css != nil {
 		self.StyleInjectionMgr.InjectComponentStyles(
-			self.shadowRoot,
+			&self.ShadowRoot.Node,
 			[]*vcss.CSSResult{css},
 			&vcss.StyleRenderOptions{
 				Minify:                false,
@@ -35,7 +45,7 @@ func (self *ReactiveComponent) initStyle(css *vcss.CSSResult) {
 }
 
 func (self *ReactiveComponent) iniDom(htmlResult *vhtml.TemplateResult, ctx context.Context) {
-	contentPart, err := vhtml.Render(htmlResult, self.shadowRoot, ctx)
+	contentPart, err := vhtml.Render(htmlResult, &self.ShadowRoot.Node, ctx)
 	if err != nil {
 		console.Error(err.Error())
 	}

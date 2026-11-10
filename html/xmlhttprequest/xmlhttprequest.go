@@ -164,30 +164,30 @@ func (x XMLHTTPRequest) SetOnProgress(handler func(progressevent.ProgressEvent))
 
 }
 
-func (x XMLHTTPRequest) ReadyState() (int, error) {
+func (x XMLHTTPRequest) ReadyState() int {
 
 	return x.GetAttributeInt("readyState")
 }
 
-func (x XMLHTTPRequest) ResponseText() (string, error) {
+func (x XMLHTTPRequest) ResponseText() string {
 
 	return x.GetAttributeString("responseText")
 }
 
 // GetResponseHeader https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getResponseHeader
-func (x XMLHTTPRequest) GetResponseHeader(header string) (string, error) {
+func (x XMLHTTPRequest) GetResponseHeader(header string) string {
 	var responseHeader js.Value
-	var err error
+	//var err error
 	if responseHeader = x.Call("getResponseHeader", js.ValueOf(header)); responseHeader.Error() == nil {
 
 		if responseHeader.Type() == js.TypeString {
 			return responseHeader.String()
 		} else {
-			return "", js.ErrObjectNotString
+			return "" //, js.ErrObjectNotString
 		}
 
 	}
-	return "", err
+	return "" //, err
 }
 
 // Response
@@ -207,7 +207,7 @@ func (x XMLHTTPRequest) SetWithCredentials(withcredentials bool) {
 
 }
 
-func (x XMLHTTPRequest) ResponseURL() (string, error) {
+func (x XMLHTTPRequest) ResponseURL() string {
 
 	return x.GetAttributeString("responseURL")
 }
@@ -223,33 +223,33 @@ func (x XMLHTTPRequest) ResponseXML() (js.Value, error) {
 	return responseXML, err
 }
 
-func (x XMLHTTPRequest) Status() (int, error) {
+func (x XMLHTTPRequest) Status() int {
 	var readystate js.Value
-	var err error
+	//var err error
 	if readystate = x.GetValueByKey("status"); readystate.Error() == nil {
 		if readystate.Type() == js.TypeNumber {
 			return readystate.Int()
 		} else {
-			return 0, js.ErrObjectNotNumber
+			return 0 //, js.ErrObjectNotNumber
 		}
 
 	}
-	return 0, err
+	return 0 //, err
 }
 
-func (x XMLHTTPRequest) StatusText() (string, error) {
+func (x XMLHTTPRequest) StatusText() string {
 	var responseUrl js.Value
-	var err error
+	//var err error
 	if responseUrl = x.GetValueByKey("statusText"); responseUrl.Error() == nil {
 
 		if responseUrl.Type() == js.TypeString {
 			return responseUrl.String()
 		} else {
-			return "", js.ErrObjectNotString
+			return "" //, js.ErrObjectNotString
 		}
 
 	}
-	return "", err
+	return "" //, err
 }
 
 func (x XMLHTTPRequest) uploadSetHandler(jshandlername string, handler func(XMLHTTPRequest)) {

@@ -9,38 +9,38 @@ func Alert(message string) error {
 	return err
 }
 
-func Confirm(message string) (bool, error) {
+func Confirm(message string) bool {
 	var ret = false
-	var err error
+	//var err error
 	if obj := Default().Call("confirm", js.ValueOf(message)); obj.Error() == nil {
 
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return ret, err
+	return ret //, err
 }
 
-func Prompt(message, input string) (*string, error) {
+func Prompt(message, input string) *string {
 	var ret *string = nil
-	var err error
+	//var err error
 
 	if obj := Default().Call("prompt", js.ValueOf(message), js.ValueOf(input)); obj.Error() == nil {
 
 		if obj.Type() == js.TypeString {
-			v := js.ValueToString(obj)
+			v := obj.String()
 			ret = &v
 		}
 	}
-	return ret, err
+	return ret //, err
 }
 
-func Atob(encoded string) (string, error) {
+func Atob(encoded string) string {
 
-	var err error
+	//var err error
 	var result string
 	var obj js.Value
 
@@ -48,15 +48,15 @@ func Atob(encoded string) (string, error) {
 		if obj.Type() == js.TypeString {
 			return obj.String()
 		} else {
-			err = js.ErrObjectNotString
+			//err = js.ErrObjectNotString
 		}
 	}
-	return result, err
+	return result //, err
 }
 
-func Btoa(message string) (string, error) {
+func Btoa(message string) string {
 
-	var err error
+	//var err error
 	var result string
 	var obj js.Value
 
@@ -64,10 +64,10 @@ func Btoa(message string) (string, error) {
 		if obj.Type() == js.TypeString {
 			return obj.String()
 		} else {
-			err = js.ErrObjectNotString
+			//err = js.ErrObjectNotString
 		}
 	}
-	return result, err
+	return result //, err
 }
 
 func Open(url string, opts ...interface{}) (Window, error) {

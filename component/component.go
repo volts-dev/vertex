@@ -169,9 +169,9 @@ func Register(tagName string, constructor func() IComponent) {
 				return nil
 			}
 
-			name := js.ValueToString(args[0])
-			oldValue := js.ValueToString(args[1])
-			newValue := js.ValueToString(args[2])
+			name := args[0].String()
+			oldValue := args[1].String()
+			newValue := args[2].String()
 			vcom.(IComponent).AttributeChangedCallback(name, oldValue, newValue)
 			return nil
 		})

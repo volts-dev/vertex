@@ -99,7 +99,7 @@ func NewFromJSObject(obj js.Value) (HtmlFormElement, error) {
 	return h, err
 }
 
-func (h HtmlFormElement) Name() (string, error) {
+func (h HtmlFormElement) Name() string {
 
 	return h.GetAttributeString("name")
 }
@@ -108,7 +108,7 @@ func (h HtmlFormElement) SetName(name string) error {
 	return h.SetAttributeString("name", name)
 }
 
-func (h HtmlFormElement) Method() (string, error) {
+func (h HtmlFormElement) Method() string {
 
 	return h.GetAttributeString("method")
 }
@@ -117,7 +117,7 @@ func (h HtmlFormElement) SetMethod(value string) error {
 	return h.SetAttributeString("method", value)
 }
 
-func (h HtmlFormElement) Target() (string, error) {
+func (h HtmlFormElement) Target() string {
 
 	return h.GetAttributeString("target")
 }
@@ -126,7 +126,7 @@ func (h HtmlFormElement) SetTarget(value string) error {
 	return h.SetAttributeString("target", value)
 }
 
-func (h HtmlFormElement) Action() (string, error) {
+func (h HtmlFormElement) Action() string {
 
 	return h.GetAttributeString("action")
 }
@@ -135,7 +135,7 @@ func (h HtmlFormElement) SetAction(value string) error {
 	return h.SetAttributeString("action", value)
 }
 
-func (h HtmlFormElement) Encoding() (string, error) {
+func (h HtmlFormElement) Encoding() string {
 
 	return h.GetAttributeString("encoding")
 }
@@ -144,7 +144,7 @@ func (h HtmlFormElement) SetEncoding(value string) error {
 	return h.SetAttributeString("encoding", value)
 }
 
-func (h HtmlFormElement) Enctype() (string, error) {
+func (h HtmlFormElement) Enctype() string {
 	return h.GetAttributeString("enctype")
 }
 
@@ -152,7 +152,7 @@ func (h HtmlFormElement) SetEnctype(value string) error {
 	return h.SetAttributeString("enctype", value)
 }
 
-func (h HtmlFormElement) AcceptCharset() (string, error) {
+func (h HtmlFormElement) AcceptCharset() string {
 	return h.GetAttributeString("acceptCharset")
 }
 
@@ -160,7 +160,7 @@ func (h HtmlFormElement) SetAcceptCharset(value string) error {
 	return h.SetAttributeString("acceptCharset", value)
 }
 
-func (h HtmlFormElement) Autocomplete() (string, error) {
+func (h HtmlFormElement) Autocomplete() string {
 	return h.GetAttributeString("autocomplete")
 }
 
@@ -168,7 +168,7 @@ func (h HtmlFormElement) SetAutocomplete(value string) error {
 	return h.SetAttributeString("autocomplete", value)
 }
 
-func (h HtmlFormElement) NoValidate() (bool, error) {
+func (h HtmlFormElement) NoValidate() bool {
 	return h.GetAttributeBool("noValidate")
 }
 
@@ -176,12 +176,12 @@ func (h HtmlFormElement) SetNoValidate(value bool) error {
 	return h.SetAttributeBool("noValidate", value)
 }
 
-func (h HtmlFormElement) CheckValidity() (bool, error) {
+func (h HtmlFormElement) CheckValidity() bool {
 
 	return h.CallBool("checkValidity")
 }
 
-func (h HtmlFormElement) ReportValidity() (bool, error) {
+func (h HtmlFormElement) ReportValidity() bool {
 
 	return h.CallBool("reportValidity")
 }

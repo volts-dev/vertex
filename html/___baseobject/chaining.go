@@ -26,7 +26,7 @@ func (b BaseObject) Class_() string {
 	return c
 }
 
-func (b BaseObject) ToString_() string {
+func (b BaseObject) ToString() string {
 
 	var c string
 	var err error

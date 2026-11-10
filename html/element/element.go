@@ -111,7 +111,7 @@ func (e Element) Attributes() (namednodemap.NamedNodeMap, error) {
 	return namednmap, err
 }
 
-func (e Element) ChildElementCount() (int, error) {
+func (e Element) ChildElementCount() int {
 	return e.GetAttributeInt("childElementCount")
 }
 
@@ -141,7 +141,7 @@ func (e Element) ClassList() (domtokenlist.DOMTokenList, error) {
 	return dlist, err
 }
 
-func (e Element) ClassName() (string, error) {
+func (e Element) ClassName() string {
 	return e.GetAttributeString("className")
 }
 
@@ -149,27 +149,27 @@ func (e Element) SetClassName(value string) error {
 	return e.SetAttributeString("className", value)
 }
 
-func (e Element) ClientHeight() (int, error) {
+func (e Element) ClientHeight() int {
 	return e.GetAttributeInt("clientHeight")
 }
 
-func (e Element) ClientLeft() (int, error) {
+func (e Element) ClientLeft() int {
 	return e.GetAttributeInt("clientLeft")
 }
 
-func (e Element) ClientTop() (int, error) {
+func (e Element) ClientTop() int {
 	return e.GetAttributeInt("clientTop")
 }
 
-func (e Element) ClientWidth() (int, error) {
+func (e Element) ClientWidth() int {
 	return e.GetAttributeInt("clientWidth")
 }
 
-func (e Element) ComputedRole() (string, error) {
+func (e Element) ComputedRole() string {
 	return e.GetAttributeString("computedRole")
 }
 
-func (e Element) ID() (string, error) {
+func (e Element) ID() string {
 	return e.GetAttributeString("id")
 }
 
@@ -177,7 +177,7 @@ func (e Element) SetID(value string) error {
 	return e.SetAttributeString("id", value)
 }
 
-func (e Element) InnerHTML() (string, error) {
+func (e Element) InnerHTML() string {
 	return e.GetAttributeString("innerHTML")
 }
 
@@ -185,11 +185,11 @@ func (e Element) SetInnerHTML(value string) error {
 	return e.SetAttributeString("innerHTML", value)
 }
 
-func (e Element) LocalName() (string, error) {
+func (e Element) LocalName() string {
 	return e.GetAttributeString("localname")
 }
 
-func (e Element) NamespaceURI() (string, error) {
+func (e Element) NamespaceURI() string {
 	return e.GetAttributeString("namespaceURI")
 }
 
@@ -197,7 +197,7 @@ func (e Element) NextElementSibling() (Element, error) {
 	return e.getAttributeElement("nextElementSibling")
 }
 
-func (e Element) OuterHTML() (string, error) {
+func (e Element) OuterHTML() string {
 	return e.GetAttributeString("outerHTML")
 }
 
@@ -205,7 +205,7 @@ func (e Element) SetOuterHTML(value string) error {
 	return e.SetAttributeString("outerHTML", value)
 }
 
-func (e Element) Prefix() (string, error) {
+func (e Element) Prefix() string {
 	return e.GetAttributeString("prefix")
 }
 
@@ -213,7 +213,7 @@ func (e Element) PreviousElementSibling() (Element, error) {
 	return e.getAttributeElement("previousElementSibling")
 }
 
-func (e Element) ScrollHeight() (int, error) {
+func (e Element) ScrollHeight() int {
 	return e.GetAttributeInt("scrollHeight")
 }
 
@@ -221,7 +221,7 @@ func (e Element) SetScrollHeight(value int) error {
 	return e.SetAttributeInt("scrollHeight", value)
 }
 
-func (e Element) ScrollLeft() (int, error) {
+func (e Element) ScrollLeft() int {
 	return e.GetAttributeInt("scrollLeft")
 }
 
@@ -229,7 +229,7 @@ func (e Element) SetScrollLeft(value int) error {
 	return e.SetAttributeInt("scrollLeft", value)
 }
 
-func (e Element) ScrollTop() (int, error) {
+func (e Element) ScrollTop() int {
 	return e.GetAttributeInt("scrollTop")
 }
 
@@ -237,7 +237,7 @@ func (e Element) SetScrollTop(value int) error {
 	return e.SetAttributeInt("scrollTop", value)
 }
 
-func (e Element) ScrollWidth() (int, error) {
+func (e Element) ScrollWidth() int {
 	return e.GetAttributeInt("scrollWidth")
 }
 
@@ -245,8 +245,24 @@ func (e Element) SetScrollWidth(value int) error {
 	return e.SetAttributeInt("scrollWidth", value)
 }
 
-func (e Element) TagName() (string, error) {
+func (e Element) TagName() string {
 	return e.GetAttributeString("tagName")
+}
+
+func (e Element) OffsetHeight() int {
+	return e.GetAttributeInt("offsetHeight")
+}
+
+func (e Element) OffsetWidth() int {
+	return e.GetAttributeInt("offsetWidth")
+}
+
+func (e Element) OffsetLeft() int {
+	return e.GetAttributeInt("offsetLeft")
+}
+
+func (e Element) OffsetTop() int {
+	return e.GetAttributeInt("offsetTop")
 }
 
 func OwnerElementForAttr(a attr.Attr) (Element, error) {

@@ -86,13 +86,13 @@ func NewFromJSObject(obj js.Value) (CustomEvent, error) {
 	return c, err
 }
 
-func (c CustomEvent) Detail() (interface{}, error) {
+func (c CustomEvent) Detail() interface{} {
 	var obj js.Value
-	var err error
+	//var err error
 	var i interface{}
 
 	if obj = c.GetValueByKey("detail"); obj.Error() == nil {
-		i, err = js.GoValue(obj)
+		i = js.GoValue(obj)
 	}
-	return i, err
+	return i //, err
 }

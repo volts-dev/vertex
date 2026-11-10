@@ -93,16 +93,16 @@ func NewFromJSObject(obj js.Value) (File, error) {
 	return f, err
 }
 
-func (f File) Name() (string, error) {
+func (f File) Name() string {
 
 	return f.GetAttributeString("name")
 }
 
-func (f File) Type() (string, error) {
+func (f File) Type() string {
 	return f.GetAttributeString("type")
 }
 
-func (f File) LastModified() (int64, error) {
+func (f File) LastModified() int64 {
 	return f.GetAttributeInt64("lastModified")
 }
 

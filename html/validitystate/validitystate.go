@@ -66,46 +66,46 @@ func NewFromJSObject(obj js.Value) (ValidityState, error) {
 	return v, err
 }
 
-func (v ValidityState) BadInput() (bool, error) {
+func (v ValidityState) BadInput() bool {
 	return v.GetAttributeBool("badInput")
 }
 
-func (v ValidityState) CustomError() (bool, error) {
+func (v ValidityState) CustomError() bool {
 	return v.GetAttributeBool("customError")
 }
 
-func (v ValidityState) PatternMismatch() (bool, error) {
+func (v ValidityState) PatternMismatch() bool {
 	return v.GetAttributeBool("patternMismatch")
 }
 
-func (v ValidityState) RangeOverflow() (bool, error) {
+func (v ValidityState) RangeOverflow() bool {
 	return v.GetAttributeBool("rangeOverflow")
 }
 
-func (v ValidityState) RangeUnderflow() (bool, error) {
+func (v ValidityState) RangeUnderflow() bool {
 	return v.GetAttributeBool("rangeUnderflow")
 }
 
-func (v ValidityState) StepMismatch() (bool, error) {
+func (v ValidityState) StepMismatch() bool {
 	return v.GetAttributeBool("stepMismatch")
 }
 
-func (v ValidityState) TooLong() (bool, error) {
+func (v ValidityState) TooLong() bool {
 	return v.GetAttributeBool("tooLong")
 }
 
-func (v ValidityState) TooShort() (bool, error) {
+func (v ValidityState) TooShort() bool {
 	return v.GetAttributeBool("tooShort")
 }
 
-func (v ValidityState) TypeMismatch() (bool, error) {
+func (v ValidityState) TypeMismatch() bool {
 	return v.GetAttributeBool("typeMismatch")
 }
 
-func (v ValidityState) Valid() (bool, error) {
+func (v ValidityState) Valid() bool {
 	return v.GetAttributeBool("valid")
 }
 
-func (v ValidityState) ValueMissing() (bool, error) {
+func (v ValidityState) ValueMissing() bool {
 	return v.GetAttributeBool("valueMissing")
 }

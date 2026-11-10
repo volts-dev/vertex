@@ -113,25 +113,25 @@ func (f FormData) Entries() (js.Iterator, error) {
 	return iter, err
 }
 
-func (f FormData) Get(key string) (interface{}, error) {
+func (f FormData) Get(key string) interface{} {
 
-	var err error
+	//var err error
 	var obj js.Value
 	var result interface{}
 
 	if obj = f.Call("get", js.ValueOf(key)); obj.Error() == nil {
 		if obj.IsNull() {
-			err = ErrNotAFormValueNotFound
+			//err = ErrNotAFormValueNotFound
 		} else {
-			result, err = js.GoValue(obj)
+			result = js.GoValue(obj)
 		}
 
 	}
-	return result, err
+	return result //, err
 }
 
-func (f FormData) Has(key string) (bool, error) {
-	var err error
+func (f FormData) Has(key string) bool {
+	//var err error
 	var obj js.Value
 	var result bool
 
@@ -139,11 +139,11 @@ func (f FormData) Has(key string) (bool, error) {
 		if obj.Type() == js.TypeBoolean {
 			return obj.Bool()
 		} else {
-			err = js.ErrObjectNotBool
+			//err = js.ErrObjectNotBool
 		}
 	}
 
-	return result, err
+	return result //, err
 }
 
 func (f FormData) Keys() (js.Iterator, error) {

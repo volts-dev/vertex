@@ -99,7 +99,7 @@ func NewFromJSObject(obj js.Value) (HtmlTitleElement, error) {
 	return h, err
 }
 
-func (h HtmlTitleElement) Text() (string, error) {
+func (h HtmlTitleElement) Text() string {
 	return h.GetAttributeString("text")
 }
 

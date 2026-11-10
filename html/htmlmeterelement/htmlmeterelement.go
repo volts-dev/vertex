@@ -100,7 +100,7 @@ func NewFromJSObject(obj js.Value) (HtmlMeterElement, error) {
 	return h, err
 }
 
-func (h HtmlMeterElement) High() (float64, error) {
+func (h HtmlMeterElement) High() float64 {
 	return h.GetAttributeDouble("high")
 }
 
@@ -108,7 +108,7 @@ func (h HtmlMeterElement) SetHigh(value float64) error {
 	return h.SetAttributeDouble("high", value)
 }
 
-func (h HtmlMeterElement) Low() (float64, error) {
+func (h HtmlMeterElement) Low() float64 {
 	return h.GetAttributeDouble("low")
 }
 
@@ -116,7 +116,7 @@ func (h HtmlMeterElement) SetLow(value float64) error {
 	return h.SetAttributeDouble("low", value)
 }
 
-func (h HtmlMeterElement) Max() (float64, error) {
+func (h HtmlMeterElement) Max() float64 {
 	return h.GetAttributeDouble("max")
 }
 
@@ -124,7 +124,7 @@ func (h HtmlMeterElement) SetMax(value float64) error {
 	return h.SetAttributeDouble("max", value)
 }
 
-func (h HtmlMeterElement) Min() (float64, error) {
+func (h HtmlMeterElement) Min() float64 {
 	return h.GetAttributeDouble("min")
 }
 
@@ -132,7 +132,7 @@ func (h HtmlMeterElement) SetMin(value float64) error {
 	return h.SetAttributeDouble("min", value)
 }
 
-func (h HtmlMeterElement) Optimum() (float64, error) {
+func (h HtmlMeterElement) Optimum() float64 {
 	return h.GetAttributeDouble("optimum")
 }
 
@@ -140,7 +140,7 @@ func (h HtmlMeterElement) SetOptimum(value float64) error {
 	return h.SetAttributeDouble("optimum", value)
 }
 
-func (h HtmlMeterElement) Value() (float64, error) {
+func (h HtmlMeterElement) Value() float64 {
 	return h.GetAttributeDouble("value")
 }
 

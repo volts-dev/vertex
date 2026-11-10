@@ -60,18 +60,18 @@ func NewFromJSObject(obj js.Value) (PermissionStatus, error) {
 	return p, ErrNotImplemented
 }
 
-func (p PermissionStatus) Name() (string, error) {
+func (p PermissionStatus) Name() string {
 
 	return p.GetAttributeString("name")
 }
 
-func (p PermissionStatus) State() (string, error) {
+func (p PermissionStatus) State() string {
 
 	return p.GetAttributeString("state")
 }
 
 // deprecated
-func (p PermissionStatus) Status() (string, error) {
+func (p PermissionStatus) Status() string {
 
 	return p.GetAttributeString("status")
 }

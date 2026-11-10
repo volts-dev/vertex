@@ -99,7 +99,7 @@ func NewFromJSObject(obj js.Value) (HtmlMetaElement, error) {
 	return h, err
 }
 
-func (h HtmlMetaElement) Content() (string, error) {
+func (h HtmlMetaElement) Content() string {
 	return h.GetAttributeString("content")
 }
 
@@ -107,7 +107,7 @@ func (h HtmlMetaElement) SetContent(value string) error {
 	return h.SetAttributeString("content", value)
 }
 
-func (h HtmlMetaElement) HttpEquiv() (string, error) {
+func (h HtmlMetaElement) HttpEquiv() string {
 	return h.GetAttributeString("httpEquiv")
 }
 
@@ -115,7 +115,7 @@ func (h HtmlMetaElement) SetHttpEquiv(value string) error {
 	return h.SetAttributeString("httpEquiv", value)
 }
 
-func (h HtmlMetaElement) Name() (string, error) {
+func (h HtmlMetaElement) Name() string {
 	return h.GetAttributeString("name")
 }
 
